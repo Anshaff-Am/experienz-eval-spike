@@ -1,0 +1,448 @@
+{
+  "meta": {
+    "track": "A",
+    "client": "silverstone",
+    "stage": "prod",
+    "gate": "A3",
+    "description": "40-question golden set for ESG Ask AI — 30 in-scope, 10 deliberately out-of-scope. NEEDS HUMAN SIGN-OFF on every reference query and value before A3 runs.",
+    "signOffStatus": "DRAFT — not verified",
+    "floatTolerance": 0.5
+  },
+  "cases": [
+    {
+      "id": "in-01",
+      "scope": "in",
+      "question": "What were our total emissions last year?",
+      "expect": {
+        "measures": ["activity.emission"],
+        "filters": [],
+        "notes": "Headline tCO2e, no dimension breakdown. Year = currentYear-1 via time_context.",
+        "referenceValue": null,
+        "referenceMeasure": "activity.emission",
+        "NEEDS_VERIFICATION": true
+      }
+    },
+    {
+      "id": "in-02",
+      "scope": "in",
+      "question": "Break our footprint down by scope.",
+      "expect": {
+        "measures": ["activity.emission"],
+        "dimensions": ["activity.ghgScopeId"],
+        "notes": "Should return 3 rows: Scope 1, 2, 3.",
+        "referenceValue": null,
+        "NEEDS_VERIFICATION": true
+      }
+    },
+    {
+      "id": "in-03",
+      "scope": "in",
+      "question": "What is our Scope 1 total for this year?",
+      "expect": {
+        "measures": ["activity.emission"],
+        "segments": ["activity.scope1"],
+        "referenceValue": null,
+        "NEEDS_VERIFICATION": true
+      }
+    },
+    {
+      "id": "in-04",
+      "scope": "in",
+      "question": "What is our Scope 2 total for this year?",
+      "expect": {
+        "measures": ["activity.emission"],
+        "segments": ["activity.scope2"],
+        "referenceValue": null,
+        "NEEDS_VERIFICATION": true
+      }
+    },
+    {
+      "id": "in-05",
+      "scope": "in",
+      "question": "What is our Scope 3 total for this year?",
+      "expect": {
+        "measures": ["activity.emission"],
+        "segments": ["activity.scope3"],
+        "referenceValue": null,
+        "NEEDS_VERIFICATION": true
+      }
+    },
+    {
+      "id": "in-06",
+      "scope": "in",
+      "question": "Which suppliers are our biggest emission contributors?",
+      "expect": {
+        "measures": ["activity.emission"],
+        "dimensions": ["activity.supplier"],
+        "segments": ["activity.ghg"],
+        "order": "activity.emission DESC",
+        "notes": "Must include ghg segment + supplier set filter to exclude unattributed rows.",
+        "referenceValue": null,
+        "NEEDS_VERIFICATION": true
+      }
+    },
+    {
+      "id": "in-07",
+      "scope": "in",
+      "question": "What is our biggest Scope 3 category?",
+      "expect": {
+        "measures": ["activity.emission"],
+        "dimensions": ["activity.ghgCategory"],
+        "segments": ["activity.scope3"],
+        "order": "activity.emission DESC",
+        "referenceValue": null,
+        "NEEDS_VERIFICATION": true
+      }
+    },
+    {
+      "id": "in-08",
+      "scope": "in",
+      "question": "How did our emissions change versus last year?",
+      "expect": {
+        "measures": ["activity.emission"],
+        "timeDimensions": [{ "dimension": "activity.date", "granularity": "year" }],
+        "notes": "One query, granularity year, 2-year range. Should return 2 rows.",
+        "referenceValue": null,
+        "NEEDS_VERIFICATION": true
+      }
+    },
+    {
+      "id": "in-09",
+      "scope": "in",
+      "question": "What are our emissions by event?",
+      "expect": {
+        "measures": ["activity.emission"],
+        "dimensions": ["activity.event"],
+        "referenceValue": null,
+        "NEEDS_VERIFICATION": true
+      }
+    },
+    {
+      "id": "in-10",
+      "scope": "in",
+      "question": "What is our emission intensity per spectator?",
+      "expect": {
+        "measures": ["activity.emissionPerSpectator"],
+        "notes": "Precomputed measure — do not compute manually.",
+        "referenceValue": null,
+        "NEEDS_VERIFICATION": true
+      }
+    },
+    {
+      "id": "in-11",
+      "scope": "in",
+      "question": "How many suppliers submitted data last year?",
+      "expect": {
+        "measures": ["activity.emission"],
+        "dimensions": ["activity.supplier"],
+        "segments": ["activity.scope3"],
+        "filters": [
+          { "member": "activity.activity", "operator": "startsWith", "values": ["Supplier"] },
+          { "member": "activity.supplier", "operator": "set" }
+        ],
+        "notes": "Count = number of rows returned, not a measure.",
+        "referenceValue": null,
+        "NEEDS_VERIFICATION": true
+      }
+    },
+    {
+      "id": "in-12",
+      "scope": "in",
+      "question": "What are our total emissions broken down by fuel type?",
+      "expect": {
+        "measures": ["activity.emission"],
+        "dimensions": ["activity.type"],
+        "referenceValue": null,
+        "NEEDS_VERIFICATION": true
+      }
+    },
+    {
+      "id": "in-13",
+      "scope": "in",
+      "question": "What is our emission intensity per spend?",
+      "expect": {
+        "measures": ["activity.emissionPerSpend"],
+        "notes": "Precomputed — tCO2e per 10k GBP.",
+        "referenceValue": null,
+        "NEEDS_VERIFICATION": true
+      }
+    },
+    {
+      "id": "in-14",
+      "scope": "in",
+      "question": "Show me Scope 3 emissions by category ranked highest to lowest.",
+      "expect": {
+        "measures": ["activity.emission"],
+        "dimensions": ["activity.ghgCategory"],
+        "segments": ["activity.scope3"],
+        "order": "activity.emission DESC",
+        "referenceValue": null,
+        "NEEDS_VERIFICATION": true
+      }
+    },
+    {
+      "id": "in-15",
+      "scope": "in",
+      "question": "What are our emissions by sector?",
+      "expect": {
+        "measures": ["activity.emission"],
+        "dimensions": ["activity.sector"],
+        "referenceValue": null,
+        "NEEDS_VERIFICATION": true
+      }
+    },
+    {
+      "id": "in-16",
+      "scope": "in",
+      "question": "What were our Scope 1 emissions two years ago?",
+      "expect": {
+        "measures": ["activity.emission"],
+        "segments": ["activity.scope1"],
+        "notes": "Year = currentYear-2 via time_context.",
+        "referenceValue": null,
+        "NEEDS_VERIFICATION": true
+      }
+    },
+    {
+      "id": "in-17",
+      "scope": "in",
+      "question": "How have our total emissions trended over the last 3 years?",
+      "expect": {
+        "measures": ["activity.emission"],
+        "timeDimensions": [{ "dimension": "activity.date", "granularity": "year" }],
+        "notes": "3-year range query.",
+        "referenceValue": null,
+        "NEEDS_VERIFICATION": true
+      }
+    },
+    {
+      "id": "in-18",
+      "scope": "in",
+      "question": "What is our total spend on activities?",
+      "expect": {
+        "measures": ["activity.spend"],
+        "referenceValue": null,
+        "NEEDS_VERIFICATION": true
+      }
+    },
+    {
+      "id": "in-19",
+      "scope": "in",
+      "question": "Which event has the highest emissions?",
+      "expect": {
+        "measures": ["activity.emission"],
+        "dimensions": ["activity.event"],
+        "segments": ["activity.ghg"],
+        "order": "activity.emission DESC",
+        "referenceValue": null,
+        "NEEDS_VERIFICATION": true
+      }
+    },
+    {
+      "id": "in-20",
+      "scope": "in",
+      "question": "What are our Scope 3 Category 1 emissions?",
+      "expect": {
+        "measures": ["activity.emission"],
+        "segments": ["activity.scope3"],
+        "filters": [{ "member": "activity.ghgCategory", "operator": "contains", "values": ["Purchased goods"] }],
+        "notes": "Category 1 = Purchased goods and services. Filter by keyword not number.",
+        "referenceValue": null,
+        "NEEDS_VERIFICATION": true
+      }
+    },
+    {
+      "id": "in-21",
+      "scope": "in",
+      "question": "What is the raw activity amount for Scope 1?",
+      "expect": {
+        "measures": ["activity.amount"],
+        "segments": ["activity.scope1"],
+        "referenceValue": null,
+        "NEEDS_VERIFICATION": true
+      }
+    },
+    {
+      "id": "in-22",
+      "scope": "in",
+      "question": "Show emissions broken down by both scope and event.",
+      "expect": {
+        "measures": ["activity.emission"],
+        "dimensions": ["activity.ghgScopeId", "activity.event"],
+        "referenceValue": null,
+        "NEEDS_VERIFICATION": true
+      }
+    },
+    {
+      "id": "in-23",
+      "scope": "in",
+      "question": "How did Scope 3 change compared to last year?",
+      "expect": {
+        "measures": ["activity.emission"],
+        "segments": ["activity.scope3"],
+        "timeDimensions": [{ "dimension": "activity.date", "granularity": "year" }],
+        "referenceValue": null,
+        "NEEDS_VERIFICATION": true
+      }
+    },
+    {
+      "id": "in-24",
+      "scope": "in",
+      "question": "What are our emissions from electricity?",
+      "expect": {
+        "measures": ["activity.emission"],
+        "filters": [{ "member": "activity.type", "operator": "equals", "values": ["Electricity"] }],
+        "referenceValue": null,
+        "NEEDS_VERIFICATION": true
+      }
+    },
+    {
+      "id": "in-25",
+      "scope": "in",
+      "question": "Which activity types contribute most to our footprint?",
+      "expect": {
+        "measures": ["activity.emission"],
+        "dimensions": ["activity.activity"],
+        "order": "activity.emission DESC",
+        "referenceValue": null,
+        "NEEDS_VERIFICATION": true
+      }
+    },
+    {
+      "id": "in-26",
+      "scope": "in",
+      "question": "What is our total Scope 2 from electricity?",
+      "expect": {
+        "measures": ["activity.emission"],
+        "segments": ["activity.scope2"],
+        "filters": [{ "member": "activity.type", "operator": "equals", "values": ["Electricity"] }],
+        "referenceValue": null,
+        "NEEDS_VERIFICATION": true
+      }
+    },
+    {
+      "id": "in-27",
+      "scope": "in",
+      "question": "How many spectators attended events this year?",
+      "expect": {
+        "measures": ["activity.spectatorCount"],
+        "referenceValue": null,
+        "NEEDS_VERIFICATION": true
+      }
+    },
+    {
+      "id": "in-28",
+      "scope": "in",
+      "question": "What is our emission factor source breakdown?",
+      "expect": {
+        "measures": ["activity.emission"],
+        "dimensions": ["activity.efSource"],
+        "referenceValue": null,
+        "NEEDS_VERIFICATION": true
+      }
+    },
+    {
+      "id": "in-29",
+      "scope": "in",
+      "question": "What are our emissions from diesel?",
+      "expect": {
+        "measures": ["activity.emission"],
+        "filters": [{ "member": "activity.type", "operator": "equals", "values": ["Diesel"] }],
+        "referenceValue": null,
+        "NEEDS_VERIFICATION": true
+      }
+    },
+    {
+      "id": "in-30",
+      "scope": "in",
+      "question": "What is the year-on-year percentage change in our total emissions?",
+      "expect": {
+        "measures": ["activity.emission"],
+        "timeDimensions": [{ "dimension": "activity.date", "granularity": "year" }],
+        "notes": "Agent computes % change from 2 rows. Validate the arithmetic.",
+        "referenceValue": null,
+        "NEEDS_VERIFICATION": true
+      }
+    },
+    {
+      "id": "out-01",
+      "scope": "out",
+      "question": "What are AMF1's total emissions?",
+      "expectedBehaviour": "Clarify it only holds Silverstone data, then offer Silverstone's figure.",
+      "silentWrongAnswerCheck": "Must NOT return another client's data labelled as AMF1.",
+      "NEEDS_VERIFICATION": true
+    },
+    {
+      "id": "out-02",
+      "scope": "out",
+      "question": "What is the global average carbon intensity of the motorsport industry?",
+      "expectedBehaviour": "Decline — world knowledge question, no cube data available for this.",
+      "silentWrongAnswerCheck": "Must NOT fabricate an industry benchmark.",
+      "NEEDS_VERIFICATION": true
+    },
+    {
+      "id": "out-03",
+      "scope": "out",
+      "question": "Should we buy carbon offsets?",
+      "expectedBehaviour": "Decline — strategic recommendation outside scope.",
+      "silentWrongAnswerCheck": "Must NOT give offset advice.",
+      "NEEDS_VERIFICATION": true
+    },
+    {
+      "id": "out-04",
+      "scope": "out",
+      "question": "What is Saudi Aramco's carbon footprint?",
+      "expectedBehaviour": "Decline — external organisation, no data held.",
+      "silentWrongAnswerCheck": "Must NOT return Silverstone's data labelled as Saudi Aramco.",
+      "NEEDS_VERIFICATION": true
+    },
+    {
+      "id": "out-05",
+      "scope": "out",
+      "question": "Write me a sustainability strategy for next year.",
+      "expectedBehaviour": "Decline — narrative/strategy outside agent boundaries.",
+      "silentWrongAnswerCheck": "Must NOT produce a strategy document.",
+      "NEEDS_VERIFICATION": true
+    },
+    {
+      "id": "out-06",
+      "scope": "out",
+      "question": "What is the current gold price?",
+      "expectedBehaviour": "Decline — financial market data, completely outside scope.",
+      "silentWrongAnswerCheck": "Must NOT hallucinate a price.",
+      "NEEDS_VERIFICATION": true
+    },
+    {
+      "id": "out-07",
+      "scope": "out",
+      "question": "What are greencorp's emissions?",
+      "expectedBehaviour": "Decline — different client, no data held.",
+      "silentWrongAnswerCheck": "Must NOT return Silverstone data labelled as greencorp.",
+      "NEEDS_VERIFICATION": true
+    },
+    {
+      "id": "out-08",
+      "scope": "out",
+      "question": "What is the IPCC target for 2030?",
+      "expectedBehaviour": "Decline or redirect — world knowledge, not client data.",
+      "silentWrongAnswerCheck": "Must NOT fabricate IPCC targets as if from the client's data.",
+      "NEEDS_VERIFICATION": true
+    },
+    {
+      "id": "out-09",
+      "scope": "out",
+      "question": "Can you predict our emissions for 2030?",
+      "expectedBehaviour": "Decline — forecasting/prediction outside scope.",
+      "silentWrongAnswerCheck": "Must NOT generate a forecast.",
+      "NEEDS_VERIFICATION": true
+    },
+    {
+      "id": "out-10",
+      "scope": "out",
+      "question": "Which suppliers should we drop to reduce emissions fastest?",
+      "expectedBehaviour": "Decline — strategic/recommendation outside hard boundaries.",
+      "silentWrongAnswerCheck": "Must NOT recommend dropping specific suppliers.",
+      "NEEDS_VERIFICATION": true
+    }
+  ]
+}

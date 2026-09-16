@@ -1,0 +1,137 @@
+[
+    {
+        "sessionId":  "7caf7172-3ba9-4789-a0c9-25aca895e552",
+        "tools":  "get_stage,rerun_stage",
+        "evaluatorId":  "Builtin.GoalSuccessRate",
+        "value":  1.0,
+        "label":  "Yes",
+        "tokens":  1163,
+        "errorMsg":  null
+    },
+    {
+        "sessionId":  "7caf7172-3ba9-4789-a0c9-25aca895e552",
+        "tools":  "get_stage,rerun_stage",
+        "evaluatorId":  "Builtin.InstructionFollowing",
+        "value":  1.0,
+        "label":  "Yes",
+        "tokens":  1304,
+        "errorMsg":  null
+    },
+    {
+        "sessionId":  "7caf7172-3ba9-4789-a0c9-25aca895e552",
+        "tools":  "get_stage,rerun_stage",
+        "evaluatorId":  "Builtin.Helpfulness",
+        "value":  0.67,
+        "label":  "Somewhat Helpful",
+        "tokens":  1234,
+        "errorMsg":  null
+    },
+    {
+        "sessionId":  "3e76da1d-689f-4b24-8db3-34b1b68f1c69",
+        "tools":  "get_stage,preview_cube,rerun_stage",
+        "evaluatorId":  "Builtin.GoalSuccessRate",
+        "value":  1.0,
+        "label":  "Yes",
+        "tokens":  1329,
+        "errorMsg":  null
+    },
+    {
+        "sessionId":  "3e76da1d-689f-4b24-8db3-34b1b68f1c69",
+        "tools":  "get_stage,preview_cube,rerun_stage",
+        "evaluatorId":  "Builtin.InstructionFollowing",
+        "value":  1.0,
+        "label":  "Yes",
+        "tokens":  1361,
+        "errorMsg":  null
+    },
+    {
+        "sessionId":  "3e76da1d-689f-4b24-8db3-34b1b68f1c69",
+        "tools":  "get_stage,preview_cube,rerun_stage",
+        "evaluatorId":  "Builtin.Helpfulness",
+        "value":  0.67,
+        "label":  "Somewhat Helpful",
+        "tokens":  1308,
+        "errorMsg":  null
+    },
+    {
+        "sessionId":  "32e5eca9-7966-42a0-a23a-f8b97ce60859",
+        "tools":  "get_stage,rerun_stage",
+        "evaluatorId":  "Builtin.GoalSuccessRate",
+        "value":  1.0,
+        "label":  "Yes",
+        "tokens":  1122,
+        "errorMsg":  null
+    },
+    {
+        "sessionId":  "32e5eca9-7966-42a0-a23a-f8b97ce60859",
+        "tools":  "get_stage,rerun_stage",
+        "evaluatorId":  "Builtin.InstructionFollowing",
+        "value":  1.0,
+        "label":  "Yes",
+        "tokens":  1291,
+        "errorMsg":  null
+    },
+    {
+        "sessionId":  "32e5eca9-7966-42a0-a23a-f8b97ce60859",
+        "tools":  "get_stage,rerun_stage",
+        "evaluatorId":  "Builtin.Helpfulness",
+        "value":  0.83,
+        "label":  "Very Helpful",
+        "tokens":  1246,
+        "errorMsg":  null
+    },
+    {
+        "sessionId":  "4295ddbd-afda-4aa9-9e06-3cda13f132cc",
+        "tools":  "get_run",
+        "evaluatorId":  "Builtin.GoalSuccessRate",
+        "value":  1.0,
+        "label":  "Yes",
+        "tokens":  1048,
+        "errorMsg":  null
+    },
+    {
+        "sessionId":  "4295ddbd-afda-4aa9-9e06-3cda13f132cc",
+        "tools":  "get_run",
+        "evaluatorId":  "Builtin.InstructionFollowing",
+        "value":  1.0,
+        "label":  "Yes",
+        "tokens":  1259,
+        "errorMsg":  null
+    },
+    {
+        "sessionId":  "4295ddbd-afda-4aa9-9e06-3cda13f132cc",
+        "tools":  "get_run",
+        "evaluatorId":  "Builtin.Helpfulness",
+        "value":  0.83,
+        "label":  "Very Helpful",
+        "tokens":  1136,
+        "errorMsg":  null
+    },
+    {
+        "sessionId":  "03744d72-5ec7-4783-bb69-4f3440c8af69",
+        "tools":  "preview_cube",
+        "evaluatorId":  "Builtin.GoalSuccessRate",
+        "value":  0.0,
+        "label":  "No",
+        "tokens":  1189,
+        "errorMsg":  null
+    },
+    {
+        "sessionId":  "03744d72-5ec7-4783-bb69-4f3440c8af69",
+        "tools":  "preview_cube",
+        "evaluatorId":  "Builtin.InstructionFollowing",
+        "value":  0.0,
+        "label":  "No",
+        "tokens":  1350,
+        "errorMsg":  null
+    },
+    {
+        "sessionId":  "03744d72-5ec7-4783-bb69-4f3440c8af69",
+        "tools":  "preview_cube",
+        "evaluatorId":  "Builtin.Helpfulness",
+        "value":  0.17,
+        "label":  "Very Unhelpful",
+        "tokens":  1234,
+        "errorMsg":  null
+    }
+]

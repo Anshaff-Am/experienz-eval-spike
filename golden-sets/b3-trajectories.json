@@ -1,0 +1,76 @@
+{
+  "description": "B3 golden trajectory set — 6 real analytics engine sessions from 2026-09-15 CloudWatch logs",
+  "matchMode": "in-order",
+  "note": "in-order = expected tools must appear as a subsequence of actual tools. Extra tools between expected steps are tolerated. Missing or reordered required steps fail.",
+  "passBar": 0.80,
+  "stopFloor": 0.50,
+  "runs": [
+    {
+      "id": "G01",
+      "sessionId": "7caf7172-3ba9-4789-a0c9-25aca895e552",
+      "date": "2026-09-15",
+      "description": "Rerun current pipeline stage after checking stage status",
+      "taskType": "rerun",
+      "expectedTools": ["get_stage", "rerun_stage"],
+      "actualTools":   ["get_stage", "rerun_stage"],
+      "iters": 3,
+      "stop": "end_turn"
+    },
+    {
+      "id": "G02",
+      "sessionId": "03744d72-5ec7-4783-bb69-4f3440c8af69",
+      "date": "2026-09-15",
+      "description": "Preview current Cube schema",
+      "taskType": "schema-preview",
+      "expectedTools": ["preview_cube"],
+      "actualTools":   ["preview_cube"],
+      "iters": 2,
+      "stop": "end_turn"
+    },
+    {
+      "id": "G03",
+      "sessionId": "4295ddbd-afda-4aa9-9e06-3cda13f132cc",
+      "date": "2026-09-15",
+      "description": "Check current analytics run status",
+      "taskType": "status-check",
+      "expectedTools": ["get_run"],
+      "actualTools":   ["get_run"],
+      "iters": 2,
+      "stop": "end_turn"
+    },
+    {
+      "id": "G04",
+      "sessionId": "3e76da1d-689f-4b24-8db3-34b1b68f1c69",
+      "date": "2026-09-15",
+      "description": "Inspect stage, preview cube schema, then rerun the stage",
+      "taskType": "inspect-and-rerun",
+      "expectedTools": ["get_stage", "rerun_stage"],
+      "actualTools":   ["get_stage", "preview_cube", "rerun_stage"],
+      "iters": 4,
+      "stop": "end_turn",
+      "note": "preview_cube is an allowed extra step between get_stage and rerun_stage"
+    },
+    {
+      "id": "G05",
+      "sessionId": "32e5eca9-7966-42a0-a23a-f8b97ce60859",
+      "date": "2026-09-15",
+      "description": "Rerun analytics pipeline stage",
+      "taskType": "rerun",
+      "expectedTools": ["get_stage", "rerun_stage"],
+      "actualTools":   ["get_stage", "rerun_stage"],
+      "iters": 3,
+      "stop": "end_turn"
+    },
+    {
+      "id": "G06",
+      "sessionId": "f6aa5da3",
+      "date": "2026-09-15",
+      "description": "List all analytics runs",
+      "taskType": "list-runs",
+      "expectedTools": ["list_runs"],
+      "actualTools":   ["list_runs"],
+      "iters": 2,
+      "stop": "end_turn"
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "validator": "silver-validator",
+  "candidate_sha256": "3949e92060c68ed28982b5b1541dc8499395a21768541c95aef5f43d1b428649",
+  "validation_id": "9e7721dda23a2852ef8b26c0ec9dd9fe",
+  "status": "passed",
+  "findings": [
+    {
+      "check": "integrity.dataset_sha256",
+      "status": "pass",
+      "hard": true,
+      "detail": "recomputed=dfbd9d63a6e9 candidate=dfbd9d63a6e9"
+    },
+    {
+      "check": "integrity.schema_fingerprint",
+      "status": "pass",
+      "hard": true,
+      "detail": "recomputed=14a01251dbed candidate=14a01251dbed"
+    },
+    {
+      "check": "integrity.row_count",
+      "status": "pass",
+      "hard": true,
+      "detail": "recomputed=3040 candidate=3040"
+    },
+    {
+      "check": "expectation.distinct_respondents",
+      "status": "pass",
+      "hard": true,
+      "detail": "actual=3040 expected=3040 (raw_rows=3040)"
+    },
+    {
+      "check": "expectation.columns",
+      "status": "pass",
+      "hard": true,
+      "detail": "missing=[] extra=[]"
+    },
+    {
+      "check": "quality.key_column_present",
+      "status": "pass",
+      "hard": true,
+      "detail": "key_column=uuid"
+    },
+    {
+      "check": "quality.key_column_no_nulls",
+      "status": "pass",
+      "hard": true,
+      "detail": "nulls_in_uuid=0"
+    },
+    {
+      "check": "quality.key_column_unique",
+      "status": "pass",
+      "hard": true,
+      "detail": "duplicate_uuid=0 (non_null_rows=3040 distinct=3040)"
+    }
+  ]
+}

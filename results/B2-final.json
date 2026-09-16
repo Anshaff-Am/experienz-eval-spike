@@ -1,0 +1,22 @@
+{
+  "gate": "B2",
+  "runAt": "2026-09-16T07:23:08.352Z",
+  "pass": true,
+  "checks": [
+    {
+      "name": "Cube schema validates",
+      "script": "harness/b2-cube-schema-validator.mjs",
+      "pass": true
+    },
+    {
+      "name": "DQ rules fire/quiet correctly",
+      "script": "harness/b2-dq-rules-validator.mjs",
+      "pass": true
+    },
+    {
+      "name": "Certified metrics within tolerance",
+      "script": "harness/b2-metric-reconciler.mjs",
+      "pass": true
+    }
+  ]
+}

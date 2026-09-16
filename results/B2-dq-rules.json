@@ -1,0 +1,136 @@
+{
+  "gate": "B2-check2-dq-rules",
+  "runAt": "2026-09-16T07:23:08.226Z",
+  "pass": true,
+  "summary": {
+    "goodFixtureQuiet": true,
+    "badFixtureFires": true
+  },
+  "fixtures": {
+    "good": {
+      "label": "known-good (real run)",
+      "filePath": "C:\\Users\\aameer\\Documents\\Experienz Dev Repos\\golden-sets\\b2-fixtures\\silver-validation-good.json",
+      "validatorStatus": "passed",
+      "checksTotal": 8,
+      "checksPassed": 8,
+      "checksFailed": 0,
+      "gatePass": true,
+      "failures": [],
+      "checks": [
+        {
+          "check": "integrity.dataset_sha256",
+          "status": "pass",
+          "detail": "recomputed=dfbd9d63a6e9 candidate=dfbd9d63a6e9"
+        },
+        {
+          "check": "integrity.schema_fingerprint",
+          "status": "pass",
+          "detail": "recomputed=14a01251dbed candidate=14a01251dbed"
+        },
+        {
+          "check": "integrity.row_count",
+          "status": "pass",
+          "detail": "recomputed=3040 candidate=3040"
+        },
+        {
+          "check": "expectation.distinct_respondents",
+          "status": "pass",
+          "detail": "actual=3040 expected=3040 (raw_rows=3040)"
+        },
+        {
+          "check": "expectation.columns",
+          "status": "pass",
+          "detail": "missing=[] extra=[]"
+        },
+        {
+          "check": "quality.key_column_present",
+          "status": "pass",
+          "detail": "key_column=uuid"
+        },
+        {
+          "check": "quality.key_column_no_nulls",
+          "status": "pass",
+          "detail": "nulls_in_uuid=0"
+        },
+        {
+          "check": "quality.key_column_unique",
+          "status": "pass",
+          "detail": "duplicate_uuid=0 (non_null_rows=3040 distinct=3040)"
+        }
+      ],
+      "expectPass": true,
+      "behaviourCorrect": true
+    },
+    "bad": {
+      "label": "known-bad  (fixture)",
+      "filePath": "C:\\Users\\aameer\\Documents\\Experienz Dev Repos\\golden-sets\\b2-fixtures\\silver-validation-bad.json",
+      "validatorStatus": "failed",
+      "checksTotal": 8,
+      "checksPassed": 4,
+      "checksFailed": 4,
+      "gatePass": false,
+      "failures": [
+        {
+          "check": "integrity.row_count",
+          "detail": "recomputed=2980 candidate=3040 — row count mismatch: 60 rows dropped during ingestion"
+        },
+        {
+          "check": "expectation.distinct_respondents",
+          "detail": "actual=2980 expected=3040 (raw_rows=3040)"
+        },
+        {
+          "check": "quality.key_column_no_nulls",
+          "detail": "nulls_in_uuid=12"
+        },
+        {
+          "check": "quality.key_column_unique",
+          "detail": "duplicate_uuid=8 (non_null_rows=2968 distinct=2960)"
+        }
+      ],
+      "checks": [
+        {
+          "check": "integrity.dataset_sha256",
+          "status": "pass",
+          "detail": "recomputed=dfbd9d63a6e9 candidate=dfbd9d63a6e9"
+        },
+        {
+          "check": "integrity.schema_fingerprint",
+          "status": "pass",
+          "detail": "recomputed=14a01251dbed candidate=14a01251dbed"
+        },
+        {
+          "check": "integrity.row_count",
+          "status": "fail",
+          "detail": "recomputed=2980 candidate=3040 — row count mismatch: 60 rows dropped during ingestion"
+        },
+        {
+          "check": "expectation.distinct_respondents",
+          "status": "fail",
+          "detail": "actual=2980 expected=3040 (raw_rows=3040)"
+        },
+        {
+          "check": "expectation.columns",
+          "status": "pass",
+          "detail": "missing=[] extra=[]"
+        },
+        {
+          "check": "quality.key_column_present",
+          "status": "pass",
+          "detail": "key_column=uuid"
+        },
+        {
+          "check": "quality.key_column_no_nulls",
+          "status": "fail",
+          "detail": "nulls_in_uuid=12"
+        },
+        {
+          "check": "quality.key_column_unique",
+          "status": "fail",
+          "detail": "duplicate_uuid=8 (non_null_rows=2968 distinct=2960)"
+        }
+      ],
+      "expectPass": false,
+      "behaviourCorrect": true
+    }
+  }
+}

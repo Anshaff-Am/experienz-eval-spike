@@ -1,0 +1,748 @@
+{
+  "gate": "B2-check3-metric-reconcile",
+  "runAt": "2026-09-16T07:23:08.336Z",
+  "pass": true,
+  "summary": {
+    "goodFixturePasses": true,
+    "badFixtureFires": true,
+    "goodMetricsPassing": 38,
+    "goodMetricsTotal": 38,
+    "tolerance": 0.5
+  },
+  "fixtures": {
+    "good": {
+      "label": "known-good (real run)",
+      "filePath": "C:\\Users\\aameer\\Documents\\Experienz Dev Repos\\golden-sets\\b2-fixtures\\reconciliation-good.json",
+      "runId": "20260904T145902-eeab3c",
+      "tolerance": 0.5,
+      "weighted": true,
+      "weightExpr": "Weight",
+      "scoreableCount": 38,
+      "skippedCount": 6,
+      "passingCount": 38,
+      "failingCount": 0,
+      "gatePass": true,
+      "expectPass": true,
+      "behaviourCorrect": true,
+      "metrics": [
+        {
+          "id": "M01_W1",
+          "wave": 1,
+          "silver": 23.438327171777836,
+          "expected": 23.4,
+          "delta": 0.0383,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M01_W2",
+          "wave": 2,
+          "silver": 28.341517247519,
+          "expected": 28.3,
+          "delta": 0.0415,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M01_W3",
+          "wave": 3,
+          "silver": 25.56429329749416,
+          "expected": 25.6,
+          "delta": 0.0357,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M01_W4",
+          "wave": 4,
+          "silver": 31.984240037288643,
+          "expected": 32,
+          "delta": 0.0158,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M02_W1",
+          "wave": 1,
+          "silver": 19.703153837329275,
+          "expected": 19.7,
+          "delta": 0.0032,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M02_W2",
+          "wave": 2,
+          "silver": 22.930877513756833,
+          "expected": 22.9,
+          "delta": 0.0309,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M02_W3",
+          "wave": 3,
+          "silver": 20.82737730412164,
+          "expected": 20.8,
+          "delta": 0.0274,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M02_W4",
+          "wave": 4,
+          "silver": 19.731627193834026,
+          "expected": 19.7,
+          "delta": 0.0316,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M03_W1",
+          "wave": 1,
+          "silver": 7.245740257211423,
+          "expected": 7.2,
+          "delta": 0.0457,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M03_W2",
+          "wave": 2,
+          "silver": 6.933382087110797,
+          "expected": 6.9,
+          "delta": 0.0334,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M03_W3",
+          "wave": 3,
+          "silver": 8.132149257433271,
+          "expected": 8.1,
+          "delta": 0.0321,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M03_W4",
+          "wave": 4,
+          "silver": 6.237797074983731,
+          "expected": 6.2,
+          "delta": 0.0378,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M04_W1",
+          "wave": 1,
+          "silver": 25.91177806205711,
+          "expected": 25.9,
+          "delta": 0.0118,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M04_W2",
+          "wave": 2,
+          "silver": 25.477086630152783,
+          "expected": 25.5,
+          "delta": 0.0229,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M04_W3",
+          "wave": 3,
+          "silver": 25.449366695805907,
+          "expected": 25.4,
+          "delta": 0.0494,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M04_W4",
+          "wave": 4,
+          "silver": 21.66429896221908,
+          "expected": 21.7,
+          "delta": 0.0357,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M05_W1",
+          "wave": 1,
+          "silver": 48.400264900891095,
+          "expected": 48.4,
+          "delta": 0.0003,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M05_W2",
+          "wave": 2,
+          "silver": 52.43863491226689,
+          "expected": 52.4,
+          "delta": 0.0386,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M05_W3",
+          "wave": 3,
+          "silver": 52.42575726258273,
+          "expected": 52.4,
+          "delta": 0.0258,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M05_W4",
+          "wave": 4,
+          "silver": 52.72507133425691,
+          "expected": 52.7,
+          "delta": 0.0251,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M06_W2",
+          "wave": 2,
+          "silver": 27.40527888396485,
+          "expected": 27.4,
+          "delta": 0.0053,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M06_W3",
+          "wave": 3,
+          "silver": 26.350722954059925,
+          "expected": 26.4,
+          "delta": 0.0493,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M06_W4",
+          "wave": 4,
+          "silver": 25.808025634410715,
+          "expected": 25.8,
+          "delta": 0.008,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M07_W2",
+          "wave": 2,
+          "silver": 17.455262416964942,
+          "expected": 17.5,
+          "delta": 0.0447,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M07_W3",
+          "wave": 3,
+          "silver": 16.9170027754413,
+          "expected": 16.9,
+          "delta": 0.017,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M07_W4",
+          "wave": 4,
+          "silver": 14.991123753321506,
+          "expected": 15,
+          "delta": 0.0089,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M08_W2",
+          "wave": 2,
+          "silver": 97.39613430557625,
+          "expected": 97.4,
+          "delta": 0.0039,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M08_W3",
+          "wave": 3,
+          "silver": 98.238323437822,
+          "expected": 98.2,
+          "delta": 0.0383,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M08_W4",
+          "wave": 4,
+          "silver": 96.14588423488505,
+          "expected": 96.1,
+          "delta": 0.0459,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M09_W2",
+          "wave": 2,
+          "silver": 10.070517132863237,
+          "expected": 10.1,
+          "delta": 0.0295,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M09_W3",
+          "wave": 3,
+          "silver": 7.6421343286734125,
+          "expected": 7.6,
+          "delta": 0.0421,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M09_W4",
+          "wave": 4,
+          "silver": 6.765207609020282,
+          "expected": 6.8,
+          "delta": 0.0348,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M10_W2",
+          "wave": 2,
+          "silver": 37.456447750290394,
+          "expected": 37.5,
+          "delta": 0.0436,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M10_W3",
+          "wave": 3,
+          "silver": 35.19276447153419,
+          "expected": 35.2,
+          "delta": 0.0072,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M10_W4",
+          "wave": 4,
+          "silver": 33.905598045207455,
+          "expected": 33.9,
+          "delta": 0.0056,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M11_W2",
+          "wave": 2,
+          "silver": 11.637401655750674,
+          "expected": 11.6,
+          "delta": 0.0374,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M11_W3",
+          "wave": 3,
+          "silver": 10.795129899245449,
+          "expected": 10.8,
+          "delta": 0.0049,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M11_W4",
+          "wave": 4,
+          "silver": 8.923060278564082,
+          "expected": 8.9,
+          "delta": 0.0231,
+          "tolerance": 0.5,
+          "pass": true
+        }
+      ],
+      "skipped": [
+        "M06_W1",
+        "M07_W1",
+        "M08_W1",
+        "M09_W1",
+        "M10_W1",
+        "M11_W1"
+      ]
+    },
+    "bad": {
+      "label": "known-bad  (fixture)",
+      "filePath": "C:\\Users\\aameer\\Documents\\Experienz Dev Repos\\golden-sets\\b2-fixtures\\reconciliation-bad.json",
+      "runId": "BAD-FIXTURE-do-not-use-in-prod",
+      "tolerance": 0.5,
+      "weighted": true,
+      "weightExpr": "Weight",
+      "scoreableCount": 38,
+      "skippedCount": 6,
+      "passingCount": 36,
+      "failingCount": 2,
+      "gatePass": false,
+      "expectPass": false,
+      "behaviourCorrect": true,
+      "metrics": [
+        {
+          "id": "M01_W1",
+          "wave": 1,
+          "silver": 23.438327171777836,
+          "expected": 23.4,
+          "delta": 0.0383,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M01_W2",
+          "wave": 2,
+          "silver": 28.341517247519,
+          "expected": 28.3,
+          "delta": 0.0415,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M01_W3",
+          "wave": 3,
+          "silver": 25.56429329749416,
+          "expected": 25.6,
+          "delta": 0.0357,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M01_W4",
+          "wave": 4,
+          "silver": 31.984240037288643,
+          "expected": 32,
+          "delta": 0.0158,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M02_W1",
+          "wave": 1,
+          "silver": 19.703153837329275,
+          "expected": 19.7,
+          "delta": 0.0032,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M02_W2",
+          "wave": 2,
+          "silver": 22.930877513756833,
+          "expected": 22.9,
+          "delta": 0.0309,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M02_W3",
+          "wave": 3,
+          "silver": 20.82737730412164,
+          "expected": 20.8,
+          "delta": 0.0274,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M02_W4",
+          "wave": 4,
+          "silver": 19.731627193834026,
+          "expected": 19.7,
+          "delta": 0.0316,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M03_W1",
+          "wave": 1,
+          "silver": 9.8,
+          "expected": 7.2,
+          "delta": 2.6,
+          "tolerance": 0.5,
+          "pass": false
+        },
+        {
+          "id": "M03_W2",
+          "wave": 2,
+          "silver": 6.933382087110797,
+          "expected": 6.9,
+          "delta": 0.0334,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M03_W3",
+          "wave": 3,
+          "silver": 8.132149257433271,
+          "expected": 8.1,
+          "delta": 0.0321,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M03_W4",
+          "wave": 4,
+          "silver": 6.237797074983731,
+          "expected": 6.2,
+          "delta": 0.0378,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M04_W1",
+          "wave": 1,
+          "silver": 25.91177806205711,
+          "expected": 25.9,
+          "delta": 0.0118,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M04_W2",
+          "wave": 2,
+          "silver": 25.477086630152783,
+          "expected": 25.5,
+          "delta": 0.0229,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M04_W3",
+          "wave": 3,
+          "silver": 25.449366695805907,
+          "expected": 25.4,
+          "delta": 0.0494,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M04_W4",
+          "wave": 4,
+          "silver": 21.66429896221908,
+          "expected": 21.7,
+          "delta": 0.0357,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M05_W1",
+          "wave": 1,
+          "silver": 48.400264900891095,
+          "expected": 48.4,
+          "delta": 0.0003,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M05_W2",
+          "wave": 2,
+          "silver": 52.43863491226689,
+          "expected": 52.4,
+          "delta": 0.0386,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M05_W3",
+          "wave": 3,
+          "silver": 52.42575726258273,
+          "expected": 52.4,
+          "delta": 0.0258,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M05_W4",
+          "wave": 4,
+          "silver": 52.72507133425691,
+          "expected": 52.7,
+          "delta": 0.0251,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M06_W2",
+          "wave": 2,
+          "silver": 27.40527888396485,
+          "expected": 27.4,
+          "delta": 0.0053,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M06_W3",
+          "wave": 3,
+          "silver": 26.350722954059925,
+          "expected": 26.4,
+          "delta": 0.0493,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M06_W4",
+          "wave": 4,
+          "silver": 27.5,
+          "expected": 25.8,
+          "delta": 1.7,
+          "tolerance": 0.5,
+          "pass": false
+        },
+        {
+          "id": "M07_W2",
+          "wave": 2,
+          "silver": 17.455262416964942,
+          "expected": 17.5,
+          "delta": 0.0447,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M07_W3",
+          "wave": 3,
+          "silver": 16.9170027754413,
+          "expected": 16.9,
+          "delta": 0.017,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M07_W4",
+          "wave": 4,
+          "silver": 14.991123753321506,
+          "expected": 15,
+          "delta": 0.0089,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M08_W2",
+          "wave": 2,
+          "silver": 97.39613430557625,
+          "expected": 97.4,
+          "delta": 0.0039,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M08_W3",
+          "wave": 3,
+          "silver": 98.238323437822,
+          "expected": 98.2,
+          "delta": 0.0383,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M08_W4",
+          "wave": 4,
+          "silver": 96.14588423488505,
+          "expected": 96.1,
+          "delta": 0.0459,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M09_W2",
+          "wave": 2,
+          "silver": 10.070517132863237,
+          "expected": 10.1,
+          "delta": 0.0295,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M09_W3",
+          "wave": 3,
+          "silver": 7.6421343286734125,
+          "expected": 7.6,
+          "delta": 0.0421,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M09_W4",
+          "wave": 4,
+          "silver": 6.765207609020282,
+          "expected": 6.8,
+          "delta": 0.0348,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M10_W2",
+          "wave": 2,
+          "silver": 37.456447750290394,
+          "expected": 37.5,
+          "delta": 0.0436,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M10_W3",
+          "wave": 3,
+          "silver": 35.19276447153419,
+          "expected": 35.2,
+          "delta": 0.0072,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M10_W4",
+          "wave": 4,
+          "silver": 33.905598045207455,
+          "expected": 33.9,
+          "delta": 0.0056,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M11_W2",
+          "wave": 2,
+          "silver": 11.637401655750674,
+          "expected": 11.6,
+          "delta": 0.0374,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M11_W3",
+          "wave": 3,
+          "silver": 10.795129899245449,
+          "expected": 10.8,
+          "delta": 0.0049,
+          "tolerance": 0.5,
+          "pass": true
+        },
+        {
+          "id": "M11_W4",
+          "wave": 4,
+          "silver": 8.923060278564082,
+          "expected": 8.9,
+          "delta": 0.0231,
+          "tolerance": 0.5,
+          "pass": true
+        }
+      ],
+      "skipped": [
+        "M06_W1",
+        "M07_W1",
+        "M08_W1",
+        "M09_W1",
+        "M10_W1",
+        "M11_W1"
+      ]
+    }
+  }
+}

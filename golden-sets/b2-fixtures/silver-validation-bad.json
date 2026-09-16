@@ -1,0 +1,56 @@
+{
+  "validator": "silver-validator",
+  "candidate_sha256": "3949e92060c68ed28982b5b1541dc8499395a21768541c95aef5f43d1b428649",
+  "validation_id": "BAD-FIXTURE-do-not-use-in-prod",
+  "status": "failed",
+  "findings": [
+    {
+      "check": "integrity.dataset_sha256",
+      "status": "pass",
+      "hard": true,
+      "detail": "recomputed=dfbd9d63a6e9 candidate=dfbd9d63a6e9"
+    },
+    {
+      "check": "integrity.schema_fingerprint",
+      "status": "pass",
+      "hard": true,
+      "detail": "recomputed=14a01251dbed candidate=14a01251dbed"
+    },
+    {
+      "check": "integrity.row_count",
+      "status": "fail",
+      "hard": true,
+      "detail": "recomputed=2980 candidate=3040 — row count mismatch: 60 rows dropped during ingestion"
+    },
+    {
+      "check": "expectation.distinct_respondents",
+      "status": "fail",
+      "hard": true,
+      "detail": "actual=2980 expected=3040 (raw_rows=3040)"
+    },
+    {
+      "check": "expectation.columns",
+      "status": "pass",
+      "hard": true,
+      "detail": "missing=[] extra=[]"
+    },
+    {
+      "check": "quality.key_column_present",
+      "status": "pass",
+      "hard": true,
+      "detail": "key_column=uuid"
+    },
+    {
+      "check": "quality.key_column_no_nulls",
+      "status": "fail",
+      "hard": true,
+      "detail": "nulls_in_uuid=12"
+    },
+    {
+      "check": "quality.key_column_unique",
+      "status": "fail",
+      "hard": true,
+      "detail": "duplicate_uuid=8 (non_null_rows=2968 distinct=2960)"
+    }
+  ]
+}

@@ -1,0 +1,181 @@
+{
+  "gate": "B3",
+  "runAt": "2026-09-16T09:46:59.988Z",
+  "goldenSet": "C:\\Users\\aameer\\Documents\\Experienz Dev Repos\\golden-sets\\b3-trajectories.json",
+  "matchMode": "in-order",
+  "passBar": 0.8,
+  "stopFloor": 0.5,
+  "runsTotal": 6,
+  "runsMatching": 6,
+  "matchRate": 1,
+  "pass": true,
+  "fallback": false,
+  "taskTypeCoverage": [
+    "rerun",
+    "schema-preview",
+    "status-check",
+    "inspect-and-rerun",
+    "list-runs"
+  ],
+  "runs": [
+    {
+      "id": "G01",
+      "sessionId": "7caf7172-3ba9-4789-a0c9-25aca895e552",
+      "taskType": "rerun",
+      "description": "Rerun current pipeline stage after checking stage status",
+      "expectedTools": [
+        "get_stage",
+        "rerun_stage"
+      ],
+      "actualTools": [
+        "get_stage",
+        "rerun_stage"
+      ],
+      "extraTools": [],
+      "match": true,
+      "firstMissing": null,
+      "matchedAt": [
+        {
+          "tool": "get_stage",
+          "actualIndex": 0
+        },
+        {
+          "tool": "rerun_stage",
+          "actualIndex": 1
+        }
+      ],
+      "iters": 3,
+      "stop": "end_turn"
+    },
+    {
+      "id": "G02",
+      "sessionId": "03744d72-5ec7-4783-bb69-4f3440c8af69",
+      "taskType": "schema-preview",
+      "description": "Preview current Cube schema",
+      "expectedTools": [
+        "preview_cube"
+      ],
+      "actualTools": [
+        "preview_cube"
+      ],
+      "extraTools": [],
+      "match": true,
+      "firstMissing": null,
+      "matchedAt": [
+        {
+          "tool": "preview_cube",
+          "actualIndex": 0
+        }
+      ],
+      "iters": 2,
+      "stop": "end_turn"
+    },
+    {
+      "id": "G03",
+      "sessionId": "4295ddbd-afda-4aa9-9e06-3cda13f132cc",
+      "taskType": "status-check",
+      "description": "Check current analytics run status",
+      "expectedTools": [
+        "get_run"
+      ],
+      "actualTools": [
+        "get_run"
+      ],
+      "extraTools": [],
+      "match": true,
+      "firstMissing": null,
+      "matchedAt": [
+        {
+          "tool": "get_run",
+          "actualIndex": 0
+        }
+      ],
+      "iters": 2,
+      "stop": "end_turn"
+    },
+    {
+      "id": "G04",
+      "sessionId": "3e76da1d-689f-4b24-8db3-34b1b68f1c69",
+      "taskType": "inspect-and-rerun",
+      "description": "Inspect stage, preview cube schema, then rerun the stage",
+      "expectedTools": [
+        "get_stage",
+        "rerun_stage"
+      ],
+      "actualTools": [
+        "get_stage",
+        "preview_cube",
+        "rerun_stage"
+      ],
+      "extraTools": [
+        "preview_cube"
+      ],
+      "match": true,
+      "firstMissing": null,
+      "matchedAt": [
+        {
+          "tool": "get_stage",
+          "actualIndex": 0
+        },
+        {
+          "tool": "rerun_stage",
+          "actualIndex": 2
+        }
+      ],
+      "iters": 4,
+      "stop": "end_turn"
+    },
+    {
+      "id": "G05",
+      "sessionId": "32e5eca9-7966-42a0-a23a-f8b97ce60859",
+      "taskType": "rerun",
+      "description": "Rerun analytics pipeline stage",
+      "expectedTools": [
+        "get_stage",
+        "rerun_stage"
+      ],
+      "actualTools": [
+        "get_stage",
+        "rerun_stage"
+      ],
+      "extraTools": [],
+      "match": true,
+      "firstMissing": null,
+      "matchedAt": [
+        {
+          "tool": "get_stage",
+          "actualIndex": 0
+        },
+        {
+          "tool": "rerun_stage",
+          "actualIndex": 1
+        }
+      ],
+      "iters": 3,
+      "stop": "end_turn"
+    },
+    {
+      "id": "G06",
+      "sessionId": "f6aa5da3",
+      "taskType": "list-runs",
+      "description": "List all analytics runs",
+      "expectedTools": [
+        "list_runs"
+      ],
+      "actualTools": [
+        "list_runs"
+      ],
+      "extraTools": [],
+      "match": true,
+      "firstMissing": null,
+      "matchedAt": [
+        {
+          "tool": "list_runs",
+          "actualIndex": 0
+        }
+      ],
+      "iters": 2,
+      "stop": "end_turn"
+    }
+  ]
+}

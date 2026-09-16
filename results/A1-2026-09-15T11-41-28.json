@@ -1,0 +1,10 @@
+{
+  "gate": "A1",
+  "runAt": "2026-09-15T11:41:28.861Z",
+  "traceCount": 50,
+  "missingSessionId": 50,
+  "missingUserId": 0,
+  "distinctSessions": 0,
+  "sessionIds": [],
+  "pass": false
+}

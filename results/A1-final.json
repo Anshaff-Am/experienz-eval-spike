@@ -1,0 +1,67 @@
+{
+  "gate": "A1",
+  "status": "STOP_CONDITION_TRIGGERED",
+  "runAt": "2026-09-15T12:00:00Z",
+  "updatedAt": "2026-09-16T03:45:00Z",
+  "attempts": 3,
+  "pass": false,
+
+  "finding": "LibreChat (langchainjs-openai/1.0.0) does not forward the LibreChat conversation ID to LiteLLM in any HTTP header or request body field. Confirmed via raw header capture using a LiteLLM custom diagnostic callback. The conversation ID visible in the browser URL (e.g. 5a6e175e-3f49-4d63-af88-d69f0102f0bb) never leaves LibreChat's server.",
+
+  "evidence": {
+    "attempt1": {
+      "action": "Wired Langfuse callback in LiteLLM (success_callback + failure_callback). Sent 20 messages across 3 LibreChat conversations using ESG Agent.",
+      "result": "0 of 50 traces in last hour had session_id. metadata field was empty ({}) on all traces. trace_user_id was present (from OpenAI user field = LibreChat MongoDB user ID).",
+      "langfuseTags": ["User-Agent: langchainjs-openai/1.0.0"]
+    },
+    "attempt2": {
+      "action": "Added set_verbose:true + LITELLM_LOG=DEBUG to litellm-config.yaml. Restarted LiteLLM. Sent test message via ESG Agent. Captured full verbose request log.",
+      "result": "Verbose log confirmed: Final returned optional params = {temperature: 0.02, stream: true, tools: [...9 MCP tools...], aws_region_name: eu-west-2}. No metadata, no session identifier in the OpenAI body params.",
+      "verboseLogKey": "Final returned optional params"
+    },
+    "attempt3": {
+      "action": "Mounted LiteLLM custom Python diagnostic callback (custom_callback.DiagnosticLogger) that logs proxy_server_request headers, body keys, metadata, and user field on every pre-API call. Sent test message via ESG Agent.",
+      "result": "Complete incoming HTTP header dump captured. Full header list from LibreChat: host, connection, accept, content-type, accept-language, sec-fetch-mode, accept-encoding, content-length, x-stainless-lang, x-stainless-package-version, x-stainless-os, x-stainless-arch, x-stainless-runtime, x-stainless-runtime-version, x-stainless-retry-count, user-agent. NO conversation ID, NO session ID, NO x-librechat-* headers of any kind.",
+      "endUserIdReceived": "6aa92459ad5d1df67116b1bb (MongoDB user ID → maps to trace_user_id only)",
+      "conversationIdInBrowserUrl": "5a6e175e-3f49-4d63-af88-d69f0102f0bb (never sent to LiteLLM)",
+      "verdict": "Definitive — LibreChat does not forward conversation ID anywhere. No interceptable field exists."
+    }
+  },
+
+  "rootCause": "LibreChat's custom endpoint uses LangChain.js's ChatOpenAI client (via OpenAI Stainless SDK v6.44.0) to call the LiteLLM proxy. The Stainless SDK sends only standard OpenAI API headers. LibreChat knows the conversation ID at its API layer (MongoDB conversationId, exposed in browser URL) but never injects it into the downstream LLM request. There is no interceptable field — not in the body, not in any header.",
+
+  "integrationCostEstimate": {
+    "option1_LibreChatFork": {
+      "description": "Fork ghcr.io/danny-avila/librechat:latest. Modify packages/api/app/clients/ to inject X-LibreChat-Conversation-Id header per-request. Add LiteLLM custom Python callback to read that header and set metadata.session_id. Maintain fork against upstream.",
+      "effort": "3–5 days (fork setup + code change + LiteLLM callback + testing + image build pipeline)",
+      "risk": "Upstream LibreChat changes break the fork. Ongoing maintenance cost."
+    },
+    "option2_LiteLLMPatch": {
+      "description": "File upstream PRs to LiteLLM + LibreChat. Both need acceptance.",
+      "effort": "Weeks — not viable for spike timebox.",
+      "risk": "No control over upstream acceptance."
+    },
+    "option3_AlternativeFrontend": {
+      "description": "Replace LibreChat with thin custom chat UI that owns the OpenAI request body and can inject metadata.session_id.",
+      "effort": "5–8 days — build task, not spike.",
+      "risk": "Scope creep."
+    },
+    "option4_MCP_Langfuse_Direct": {
+      "description": "Instrument MCP server to call Langfuse SDK directly per tool invocation. Provides conversation-scoped grouping at tool-call level, bypassing the LiteLLM → Langfuse path.",
+      "effort": "1–2 days.",
+      "risk": "A1 as written still fails. Reframing, not a fix. Needs Sekar sign-off on scope change."
+    }
+  },
+
+  "recommendation": "A1 FAILED — stop condition met. Three attempts exhausted (2 diagnostic + 1 patch/header-capture). Escalate to Sekar with this report. Langfuse is viable for per-call token/cost observability and user-level tracing but cannot provide conversation-session grouping without a LibreChat fork. Stop Track A as per CLAUDE.md rule.",
+
+  "gateStatusByRule": {
+    "sessionIdPropagation": "FAIL — 0% of traces have session_id (need 100%)",
+    "traceUserIdPropagation": "PASS — 100% of traces have trace_user_id",
+    "distinctSessions": "FAIL — 0 distinct sessions (need exactly 3)",
+    "attemptsUsed": 3,
+    "maxAttempts": 2,
+    "stopConditionMet": true,
+    "rawHeadersCapture": "results/A1-headers-dump-evidence.txt"
+  }
+}

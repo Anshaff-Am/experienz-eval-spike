@@ -1,0 +1,370 @@
+{
+  "producer": "reconciliation-recompute",
+  "run_id": "20260904T145902-eeab3c",
+  "weighted": true,
+  "weight_expr": "Weight",
+  "tolerance": 0.5,
+  "metrics_total": 11,
+  "metrics_recomputed": 44,
+  "recompute_error": "",
+  "results": [
+    {
+      "id": "M01_W1",
+      "silver": 23.438327171777836,
+      "gold": null,
+      "expected": 23.4,
+      "weight": "Weight",
+      "wave": 1
+    },
+    {
+      "id": "M01_W2",
+      "silver": 28.341517247519,
+      "gold": null,
+      "expected": 28.3,
+      "weight": "Weight",
+      "wave": 2
+    },
+    {
+      "id": "M01_W3",
+      "silver": 25.56429329749416,
+      "gold": null,
+      "expected": 25.6,
+      "weight": "Weight",
+      "wave": 3
+    },
+    {
+      "id": "M01_W4",
+      "silver": 31.984240037288643,
+      "gold": null,
+      "expected": 32.0,
+      "weight": "Weight",
+      "wave": 4
+    },
+    {
+      "id": "M02_W1",
+      "silver": 19.703153837329275,
+      "gold": null,
+      "expected": 19.7,
+      "weight": "Weight",
+      "wave": 1
+    },
+    {
+      "id": "M02_W2",
+      "silver": 22.930877513756833,
+      "gold": null,
+      "expected": 22.9,
+      "weight": "Weight",
+      "wave": 2
+    },
+    {
+      "id": "M02_W3",
+      "silver": 20.82737730412164,
+      "gold": null,
+      "expected": 20.8,
+      "weight": "Weight",
+      "wave": 3
+    },
+    {
+      "id": "M02_W4",
+      "silver": 19.731627193834026,
+      "gold": null,
+      "expected": 19.7,
+      "weight": "Weight",
+      "wave": 4
+    },
+    {
+      "id": "M03_W1",
+      "silver": 7.245740257211423,
+      "gold": null,
+      "expected": 7.2,
+      "weight": "Weight",
+      "wave": 1
+    },
+    {
+      "id": "M03_W2",
+      "silver": 6.933382087110797,
+      "gold": null,
+      "expected": 6.9,
+      "weight": "Weight",
+      "wave": 2
+    },
+    {
+      "id": "M03_W3",
+      "silver": 8.132149257433271,
+      "gold": null,
+      "expected": 8.1,
+      "weight": "Weight",
+      "wave": 3
+    },
+    {
+      "id": "M03_W4",
+      "silver": 6.237797074983731,
+      "gold": null,
+      "expected": 6.2,
+      "weight": "Weight",
+      "wave": 4
+    },
+    {
+      "id": "M04_W1",
+      "silver": 25.91177806205711,
+      "gold": null,
+      "expected": 25.9,
+      "weight": "Weight",
+      "wave": 1
+    },
+    {
+      "id": "M04_W2",
+      "silver": 25.477086630152783,
+      "gold": null,
+      "expected": 25.5,
+      "weight": "Weight",
+      "wave": 2
+    },
+    {
+      "id": "M04_W3",
+      "silver": 25.449366695805907,
+      "gold": null,
+      "expected": 25.4,
+      "weight": "Weight",
+      "wave": 3
+    },
+    {
+      "id": "M04_W4",
+      "silver": 21.66429896221908,
+      "gold": null,
+      "expected": 21.7,
+      "weight": "Weight",
+      "wave": 4
+    },
+    {
+      "id": "M05_W1",
+      "silver": 48.400264900891095,
+      "gold": null,
+      "expected": 48.4,
+      "weight": "Weight",
+      "wave": 1
+    },
+    {
+      "id": "M05_W2",
+      "silver": 52.43863491226689,
+      "gold": null,
+      "expected": 52.4,
+      "weight": "Weight",
+      "wave": 2
+    },
+    {
+      "id": "M05_W3",
+      "silver": 52.42575726258273,
+      "gold": null,
+      "expected": 52.4,
+      "weight": "Weight",
+      "wave": 3
+    },
+    {
+      "id": "M05_W4",
+      "silver": 52.72507133425691,
+      "gold": null,
+      "expected": 52.7,
+      "weight": "Weight",
+      "wave": 4
+    },
+    {
+      "id": "M06_W1",
+      "silver": null,
+      "gold": null,
+      "expected": null,
+      "weight": "Weight",
+      "wave": 1
+    },
+    {
+      "id": "M06_W2",
+      "silver": 27.40527888396485,
+      "gold": null,
+      "expected": 27.4,
+      "weight": "Weight",
+      "wave": 2
+    },
+    {
+      "id": "M06_W3",
+      "silver": 26.350722954059925,
+      "gold": null,
+      "expected": 26.4,
+      "weight": "Weight",
+      "wave": 3
+    },
+    {
+      "id": "M06_W4",
+      "silver": 25.808025634410715,
+      "gold": null,
+      "expected": 25.8,
+      "weight": "Weight",
+      "wave": 4
+    },
+    {
+      "id": "M07_W1",
+      "silver": null,
+      "gold": null,
+      "expected": null,
+      "weight": "Weight",
+      "wave": 1
+    },
+    {
+      "id": "M07_W2",
+      "silver": 17.455262416964942,
+      "gold": null,
+      "expected": 17.5,
+      "weight": "Weight",
+      "wave": 2
+    },
+    {
+      "id": "M07_W3",
+      "silver": 16.9170027754413,
+      "gold": null,
+      "expected": 16.9,
+      "weight": "Weight",
+      "wave": 3
+    },
+    {
+      "id": "M07_W4",
+      "silver": 14.991123753321506,
+      "gold": null,
+      "expected": 15.0,
+      "weight": "Weight",
+      "wave": 4
+    },
+    {
+      "id": "M08_W1",
+      "silver": null,
+      "gold": null,
+      "expected": null,
+      "weight": "Weight",
+      "wave": 1
+    },
+    {
+      "id": "M08_W2",
+      "silver": 97.39613430557625,
+      "gold": null,
+      "expected": 97.4,
+      "weight": "Weight",
+      "wave": 2
+    },
+    {
+      "id": "M08_W3",
+      "silver": 98.238323437822,
+      "gold": null,
+      "expected": 98.2,
+      "weight": "Weight",
+      "wave": 3
+    },
+    {
+      "id": "M08_W4",
+      "silver": 96.14588423488505,
+      "gold": null,
+      "expected": 96.1,
+      "weight": "Weight",
+      "wave": 4
+    },
+    {
+      "id": "M09_W1",
+      "silver": null,
+      "gold": null,
+      "expected": null,
+      "weight": "Weight",
+      "wave": 1
+    },
+    {
+      "id": "M09_W2",
+      "silver": 10.070517132863237,
+      "gold": null,
+      "expected": 10.1,
+      "weight": "Weight",
+      "wave": 2
+    },
+    {
+      "id": "M09_W3",
+      "silver": 7.6421343286734125,
+      "gold": null,
+      "expected": 7.6,
+      "weight": "Weight",
+      "wave": 3
+    },
+    {
+      "id": "M09_W4",
+      "silver": 6.765207609020282,
+      "gold": null,
+      "expected": 6.8,
+      "weight": "Weight",
+      "wave": 4
+    },
+    {
+      "id": "M10_W1",
+      "silver": null,
+      "gold": null,
+      "expected": null,
+      "weight": "Weight",
+      "wave": 1
+    },
+    {
+      "id": "M10_W2",
+      "silver": 37.456447750290394,
+      "gold": null,
+      "expected": 37.5,
+      "weight": "Weight",
+      "wave": 2
+    },
+    {
+      "id": "M10_W3",
+      "silver": 35.19276447153419,
+      "gold": null,
+      "expected": 35.2,
+      "weight": "Weight",
+      "wave": 3
+    },
+    {
+      "id": "M10_W4",
+      "silver": 33.905598045207455,
+      "gold": null,
+      "expected": 33.9,
+      "weight": "Weight",
+      "wave": 4
+    },
+    {
+      "id": "M11_W1",
+      "silver": null,
+      "gold": null,
+      "expected": null,
+      "weight": "Weight",
+      "wave": 1
+    },
+    {
+      "id": "M11_W2",
+      "silver": 11.637401655750674,
+      "gold": null,
+      "expected": 11.6,
+      "weight": "Weight",
+      "wave": 2
+    },
+    {
+      "id": "M11_W3",
+      "silver": 10.795129899245449,
+      "gold": null,
+      "expected": 10.8,
+      "weight": "Weight",
+      "wave": 3
+    },
+    {
+      "id": "M11_W4",
+      "silver": 8.923060278564082,
+      "gold": null,
+      "expected": 8.9,
+      "weight": "Weight",
+      "wave": 4
+    }
+  ],
+  "pii_probe": {
+    "objects": 11,
+    "parquet_found": [],
+    "row_arrays": [],
+    "ok": true
+  }
+}
