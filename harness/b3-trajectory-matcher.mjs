@@ -55,24 +55,39 @@ function main() {
 
   for (const run of runs) {
     const { match, matchedAt, firstMissing } = inOrderMatch(run.expectedTools, run.actualTools);
+    const expectedMatch = run.expectedMatch !== false; // default true for backward compat
+    const correct = match === expectedMatch;
+    const isRogue = !expectedMatch;
 
     const extraTools = run.actualTools.filter(t => !run.expectedTools.includes(t));
+    const rogueTag = isRogue ? ` [ROGUE-DETECTION: ${run.roguePattern}]` : '';
 
-    console.log(`\n  ${run.id} [${run.taskType}] session=${run.sessionId.substring(0, 8)}`);
+    console.log(`\n  ${run.id} [${run.taskType}]${rogueTag} session=${run.sessionId.substring(0, 8)}`);
     console.log(`  Expected: ${run.expectedTools.join(' → ')}`);
     console.log(`  Actual:   ${run.actualTools.join(' → ')}`);
     if (extraTools.length) console.log(`  Extra:    ${extraTools.join(', ')} (tolerated)`);
-    console.log(`  Result:   ${match ? 'MATCH ✓' : `NO MATCH ✗ — missing: ${firstMissing}`}`);
+
+    if (isRogue) {
+      const detected = !match;
+      console.log(`  Match:    ${match ? 'MATCH' : 'NO MATCH'}`);
+      console.log(`  Rogue:    ${detected ? 'DETECTED ✓' : 'MISSED ✗ — rogue slipped through gate'}`);
+    } else {
+      console.log(`  Result:   ${match ? 'MATCH ✓' : `NO MATCH ✗ — missing: ${firstMissing}`}`);
+    }
 
     results.push({
       id: run.id,
       sessionId: run.sessionId,
+      source: run.source ?? 'real',
       taskType: run.taskType,
       description: run.description,
+      roguePattern: run.roguePattern ?? null,
+      expectedMatch,
       expectedTools: run.expectedTools,
       actualTools: run.actualTools,
       extraTools,
       match,
+      correct,
       firstMissing,
       matchedAt,
       iters: run.iters,
@@ -80,18 +95,25 @@ function main() {
     });
   }
 
-  const matching   = results.filter(r => r.match).length;
+  const correct    = results.filter(r => r.correct).length;
   const total      = results.length;
-  const matchRate  = matching / total;
+  const matchRate  = correct / total;
   const gatePass   = matchRate >= passBar;
   const fallback   = matchRate < stopFloor;
 
+  const realRuns   = results.filter(r => r.source === 'real');
+  const rogueRuns  = results.filter(r => r.source === 'synthetic');
+  const rogueDetected = rogueRuns.filter(r => r.correct).length;
+
   console.log(`\n${'─'.repeat(70)}`);
-  console.log(`Runs:       ${total}  |  Match: ${matching}  |  Fail: ${total - matching}`);
-  console.log(`Match rate: ${(matchRate * 100).toFixed(1)}%  (bar: ${passBar * 100}%  floor: ${stopFloor * 100}%)`);
+  console.log(`Runs:            ${total}  (real: ${realRuns.length}, rogue-detection: ${rogueRuns.length})`);
+  console.log(`Correct:         ${correct} / ${total}`);
+  console.log(`  Real sessions: ${realRuns.filter(r => r.correct).length} / ${realRuns.length} match expected trajectory`);
+  console.log(`  Rogue cases:   ${rogueDetected} / ${rogueRuns.length} correctly detected`);
+  console.log(`Correct rate:    ${(matchRate * 100).toFixed(1)}%  (bar: ${passBar * 100}%  floor: ${stopFloor * 100}%)`);
 
   if (fallback) {
-    console.log(`Gate:       STOP ✗ — match rate below ${stopFloor * 100}% floor`);
+    console.log(`Gate:       STOP ✗ — correct rate below ${stopFloor * 100}% floor`);
     console.log(`Action:     Fall back to B2 artifact checks only. Revisit B3 when agent stabilises.`);
   } else if (gatePass) {
     console.log(`Gate:       PASS ✓`);
@@ -108,7 +130,10 @@ function main() {
     passBar,
     stopFloor,
     runsTotal: total,
-    runsMatching: matching,
+    realRuns: realRuns.length,
+    rogueRuns: rogueRuns.length,
+    runsCorrect: correct,
+    rogueDetected,
     matchRate: +matchRate.toFixed(4),
     pass: gatePass,
     fallback,
