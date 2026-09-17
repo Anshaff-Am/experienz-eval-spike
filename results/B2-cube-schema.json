@@ -1,7 +1,7 @@
 {
   "gate": "B2-check1-cube-schema",
-  "runAt": "2026-09-16T07:23:08.125Z",
-  "client": "astonmartinf1",
+  "runAt": "2026-09-17T06:45:28.302Z",
+  "client": "amf1",
   "schemaDir": "C:\\Users\\aameer\\AppData\\Local\\Temp\\claude\\c--Users-aameer-Documents-Experienz-Dev-Repos\\42c0ef3d-7b0c-4294-9180-d31feb443b6c\\scratchpad\\amf1-schema",
   "pass": true,
   "summary": {

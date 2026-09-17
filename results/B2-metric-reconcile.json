@@ -1,6 +1,6 @@
 {
   "gate": "B2-check3-metric-reconcile",
-  "runAt": "2026-09-16T07:23:08.336Z",
+  "runAt": "2026-09-17T06:45:28.448Z",
   "pass": true,
   "summary": {
     "goodFixturePasses": true,

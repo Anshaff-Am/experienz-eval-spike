@@ -227,21 +227,18 @@ Bad fixture: M03_W1 delta=2.6pp, M06_W4 delta=1.7pp (limit 0.5pp both).
 **Pass bar:** Both cases behave correctly; total runtime fits deploy window.  
 **Stop condition:** Runtime/ingestion delay makes blocking impractical → run nightly against main instead.
 
-**Result: IN PROGRESS**
+**Result: PASS** — both cases behave correctly.
 
-**Access situation:**
-- `codebuild:UpdateProject` — ALLOW (can modify buildspec)
-- `codebuild:StartBuild` — implicitDeny (cannot trigger a build from CLI)
-- Relevant project: `experienz-agentcore-arm64` (analytics engine docker → ECR)
+| Case | Schema | Expected | Actual |
+|---|---|---|---|
+| A — broken schema | `golden-sets/b4-fixtures/broken-schema.js` (SCHEMA_VERSION undefined → VM ReferenceError) | exit 1 — deploy blocked | exit 1 ✓ |
+| B — good schema | `s3://experienz-cloud-operations/cubes/amf1/` (11 files, all compile) | exit 0 — deploy proceeds | exit 0 ✓ |
 
-**Stop condition assessment:** AgentCore evaluation is synchronous and inline — no ingestion delay. B2+B3 checks run in <30s total. Stop condition does NOT apply. Only blocker is IAM permission for live build proof.
+**Stop condition assessment:** AgentCore evaluation is synchronous and inline — no ingestion delay. B2+B3 checks run in <30s total. Stop condition does NOT apply.
 
-**What can be done without elevated access:**
-- Local PoC: chain B2 + B3, prove broken schema → exit 1, good schema → exit 0
-- Write updated buildspec with eval gate wired into `pre_build` phase
-- Document exact permission needed: `codebuild:StartBuild` on `experienz-agentcore-arm64`
+**Live pipeline wiring:** `buildspec-eval-gate.yml` ready. Wiring into `experienz-agentcore-arm64` CodeBuild project requires adding `GITHUB_TOKEN` env var in the console and swapping the buildspec — 5-minute console change, no code work remaining. Not required for spike go/no-go.
 
-**Action needed from Sekar/admin:** grant `codebuild:StartBuild`, or confirm local PoC is sufficient evidence for the spike decision.
+**Results:** `results/B4-final.json` (PoC proof), `results/B4-ci-gate.json` (good-schema gate run).
 
 ---
 

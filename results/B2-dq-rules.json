@@ -1,6 +1,6 @@
 {
   "gate": "B2-check2-dq-rules",
-  "runAt": "2026-09-16T07:23:08.226Z",
+  "runAt": "2026-09-17T06:45:28.376Z",
   "pass": true,
   "summary": {
     "goodFixtureQuiet": true,
