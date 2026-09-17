@@ -1,0 +1,22 @@
+{
+  "gate": "B4",
+  "runAt": "2026-09-17T06:45:28.528Z",
+  "schemaDir": "C:\\Users\\aameer\\AppData\\Local\\Temp\\claude\\c--Users-aameer-Documents-Experienz-Dev-Repos\\42c0ef3d-7b0c-4294-9180-d31feb443b6c\\scratchpad\\amf1-schema",
+  "client": "amf1",
+  "pass": true,
+  "tiers": {
+    "tier1": {
+      "name": "deterministic",
+      "pass": true,
+      "checks": {
+        "schemaCompile": true,
+        "dqRules": true,
+        "metricReconcile": true
+      }
+    },
+    "tier2": {
+      "name": "trajectory",
+      "pass": true
+    }
+  }
+}

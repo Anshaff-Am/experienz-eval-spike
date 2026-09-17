@@ -1,0 +1,21 @@
+{
+  "gate": "B4",
+  "runAt": "2026-09-17T06:45:28.542Z",
+  "proofComplete": true,
+  "cases": [
+    {
+      "label": "BROKEN schema → gate must block (exit 1)",
+      "schemaDir": "C:\\Users\\aameer\\Documents\\Experienz Dev Repos\\golden-sets\\b4-fixtures",
+      "expectPass": false,
+      "passed": false,
+      "correct": true
+    },
+    {
+      "label": "GOOD schema → gate must pass (exit 0)",
+      "schemaDir": "C:\\Users\\aameer\\AppData\\Local\\Temp\\claude\\c--Users-aameer-Documents-Experienz-Dev-Repos\\42c0ef3d-7b0c-4294-9180-d31feb443b6c\\scratchpad\\amf1-schema",
+      "expectPass": true,
+      "passed": true,
+      "correct": true
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+version: 0.2
+
+# B4 Eval Gate — updated buildspec for experienz-agentcore-arm64
+#
+# Adds two-tier eval gate to pre_build:
+#   Tier 1 (hard): B2 deterministic checks — schema compile, DQ rules, metric reconciliation
+#   Tier 2 (threshold): B3 trajectory match ≥80%
+#
+# If gate fails → exit 1 → Docker build never runs → deploy blocked.
+# If gate passes → Docker build and ECR push proceed as normal.
+#
+# Prerequisites before wiring this into the project:
+#   1. Add GITHUB_TOKEN env var to CodeBuild project (for private repo clone)
+#      OR upload harness to S3 and switch clone step to `aws s3 sync`
+#   2. Add CLIENT env var to CodeBuild project (e.g. "amf1")
+#      Currently hardcoded below as fallback.
+
+env:
+  variables:
+    CLIENT: "amf1"
+    EVAL_REPO: "https://github.com/Anshaff-Am/experienz-eval-spike.git"
+    SCHEMA_DIR: "/tmp/cube-schema"
+    EVAL_DIR: "/tmp/eval-spike"
+
+phases:
+  pre_build:
+    commands:
+      # ── ECR login (existing) ──────────────────────────────────────────
+      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com
+
+      # ── Eval gate setup ───────────────────────────────────────────────
+      - echo "=== B4 Eval Gate: setup ==="
+      - node --version
+
+      # Clone harness from eval-spike repo
+      # Requires GITHUB_TOKEN env var in CodeBuild project (set via console or aws codebuild update-project)
+      - git clone https://${GITHUB_TOKEN}@github.com/Anshaff-Am/experienz-eval-spike.git ${EVAL_DIR}
+
+      # Download latest Cube schema from S3
+      - echo "Syncing schema: s3://experienz-cloud-operations/cubes/${CLIENT}/ → ${SCHEMA_DIR}"
+      - aws s3 sync s3://experienz-cloud-operations/cubes/${CLIENT}/ ${SCHEMA_DIR}/
+
+      # ── Run the gate ──────────────────────────────────────────────────
+      - echo "=== B4 Eval Gate: running ==="
+      - cd ${EVAL_DIR} && node harness/b4-ci-gate.mjs --schema-dir ${SCHEMA_DIR} --client ${CLIENT}
+      # Exit 1 from gate blocks the rest of the build (deploy blocked).
+      # Exit 0 continues to Docker build below.
+
+      - echo "=== B4 Eval Gate: PASSED — proceeding to build ==="
+      - cd $CODEBUILD_SRC_DIR
+
+  build:
+    commands:
+      - docker build -f agentcore/Dockerfile -t ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/experienz-analytics-agentcore-prod:latest .
+
+  post_build:
+    commands:
+      - docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/experienz-analytics-agentcore-prod:latest
