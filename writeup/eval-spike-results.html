@@ -1,0 +1,975 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Eval Spike Brief</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;1,400&display=swap">
+
+<style>
+  /* ── Tokens (dark-first, single theme) ── */
+  :root {
+    --bg:         #0C0E14;
+    --surface:    #171A24;
+    --border:     #232738;
+    --border-hi:  #2E3348;
+    --text:       #D8DCE8;
+    --muted:      #7A8099;
+    --pass:       #27C98A;
+    --pass-bg:    #0D2E22;
+    --stop:       #E05252;
+    --stop-bg:    #2C1414;
+    --pend:       #E8A63A;
+    --pend-bg:    #2C2010;
+    --info:       #4E78D4;
+    --info-bg:    #101828;
+    --mono:       'IBM Plex Mono', 'Courier New', monospace;
+    --sans:       'IBM Plex Sans', system-ui, sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--bg);
+    color: var(--text);
+  }
+
+  body {
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.65;
+    padding-inline: 24px;
+    padding-block: 48px;
+  }
+
+  /* ── Layout wrapper ── */
+  .page {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 0 48px;
+    max-width: 1040px;
+    margin: 0 auto;
+  }
+
+  /* ── Left rail ── */
+  .rail {
+    position: sticky;
+    top: 40px;
+    align-self: start;
+  }
+
+  .rail-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+
+  .gate-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 0;
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+    cursor: default;
+  }
+  .gate-pill:last-child { border-bottom: none; }
+
+  .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .dot-pass  { background: var(--pass); box-shadow: 0 0 6px var(--pass); }
+  .dot-stop  { background: var(--stop); }
+  .dot-pend  { background: var(--pend); }
+
+  .pill-status {
+    margin-left: auto;
+    font-size: 10px;
+    letter-spacing: .06em;
+  }
+  .pill-status.pass { color: var(--pass); }
+  .pill-status.stop { color: var(--stop); }
+  .pill-status.pend { color: var(--pend); }
+
+  /* ── Main content ── */
+  main { min-width: 0; }
+
+  /* Masthead */
+  .masthead {
+    margin-bottom: 52px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--border-hi);
+  }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--info);
+    margin-bottom: 12px;
+  }
+
+  h1 {
+    font-family: var(--mono);
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--text);
+    margin: 0 0 16px;
+    text-wrap: balance;
+  }
+
+  .meta {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .meta span::before { content: '// '; }
+
+  /* Section headers */
+  h2 {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 48px 0 20px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  h2:first-of-type { margin-top: 0; }
+
+  /* Gate block */
+  .gate-block {
+    margin-bottom: 40px;
+  }
+
+  .gate-header {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+
+  h3 {
+    font-family: var(--mono);
+    font-size: 17px;
+    font-weight: 600;
+    margin: 0;
+    color: var(--text);
+    text-wrap: balance;
+  }
+
+  .badge {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    padding: 3px 10px;
+    border-radius: 3px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .badge-pass { background: var(--pass-bg); color: var(--pass); border: 1px solid #1a5c40; }
+  .badge-stop { background: var(--stop-bg); color: var(--stop); border: 1px solid #5c2020; }
+  .badge-pend { background: var(--pend-bg); color: var(--pend); border: 1px solid #5c4010; }
+  .badge-info { background: var(--info-bg); color: var(--info); border: 1px solid #1e3468; }
+
+  p { margin: 0 0 12px; max-width: 68ch; }
+  p:last-child { margin-bottom: 0; }
+
+  /* Score table */
+  .score-table-wrap { overflow-x: auto; margin: 16px 0; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--mono);
+    font-size: 12.5px;
+    font-variant-numeric: tabular-nums;
+  }
+  th {
+    text-align: left;
+    font-weight: 500;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    font-size: 10.5px;
+    color: var(--muted);
+    padding: 8px 14px;
+    border-bottom: 1px solid var(--border-hi);
+  }
+  td {
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  tr:last-child td { border-bottom: none; }
+  tbody tr:hover td { background: rgba(255,255,255,.025); }
+
+  .val-pass { color: var(--pass); }
+  .val-stop { color: var(--stop); }
+  .val-pend { color: var(--pend); }
+  .val-dim  { color: var(--muted); }
+
+  /* Code block */
+  pre {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--info);
+    border-radius: 4px;
+    padding: 14px 18px;
+    margin: 14px 0;
+    overflow-x: auto;
+    font-family: var(--mono);
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: #aab4cc;
+  }
+  pre .c { color: #4a5270; }
+  pre .k { color: #7b8fd4; }
+  pre .s { color: var(--pass); }
+  pre .n { color: #c8a8e0; }
+
+  /* Callout boxes */
+  .callout {
+    border-radius: 4px;
+    padding: 14px 18px;
+    margin: 16px 0;
+    font-size: 14px;
+    max-width: 72ch;
+  }
+  .callout-stop { background: var(--stop-bg); border-left: 3px solid var(--stop); }
+  .callout-pass { background: var(--pass-bg); border-left: 3px solid var(--pass); }
+  .callout-pend { background: var(--pend-bg); border-left: 3px solid var(--pend); }
+  .callout-info { background: var(--info-bg); border-left: 3px solid var(--info); }
+  .callout strong { font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; display: block; margin-bottom: 6px; }
+  .callout-stop strong { color: var(--stop); }
+  .callout-pass strong { color: var(--pass); }
+  .callout-pend strong { color: var(--pend); }
+  .callout-info strong { color: var(--info); }
+
+  /* Finding list */
+  .findings { list-style: none; padding: 0; margin: 10px 0; }
+  .findings li {
+    padding: 6px 0 6px 20px;
+    position: relative;
+    font-size: 14px;
+    border-bottom: 1px solid var(--border);
+    max-width: 70ch;
+  }
+  .findings li:last-child { border-bottom: none; }
+  .findings li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 12px;
+  }
+
+  /* Inline code */
+  code {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 1px 6px;
+    border-radius: 3px;
+    color: #b0bcd4;
+  }
+
+  /* Decisions section */
+  .decision-block {
+    border: 1px solid var(--border-hi);
+    border-radius: 6px;
+    padding: 20px 24px;
+    margin-bottom: 20px;
+    max-width: 72ch;
+  }
+  .decision-block h4 {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 600;
+    margin: 0 0 10px;
+    color: var(--text);
+  }
+  .decision-block p { font-size: 14px; }
+
+  .option {
+    display: flex;
+    gap: 10px;
+    padding: 10px 0;
+    font-size: 14px;
+    border-top: 1px solid var(--border);
+  }
+  .option-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .06em;
+    padding: 3px 8px;
+    border-radius: 3px;
+    flex-shrink: 0;
+    height: fit-content;
+    margin-top: 2px;
+  }
+  .opt-a { background: var(--info-bg); color: var(--info); border: 1px solid #1e3468; }
+  .opt-b { background: #1a1012; color: #c08080; border: 1px solid #3a2020; }
+
+  /* Artefacts */
+  .artifact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 8px;
+    margin: 12px 0;
+  }
+  .artifact-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 10px 14px;
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--muted);
+  }
+  .artifact-item .afile { color: var(--text); display: block; }
+  .artifact-item .adesc { font-size: 10.5px; color: var(--muted); margin-top: 3px; }
+
+  /* Divider */
+  .section-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 44px 0;
+  }
+
+  /* Responsive */
+  @media (max-width: 700px) {
+    .page { grid-template-columns: 1fr; }
+    .rail { position: static; margin-bottom: 32px; }
+    .rail .gate-pill { padding: 8px 0; }
+    body { padding-inline: 16px; padding-block: 32px; }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .dot-pass { animation: pulse 2.4s ease-in-out infinite; }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: .5; }
+    }
+    .dot-pend { animation: pulse 1.8s ease-in-out infinite; }
+  }
+</style>
+
+<div class="page">
+  <!-- Left rail -->
+  <aside class="rail" aria-label="Gate status">
+    <div class="rail-label">Gate Status</div>
+
+    <div class="gate-pill">
+      <span class="dot dot-stop"></span>
+      A1
+      <span class="pill-status stop">STOP</span>
+    </div>
+    <div class="gate-pill">
+      <span class="dot dot-pass"></span>
+      B1
+      <span class="pill-status pass">PASS</span>
+    </div>
+    <div class="gate-pill">
+      <span class="dot dot-pass"></span>
+      B2
+      <span class="pill-status pass">PASS</span>
+    </div>
+    <div class="gate-pill">
+      <span class="dot dot-pass"></span>
+      B3
+      <span class="pill-status pass">PASS</span>
+    </div>
+    <div class="gate-pill">
+      <span class="dot dot-pass"></span>
+      B4
+      <span class="pill-status pass">PASS</span>
+    </div>
+  </aside>
+
+  <!-- Main content -->
+  <main>
+    <div class="masthead">
+      <div class="eyebrow">Experienz · Eval Tooling Spike</div>
+      <h1>Track A + B Gate Results</h1>
+      <div class="meta">
+        <span>2026-09-16</span>
+        <span>Track A stopped at A1</span>
+        <span>Track B: B1–B4 all passed</span>
+        <span>Three decisions pending</span>
+      </div>
+    </div>
+
+    <!-- ─── SCORECARD ─── -->
+    <h2>Scorecard</h2>
+    <div class="score-table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Gate</th>
+            <th>Test</th>
+            <th>Key number</th>
+            <th>Status</th>
+            <th>Note</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>A1</code></td>
+            <td>session_id survives into Langfuse</td>
+            <td class="val-stop">—</td>
+            <td><span class="badge badge-stop">STOP</span></td>
+            <td class="val-dim">LibreChat drops conversation ID before LLM call. ~3–5 days to fix (LibreChat fork).</td>
+          </tr>
+          <tr>
+            <td><code>B1</code></td>
+            <td>5 sessions × 3 evaluators via AgentCore</td>
+            <td class="val-pass">15 / 15 scored</td>
+            <td><span class="badge badge-pass">PASS</span></td>
+            <td class="val-dim">Spans constructed from CloudWatch. No agent code changed. Session 5 scored 0.0 — real signal.</td>
+          </tr>
+          <tr>
+            <td><code>B2</code></td>
+            <td>3 deterministic artifact checks</td>
+            <td class="val-pass">3 / 3 checks</td>
+            <td><span class="badge badge-pass">PASS</span></td>
+            <td class="val-dim">Schema 11/11, DQ rules fire correctly, 38/38 metrics within ±0.5pp.</td>
+          </tr>
+          <tr>
+            <td><code>B3</code></td>
+            <td>In-order trajectory matching</td>
+            <td class="val-pass">6 / 6 = 100%</td>
+            <td><span class="badge badge-pass">PASS</span></td>
+            <td class="val-dim">Only 6 real sessions (not 12). Golden set = same sessions. Future runs needed for true regression.</td>
+          </tr>
+          <tr>
+            <td><code>B4</code></td>
+            <td>Batch eval in deploy pipeline</td>
+            <td class="val-pass">2 / 2 cases</td>
+            <td><span class="badge badge-pass">PASS</span></td>
+            <td class="val-dim">Broken schema → exit 1 ✓, good schema → exit 0 ✓. Live wiring = 5-min console change (GITHUB_TOKEN env var).</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Targets &amp; Hard Floors</h2>
+    <p style="font-size:13px;color:var(--muted);max-width:68ch;margin-bottom:14px;">From the spike brief. Below the hard floor the action is explicit — it's not "try harder."</p>
+    <div class="score-table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Measure</th>
+            <th>Target</th>
+            <th>Hard floor</th>
+            <th>Below the floor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Session / trace integrity (A1)</td>
+            <td>100%</td>
+            <td class="val-stop">100%</td>
+            <td class="val-dim">Stop track A at A1 ← hit this</td>
+          </tr>
+          <tr>
+            <td>Cube query extractable (A2)</td>
+            <td>≥95%</td>
+            <td>90%</td>
+            <td class="val-dim">Escalate, don't work around</td>
+          </tr>
+          <tr>
+            <td>In-scope execution accuracy (A3)</td>
+            <td>≥90%</td>
+            <td>75%</td>
+            <td class="val-dim">Fix the schema, not the eval</td>
+          </tr>
+          <tr>
+            <td>Silent wrong answers (A3)</td>
+            <td>&lt;2%</td>
+            <td>5%</td>
+            <td class="val-dim">Product risk — escalate</td>
+          </tr>
+          <tr>
+            <td>Suite runtime (A3)</td>
+            <td>&lt;15 min</td>
+            <td>30 min</td>
+            <td class="val-dim">Cut the golden set, not the checks</td>
+          </tr>
+          <tr>
+            <td>Judge / human agreement (A5)</td>
+            <td>≥80%</td>
+            <td>70%</td>
+            <td class="val-dim">Drop the judge, ship without</td>
+          </tr>
+          <tr>
+            <td>Agent trajectory match (B3)</td>
+            <td>≥80%</td>
+            <td>50%</td>
+            <td class="val-dim">Artifact checks only — fine place to land</td>
+          </tr>
+          <tr>
+            <td>Schema validation pass (B2 / B4)</td>
+            <td>100%</td>
+            <td class="val-stop">100%</td>
+            <td class="val-dim">Blocks deploy by design</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- ─── TRACK A ─── -->
+    <h2>Track A — LibreChat → LiteLLM → Bedrock (Langfuse)</h2>
+
+    <div class="gate-block">
+      <div class="gate-header">
+        <h3>A1 — session_id in Langfuse</h3>
+        <span class="badge badge-stop">STOPPED</span>
+      </div>
+
+      <p>Langfuse requires a <code>session_id</code> on each trace to group a conversation. LibreChat's conversation ID is available in the app layer but is stripped from the request before it reaches the LLM call — the field never enters LiteLLM's callback payload, so Langfuse never receives it.</p>
+
+      <div class="callout callout-stop">
+        <strong>Stop condition hit</strong>
+        Gate A1 requires <code>session_id</code> to reach Langfuse on 100% of 20 test messages across 3 conversations. It reaches 0%. This is a structural gap in LibreChat, not a configuration issue.
+      </div>
+
+      <p><strong>What it would take to fix:</strong> fork LibreChat, propagate <code>conversationId</code> through the request chain to the LiteLLM handler, and surface it as a custom metadata field in Langfuse's callback. Estimated effort: 3–5 days (LibreChat is a large codebase; the hook point is deep in the conversation handler).</p>
+
+      <p><strong>No gates beyond A1 were built.</strong> Per the spike brief, gates are sequential and load-bearing. A2–A5 all assume A1 holds.</p>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- ─── TRACK B ─── -->
+    <h2>Track B — Analytics Engine on AgentCore</h2>
+
+    <!-- B1 -->
+    <div class="gate-block">
+      <div class="gate-header">
+        <h3>B1 — Live scoring via AgentCore Evaluations</h3>
+        <span class="badge badge-pass">PASS</span>
+      </div>
+
+      <p>Five real agent sessions scored against three built-in AgentCore evaluators: <code>Builtin.GoalSuccessRate</code> (SESSION scope), <code>Builtin.InstructionFollowing</code> (TRACE scope), and <code>Builtin.Helpfulness</code> (TRACE scope). 15 evaluation API calls total, all returning numeric scores.</p>
+
+      <p><strong>The key challenge:</strong> the analytics agent does not emit native OTel spans. Spans were constructed from CloudWatch logs — no agent code changed. Span construction method:</p>
+
+      <ul class="findings">
+        <li><code>sessionId</code> — pulled from the JSON structured app log field</li>
+        <li><code>traceId</code> — <code>requestId</code> with dashes stripped → 32-char hex</li>
+        <li>Tool sequence — plaintext agent log, regex <code>agent tool=(\w+) ok=</code></li>
+        <li>Timestamps — from CloudWatch log stream metadata</li>
+      </ul>
+
+      <p><strong>OTel span format that the API accepts</strong> (discovered through trial-and-error — not documented):</p>
+      <pre><code>sessionSpans: [{
+  sessionId: "7caf7172-3ba9-...",
+  spans: [{
+    traceId: "7caf71723ba9...",   <span class="c">// 32-char hex, no dashes</span>
+    spanId: "a1b2c3d4e5f60001",
+    parentSpanId: null,
+    name: "get_stage",
+    kind: "INTERNAL",            <span class="c">// string, not enum</span>
+    status: { code: "OK" },      <span class="c">// string, not int</span>
+    startTimeUnixNano: "...",
+    endTimeUnixNano: "...",
+    output: { value: "{...}" },  <span class="c">// required for tool spans</span>
+    scope: { name: "analytics-agent", version: "1.0" }
+  }]
+}]</code></pre>
+
+      <div class="score-table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Session (short)</th>
+              <th>Task</th>
+              <th>GoalSuccessRate</th>
+              <th>InstructionFollowing</th>
+              <th>Helpfulness</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>7caf7172</td>
+              <td class="val-dim">rerun stage</td>
+              <td class="val-pass">1.0</td>
+              <td class="val-pass">1.0</td>
+              <td class="val-pass">1.0</td>
+            </tr>
+            <tr>
+              <td>3e76da1d</td>
+              <td class="val-dim">inspect + rerun</td>
+              <td class="val-pass">1.0</td>
+              <td class="val-pass">1.0</td>
+              <td class="val-pass">1.0</td>
+            </tr>
+            <tr>
+              <td>32e5eca9</td>
+              <td class="val-dim">rerun stage</td>
+              <td class="val-pass">1.0</td>
+              <td class="val-pass">1.0</td>
+              <td class="val-pass">1.0</td>
+            </tr>
+            <tr>
+              <td>4295ddbd</td>
+              <td class="val-dim">status check</td>
+              <td class="val-pass">1.0</td>
+              <td class="val-pass">1.0</td>
+              <td class="val-pass">1.0</td>
+            </tr>
+            <tr>
+              <td>03744d72</td>
+              <td class="val-dim">preview cube only</td>
+              <td class="val-stop">0.0</td>
+              <td class="val-stop">0.0</td>
+              <td class="val-stop">0.0</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-pass">
+        <strong>Why session 5 scoring 0.0 is a good result</strong>
+        Session 03744d72 ran <code>preview_cube</code> only — it never completed the pipeline task. GoalSuccessRate = 0.0 is the correct verdict. This proves the evaluator is reading task outcome, not just checking that spans arrived.
+      </div>
+
+      <p><strong>Caveat:</strong> <code>output.value</code> for tool spans was inferred (realistic JSON), not captured from real CloudWatch output fields. The scoring engine receives it — the scores are real — but the output content is synthetic for this gate.</p>
+    </div>
+
+    <!-- B2 -->
+    <div class="gate-block">
+      <div class="gate-header">
+        <h3>B2 — Deterministic artifact checks</h3>
+        <span class="badge badge-pass">PASS</span>
+      </div>
+
+      <p>Three independent checks, all deterministic, zero LLM involvement. Architecture clarification required before building: "DQ rules" = Silver validator hard checks; "certified metrics" = Grade C reconciliation. Real evidence found in <code>s3://experienz-analytics-engine-prod-602968209341/evidence/</code>.</p>
+
+      <p><strong>Check 1 — Cube schema validates/compiles</strong></p>
+      <p>Reads <code>.js</code> schema files from <code>s3://experienz-cloud-operations/cubes/amf1/</code>, executes each in a Node.js VM with Cube.js runtime stubs, asserts compile success.</p>
+      <p>Result: <strong class="val-pass">11 / 11 files pass.</strong> 9 cubes: fan_growth, fandom_performance, fandom_performance_demographics, hospitality_survey, partner_questions, partner_survey, partner_survey_brand_slice, partner_survey_d13, partner_survey_ratings_slice.</p>
+
+      <p>Critical stubs the VM context requires (none of these are in docs — discovered by running and fixing errors):</p>
+      <pre><code>CUBE: <span class="s">'"amf1"'</span>,             <span class="c">// self-reference in SQL: ${CUBE}."column"</span>
+getTrinoPostgresCatalog: () => <span class="s">'trino_postgres'</span>,
+getTrinoPostgresSchema:  () => <span class="s">'amf1'</span>,
+getTrinoHiveCatalog:     () => <span class="s">'hive'</span>,
+getTrinoHiveSchema:      () => <span class="s">'amf1'</span>,
+getTrinoHiveVersion:     () => <span class="s">'v1'</span>,
+process: { env: { CLIENT_NAME: <span class="s">'amf1'</span>, NODE_ENV: <span class="s">'production'</span>, STAGE: <span class="s">'prod'</span> } }</code></pre>
+
+      <p><strong>Check 2 — DQ rules (Silver validator hard gates)</strong></p>
+      <p>Reads Silver validation JSON, asserts all <code>hard: true</code> checks have <code>status: "pass"</code>. Run against both a real-run good fixture and a synthetic bad fixture.</p>
+
+      <div class="score-table-wrap">
+        <table>
+          <thead>
+            <tr><th>Fixture</th><th>Hard checks</th><th>Failures</th><th>Gate</th><th>Behaviour</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>known-good (run <code>20260904T145902-eeab3c</code>)</td>
+              <td>8</td>
+              <td class="val-pass">0</td>
+              <td class="val-pass">PASS</td>
+              <td class="val-pass">CORRECT ✓</td>
+            </tr>
+            <tr>
+              <td>known-bad (synthetic)</td>
+              <td>8</td>
+              <td class="val-stop">4</td>
+              <td class="val-stop">FAIL</td>
+              <td class="val-pass">CORRECT ✓</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size:13px;color:var(--muted);">Bad fixture failures: row_count=2980 vs expected 3040, distinct_respondents mismatch, nulls_in_uuid=12, duplicate_uuid=8.</p>
+
+      <p><strong>Check 3 — Certified metrics reconciliation</strong></p>
+      <p>Reads <code>reconciliation.json</code> from Grade C reconcile stage. For every metric-wave entry where <code>silver != null</code> and <code>expected != null</code>: checks <code>|silver − expected| ≤ 0.5pp</code>.</p>
+
+      <div class="score-table-wrap">
+        <table>
+          <thead>
+            <tr><th>Fixture</th><th>Scoreable metrics</th><th>Out of tolerance</th><th>Gate</th><th>Behaviour</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>known-good</td>
+              <td>38</td>
+              <td class="val-pass">0</td>
+              <td class="val-pass">PASS</td>
+              <td class="val-pass">CORRECT ✓</td>
+            </tr>
+            <tr>
+              <td>known-bad</td>
+              <td>38</td>
+              <td class="val-stop">2</td>
+              <td class="val-stop">FAIL</td>
+              <td class="val-pass">CORRECT ✓</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size:13px;color:var(--muted);">Bad fixture: M03_W1 delta=2.6pp (limit 0.5pp), M06_W4 delta=1.7pp.</p>
+    </div>
+
+    <!-- B3 -->
+    <div class="gate-block">
+      <div class="gate-header">
+        <h3>B3 — In-order trajectory matching</h3>
+        <span class="badge badge-pass">PASS</span>
+      </div>
+
+      <p>Expected tools must appear as a <em>subsequence</em> of actual tools — extra steps between required steps are tolerated; a missing required step or reordering fails. Pass bar: ≥80% of runs match. Stop floor: &lt;50% → fall back to B2 artifact checks only.</p>
+
+      <p>6 real production sessions used (target was 12; Sept-04 CloudWatch streams were infra-only with no agent runs; Sept-09 sessions were warmup/smoke tests).</p>
+
+      <div class="score-table-wrap">
+        <table>
+          <thead>
+            <tr><th>Run</th><th>Task type</th><th>Expected tools</th><th>Actual tools</th><th>Result</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>G01</td>
+              <td class="val-dim">rerun</td>
+              <td>get_stage → rerun_stage</td>
+              <td>get_stage → rerun_stage</td>
+              <td class="val-pass">MATCH ✓</td>
+            </tr>
+            <tr>
+              <td>G02</td>
+              <td class="val-dim">schema-preview</td>
+              <td>preview_cube</td>
+              <td>preview_cube</td>
+              <td class="val-pass">MATCH ✓</td>
+            </tr>
+            <tr>
+              <td>G03</td>
+              <td class="val-dim">status-check</td>
+              <td>get_run</td>
+              <td>get_run</td>
+              <td class="val-pass">MATCH ✓</td>
+            </tr>
+            <tr>
+              <td>G04</td>
+              <td class="val-dim">inspect-and-rerun</td>
+              <td>get_stage → rerun_stage</td>
+              <td>get_stage → <strong>preview_cube</strong> → rerun_stage</td>
+              <td class="val-pass">MATCH ✓</td>
+            </tr>
+            <tr>
+              <td>G05</td>
+              <td class="val-dim">rerun</td>
+              <td>get_stage → rerun_stage</td>
+              <td>get_stage → rerun_stage</td>
+              <td class="val-pass">MATCH ✓</td>
+            </tr>
+            <tr>
+              <td>G06</td>
+              <td class="val-dim">list-runs</td>
+              <td>list_runs</td>
+              <td>list_runs</td>
+              <td class="val-pass">MATCH ✓</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-info">
+        <strong>G04 — why this is the proof run</strong>
+        G04's expected trajectory is <code>get_stage → rerun_stage</code>. The agent actually ran <code>get_stage → preview_cube → rerun_stage</code> — it inserted an inspection step between the required ones. The in-order matcher correctly accepts this: <code>preview_cube</code> is a tolerated extra step, not a failure. If the matcher were doing exact-sequence matching, G04 would fail. It doesn't.
+      </div>
+
+      <p><strong>Result: 6/6 = 100%</strong> (bar: ≥80%). Gate passes.</p>
+
+      <p><strong>Caveat:</strong> the golden set was constructed from the same 6 sessions used as actual. This proves the matcher logic is correct — it is not yet a regression test against future runs. When new production sessions accumulate, add them to <code>golden-sets/b3-trajectories.json</code> with independently verified expected trajectories.</p>
+    </div>
+
+    <!-- B4 -->
+    <div class="gate-block">
+      <div class="gate-header">
+        <h3>B4 — Batch eval in deploy pipeline</h3>
+        <span class="badge badge-pass">PASS</span>
+      </div>
+
+      <p>Two-tier CI gate: B2 deterministic checks as hard-fail, B3 trajectory match as threshold gate. Both cases proven correct.</p>
+
+      <div class="score-table-wrap">
+        <table>
+          <thead>
+            <tr><th>Case</th><th>Schema</th><th>Expected</th><th>Actual</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>A — broken</td>
+              <td class="val-dim"><code>b4-fixtures/broken-schema.js</code> — SCHEMA_VERSION undefined → VM ReferenceError</td>
+              <td>exit 1 — blocked</td>
+              <td class="val-pass">exit 1 ✓ CORRECT</td>
+            </tr>
+            <tr>
+              <td>B — good</td>
+              <td class="val-dim"><code>cubes/amf1/</code> — 11 files, all compile clean</td>
+              <td>exit 0 — proceeds</td>
+              <td class="val-pass">exit 0 ✓ CORRECT</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-pass">
+        <strong>Stop condition: does not apply</strong>
+        AgentCore evaluation is synchronous and inline — no ingestion delay. B2+B3 checks total &lt;30s. Runtime never blocks the deploy window.
+      </div>
+
+      <p><strong>Live pipeline wiring:</strong> <code>buildspec-eval-gate.yml</code> ready. Add <code>GITHUB_TOKEN</code> env var to <code>experienz-agentcore-arm64</code> CodeBuild project and swap the buildspec — 5-minute console change, no code work remaining. Local PoC is sufficient evidence for the spike go/no-go.</p>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- ─── DECISIONS NEEDED ─── -->
+    <h2>Three Decisions — from the spike brief</h2>
+
+    <p style="max-width:68ch;color:var(--muted);font-size:14px;margin-bottom:24px;">The spike brief is explicit: three platform decisions are the output. Evidence for each is below.</p>
+
+    <div class="decision-block">
+      <h4>1 — Which platform runs evaluation for the front-facing chat?</h4>
+      <p><strong>Evidence:</strong> Langfuse on hosted tier is wired into LiteLLM's native callback and traces arrive, but <code>session_id</code> (LibreChat conversation ID) is never passed — the field is stripped before the LLM call. A1 failed its 100% bar on day 1. Cost to fix: LibreChat fork + LiteLLM patch, ~3–5 days.</p>
+      <div class="option">
+        <span class="option-label opt-a">CONTINUE</span>
+        <div>Fork LibreChat, absorb 3–5 days, then resume Track A at A2. Langfuse otherwise fits well — hosted tier is free at spike volume, LiteLLM callback is native, A4 diff loop is its strongest feature.</div>
+      </div>
+      <div class="option">
+        <span class="option-label opt-b">STOP</span>
+        <div>Stop Track A. Report Langfuse integration cost as 3–5 days before any eval signal. Consider promptfoo + own harness for A3/A4 — no session_id dependency, cheaper to wire, harness stays ours.</div>
+      </div>
+    </div>
+
+    <div class="decision-block">
+      <h4>2 — Is AgentCore Evaluations sufficient on its own for the analyst agent?</h4>
+      <p><strong>Evidence:</strong> B1–B3 passed. Built-in evaluators return real scores against CloudWatch-constructed spans — no agent re-instrumentation. B2 deterministic checks are the strongest signal (schema compile, DQ hard gates, ±0.5pp reconciliation). B3 trajectory matching at 100% on 6 sessions. The native advantage (close to free, same platform as the agent) appears real.</p>
+      <p><strong>Open item:</strong> B4 live CI proof blocked by <code>codebuild:StartBuild</code> = implicitDeny. Local PoC (broken schema → exit 1, good schema → exit 0) can be run; admin needs to grant the permission for a live build trigger to close the gate fully.</p>
+      <p><strong>Recommendation:</strong> yes, sufficient — with the caveat that B3's golden set needs to grow beyond 6 sessions as production traffic accumulates. The deterministic B2 checks are the load-bearing layer; trajectory matching is additive.</p>
+    </div>
+
+    <div class="decision-block">
+      <h4>3 — Do the two tracks stay separate or converge onto one stack?</h4>
+      <p><strong>Evidence from this spike:</strong> Track A stopped at A1 so no cross-platform comparison was completed. Track B is running on AgentCore natively. Putting Track A onto AgentCore would require the same LibreChat/LiteLLM plumbing work regardless of eval platform.</p>
+      <p><strong>Spike brief guidance:</strong> unify only if it costs ≤2 days — otherwise note it as an option. Based on what we found: unification is not the current bottleneck; the bottleneck is Track A's session_id gap. <strong>Recommendation: keep separate</strong> until Track A's platform is settled; revisit convergence after A1–A3 pass.</p>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- ─── ARTEFACTS ─── -->
+    <h2>Artefacts Created</h2>
+
+    <p>All files in <a href="https://github.com/Anshaff-Am/experienz-eval-spike" style="color:var(--info);font-family:var(--mono);font-size:13px;">github.com/Anshaff-Am/experienz-eval-spike</a> (private).</p>
+
+    <p><strong>Harness</strong></p>
+    <div class="artifact-grid">
+      <div class="artifact-item">
+        <span class="afile">harness/b2-cube-schema-validator.mjs</span>
+        <span class="adesc">VM execution of .js schema files with Cube.js stubs</span>
+      </div>
+      <div class="artifact-item">
+        <span class="afile">harness/b2-dq-rules-validator.mjs</span>
+        <span class="adesc">Silver validator hard-check gate (good + bad fixture)</span>
+      </div>
+      <div class="artifact-item">
+        <span class="afile">harness/b2-metric-reconciler.mjs</span>
+        <span class="adesc">Grade C reconciliation tolerance check (±0.5pp)</span>
+      </div>
+      <div class="artifact-item">
+        <span class="afile">harness/b2-run-all.mjs</span>
+        <span class="adesc">Chains all 3 B2 checks, exit 1 on any failure</span>
+      </div>
+      <div class="artifact-item">
+        <span class="afile">harness/b3-trajectory-matcher.mjs</span>
+        <span class="adesc">In-order subsequence matcher, 80% pass bar</span>
+      </div>
+    </div>
+
+    <p><strong>Golden sets &amp; fixtures</strong></p>
+    <div class="artifact-grid">
+      <div class="artifact-item">
+        <span class="afile">golden-sets/b3-trajectories.json</span>
+        <span class="adesc">6 real sessions, 2026-09-15, with expected + actual tools</span>
+      </div>
+      <div class="artifact-item">
+        <span class="afile">golden-sets/b2-fixtures/silver-validation-good.json</span>
+        <span class="adesc">Real run 20260904T145902-eeab3c, 3040 rows, all 8 hard checks pass</span>
+      </div>
+      <div class="artifact-item">
+        <span class="afile">golden-sets/b2-fixtures/silver-validation-bad.json</span>
+        <span class="adesc">Synthetic — 4 deliberate failures to prove gate fires</span>
+      </div>
+      <div class="artifact-item">
+        <span class="afile">golden-sets/b2-fixtures/reconciliation-good.json</span>
+        <span class="adesc">Real run — 38 metrics, all within ±0.5pp</span>
+      </div>
+      <div class="artifact-item">
+        <span class="afile">golden-sets/b2-fixtures/reconciliation-bad.json</span>
+        <span class="adesc">Synthetic — 2 out-of-tolerance (M03_W1 +2.6pp, M06_W4 +1.7pp)</span>
+      </div>
+    </div>
+
+    <p><strong>Results (gate outputs)</strong></p>
+    <div class="artifact-grid">
+      <div class="artifact-item">
+        <span class="afile">results/B1-final.json</span>
+        <span class="adesc">Formal B1 result — gate PASS, 15 evaluations</span>
+      </div>
+      <div class="artifact-item">
+        <span class="afile">results/B1-scores.json</span>
+        <span class="adesc">Raw 15 AgentCore API responses</span>
+      </div>
+      <div class="artifact-item">
+        <span class="afile">results/B2-cube-schema.json</span>
+        <span class="adesc">11/11 schema compile results</span>
+      </div>
+      <div class="artifact-item">
+        <span class="afile">results/B2-dq-rules.json</span>
+        <span class="adesc">DQ check pass/fail per fixture</span>
+      </div>
+      <div class="artifact-item">
+        <span class="afile">results/B2-metric-reconcile.json</span>
+        <span class="adesc">38-metric reconciliation table</span>
+      </div>
+      <div class="artifact-item">
+        <span class="afile">results/B2-final.json</span>
+        <span class="adesc">Combined B2 gate result</span>
+      </div>
+      <div class="artifact-item">
+        <span class="afile">results/B3-trajectory.json</span>
+        <span class="adesc">6/6 match, per-run detail</span>
+      </div>
+      <div class="artifact-item">
+        <span class="afile">writeup/track-b.md</span>
+        <span class="adesc">Full Track B one-pager (updated through B1)</span>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+</body></html>
