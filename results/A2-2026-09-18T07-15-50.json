@@ -1,0 +1,238 @@
+{
+  "gate": "A2",
+  "runAt": "2026-09-18T07:15:50.599Z",
+  "tracesTotal": 30,
+  "allToolCalls": {
+    "cube_query_mcp_experienz-tools": 24,
+    "render_chart_mcp_experienz-tools": 5,
+    "cube_meta_mcp_experienz-tools": 9,
+    "form_meta_mcp_experienz-tools": 1,
+    "form_query_mcp_experienz-tools": 1,
+    "time_context_mcp_experienz-tools": 3,
+    "supplier_directory_mcp_experienz-tools": 1,
+    "kb_query_mcp_experienz-tools": 7
+  },
+  "cubeQueryTotal": 24,
+  "cubeQueryStructured": 24,
+  "cubeQueryUnstructured": 0,
+  "extractionRatePct": 100,
+  "pass": true,
+  "detail": [
+    {
+      "traceId": "72bb5c88",
+      "name": "cube_query_mcp_experienz-tools",
+      "structured": true,
+      "measures": 1,
+      "dims": 1,
+      "filters": 2,
+      "args": "{\"dimensions\":[\"activity.supplier\"],\"filters\":[{\"member\":\"activity.emission\",\"operator\":\"set\"},{\"member\":\"activity.supplier\",\"operator\":\"set\"}],\"limit\":5,\"measures\":[\"activity.emission\"],\"order\":[[\"activity.emission\",\"desc\"]],\"segments\":[\"activity.ghg\"],\"timeDimensions\":[{\"dateRange\":[\"2024-01-01\",\""
+    },
+    {
+      "traceId": "a6b0d3d3",
+      "name": "cube_query_mcp_experienz-tools",
+      "structured": true,
+      "measures": 1,
+      "dims": 0,
+      "filters": 1,
+      "args": "{\"filters\":[{\"member\":\"activity.emission\",\"operator\":\"set\"}],\"measures\":[\"activity.emission\"],\"segments\":[\"activity.ghg\"],\"timeDimensions\":[{\"dateRange\":[\"2022-01-01\",\"2024-12-31\"],\"dimension\":\"activity.date\",\"granularity\":\"year\"}],\"order\":[[\"activity.date\",\"asc\"]]}"
+    },
+    {
+      "traceId": "5e15344e",
+      "name": "cube_query_mcp_experienz-tools",
+      "structured": true,
+      "measures": 1,
+      "dims": 0,
+      "filters": 1,
+      "args": "{\"filters\":[{\"member\":\"activity.emission\",\"operator\":\"set\"}],\"measures\":[\"activity.emission\"],\"segments\":[\"activity.ghg\"],\"timeDimensions\":[{\"dateRange\":[\"2024-01-01\",\"2024-12-31\"],\"dimension\":\"activity.date\"}]}"
+    },
+    {
+      "traceId": "64c5044a",
+      "name": "cube_query_mcp_experienz-tools",
+      "structured": true,
+      "measures": 1,
+      "dims": 0,
+      "filters": 1,
+      "args": "{\"measures\":[\"activity.emission\"],\"segments\":[\"activity.scope1\"],\"filters\":[{\"member\":\"activity.emission\",\"operator\":\"set\"}],\"timeDimensions\":[{\"dimension\":\"activity.date\",\"dateRange\":[\"2024-01-01\",\"2024-12-31\"]}]}"
+    },
+    {
+      "traceId": "d51187c1",
+      "name": "cube_query_mcp_experienz-tools",
+      "structured": true,
+      "measures": 1,
+      "dims": 1,
+      "filters": 2,
+      "args": "{\"measures\":[\"activity.emission\"],\"dimensions\":[\"activity.supplier\"],\"segments\":[\"activity.ghg\"],\"filters\":[{\"member\":\"activity.supplier\",\"operator\":\"set\"},{\"member\":\"activity.emission\",\"operator\":\"set\"}],\"order\":{\"activity.emission\":\"desc\"},\"limit\":10}"
+    },
+    {
+      "traceId": "cae6de74",
+      "name": "cube_query_mcp_experienz-tools",
+      "structured": true,
+      "measures": 1,
+      "dims": 1,
+      "filters": 1,
+      "args": "{\"dimensions\":[\"activity.date\"],\"filters\":[{\"member\":\"activity.emission\",\"operator\":\"set\"}],\"measures\":[\"activity.emission\"],\"timeDimensions\":[{\"dimension\":\"activity.date\",\"granularity\":\"year\"}],\"order\":{\"activity.date\":\"asc\"}}"
+    },
+    {
+      "traceId": "cae6de74",
+      "name": "cube_query_mcp_experienz-tools",
+      "structured": true,
+      "measures": 1,
+      "dims": 1,
+      "filters": 4,
+      "args": "{\"measures\":[\"activity.emission\"],\"dimensions\":[\"activity.supplier\"],\"segments\":[\"activity.scope3\"],\"filters\":[{\"member\":\"activity.activity\",\"operator\":\"startsWith\",\"values\":[\"Supplier\"]},{\"member\":\"activity.supplier\",\"operator\":\"set\"},{\"member\":\"activity.event\",\"operator\":\"contains\",\"values\":[\"Brit"
+    },
+    {
+      "traceId": "cae6de74",
+      "name": "cube_query_mcp_experienz-tools",
+      "structured": true,
+      "measures": 1,
+      "dims": 1,
+      "filters": 4,
+      "args": "{\"dimensions\":[\"activity.supplier\"],\"filters\":[{\"member\":\"activity.activity\",\"operator\":\"startsWith\",\"values\":[\"Supplier\"]},{\"member\":\"activity.supplier\",\"operator\":\"set\"},{\"member\":\"activity.event\",\"operator\":\"equals\",\"values\":[\"BGP\"]},{\"member\":\"activity.emission\",\"operator\":\"set\"}],\"measures\":[\"a"
+    },
+    {
+      "traceId": "cae6de74",
+      "name": "cube_query_mcp_experienz-tools",
+      "structured": true,
+      "measures": 1,
+      "dims": 1,
+      "filters": 1,
+      "args": "{\"dimensions\":[\"activity.event\"],\"measures\":[\"activity.emission\"],\"filters\":[{\"member\":\"activity.emission\",\"operator\":\"set\"}],\"order\":{\"activity.emission\":\"desc\"}}"
+    },
+    {
+      "traceId": "0edf440d",
+      "name": "cube_query_mcp_experienz-tools",
+      "structured": true,
+      "measures": 3,
+      "dims": 0,
+      "filters": 2,
+      "args": "{\"measures\":[\"activity.emission\",\"activity.spectatorCount\",\"activity.emissionPerSpectator\"],\"filters\":[{\"member\":\"activity.ghgCategory\",\"operator\":\"contains\",\"values\":[\"Fan Travel\"]},{\"member\":\"activity.emission\",\"operator\":\"set\"}],\"segments\":[\"activity.scope3\"],\"limit\":5}"
+    },
+    {
+      "traceId": "0edf440d",
+      "name": "cube_query_mcp_experienz-tools",
+      "structured": true,
+      "measures": 2,
+      "dims": 2,
+      "filters": 2,
+      "args": "{\"dimensions\":[\"activity.type\",\"activity.efSource\"],\"filters\":[{\"member\":\"activity.ghgCategory\",\"operator\":\"contains\",\"values\":[\"Fan Travel\"]},{\"member\":\"activity.emission\",\"operator\":\"set\"}],\"measures\":[\"activity.emission\",\"activity.amount\"],\"order\":{\"activity.emission\":\"desc\"},\"segments\":[\"activit"
+    },
+    {
+      "traceId": "5887e87e",
+      "name": "cube_query_mcp_experienz-tools",
+      "structured": true,
+      "measures": 1,
+      "dims": 0,
+      "filters": 1,
+      "args": "{\"measures\":[\"activity.emission\"],\"segments\":[\"activity.scope3\"],\"filters\":[{\"member\":\"activity.emission\",\"operator\":\"set\"}],\"timeDimensions\":[{\"dimension\":\"activity.date\",\"granularity\":\"year\",\"dateRange\":[\"2024-01-01\",\"2026-12-31\"]}],\"order\":{\"activity.date\":\"asc\"}}"
+    },
+    {
+      "traceId": "319960c7",
+      "name": "cube_query_mcp_experienz-tools",
+      "structured": true,
+      "measures": 1,
+      "dims": 1,
+      "filters": 1,
+      "args": "{\"measures\":[\"activity.emission\"],\"dimensions\":[\"activity.ghgCategory\"],\"segments\":[\"activity.scope3\"],\"filters\":[{\"member\":\"activity.emission\",\"operator\":\"set\"}],\"order\":{\"activity.emission\":\"desc\"}}"
+    },
+    {
+      "traceId": "0f95888d",
+      "name": "cube_query_mcp_experienz-tools",
+      "structured": true,
+      "measures": 1,
+      "dims": 1,
+      "filters": 1,
+      "args": "{\"dimensions\":[\"activity.ghgCategory\"],\"filters\":[{\"member\":\"activity.emission\",\"operator\":\"set\"}],\"measures\":[\"activity.emission\"],\"order\":[[\"activity.emission\",\"desc\"]],\"segments\":[\"activity.scope3\"],\"timeDimensions\":[{\"dateRange\":[\"2024-01-01\",\"2024-12-31\"],\"dimension\":\"activity.date\"}]}"
+    },
+    {
+      "traceId": "2789503a",
+      "name": "cube_query_mcp_experienz-tools",
+      "structured": true,
+      "measures": 1,
+      "dims": 0,
+      "filters": 2,
+      "args": "{\"filters\":[{\"member\":\"activity.emission\",\"operator\":\"set\"},{\"member\":\"activity.event\",\"operator\":\"contains\",\"values\":[\"British Grand Prix\"]}],\"measures\":[\"activity.emissionPerSpectator\"],\"segments\":[\"activity.ghg\"],\"timeDimensions\":[{\"dateRange\":[\"2024-01-01\",\"2024-12-31\"],\"dimension\":\"activity.dat"
+    },
+    {
+      "traceId": "2789503a",
+      "name": "cube_query_mcp_experienz-tools",
+      "structured": true,
+      "measures": 1,
+      "dims": 0,
+      "filters": 2,
+      "args": "{\"filters\":[{\"member\":\"activity.event\",\"operator\":\"equals\",\"values\":[\"BGP\"]},{\"member\":\"activity.spectatorCount\",\"operator\":\"set\"}],\"measures\":[\"activity.spectatorCount\"],\"timeDimensions\":[{\"dateRange\":[\"2024-01-01\",\"2024-12-31\"],\"dimension\":\"activity.date\"}]}"
+    },
+    {
+      "traceId": "2789503a",
+      "name": "cube_query_mcp_experienz-tools",
+      "structured": true,
+      "measures": 2,
+      "dims": 0,
+      "filters": 2,
+      "args": "{\"filters\":[{\"member\":\"activity.emission\",\"operator\":\"set\"},{\"member\":\"activity.event\",\"operator\":\"contains\",\"values\":[\"British Grand Prix\"]}],\"measures\":[\"activity.emission\",\"activity.spectatorCount\"],\"segments\":[\"activity.ghg\"],\"timeDimensions\":[{\"dateRange\":[\"2024-01-01\",\"2024-12-31\"],\"dimension\""
+    },
+    {
+      "traceId": "2789503a",
+      "name": "cube_query_mcp_experienz-tools",
+      "structured": true,
+      "measures": 1,
+      "dims": 1,
+      "filters": 2,
+      "args": "{\"dimensions\":[\"activity.event\"],\"filters\":[{\"member\":\"activity.emission\",\"operator\":\"set\"},{\"member\":\"activity.event\",\"operator\":\"set\"}],\"measures\":[\"activity.emission\"],\"segments\":[\"activity.ghg\"],\"timeDimensions\":[{\"dateRange\":[\"2024-01-01\",\"2024-12-31\"],\"dimension\":\"activity.date\"}],\"order\":[[\"a"
+    },
+    {
+      "traceId": "2789503a",
+      "name": "cube_query_mcp_experienz-tools",
+      "structured": true,
+      "measures": 2,
+      "dims": 0,
+      "filters": 2,
+      "args": "{\"filters\":[{\"member\":\"activity.emission\",\"operator\":\"set\"},{\"member\":\"activity.event\",\"operator\":\"equals\",\"values\":[\"BGP\"]}],\"measures\":[\"activity.emission\",\"activity.emissionPerSpectator\"],\"segments\":[\"activity.ghg\"],\"timeDimensions\":[{\"dateRange\":[\"2024-01-01\",\"2024-12-31\"],\"dimension\":\"activity."
+    },
+    {
+      "traceId": "5ed5b9ab",
+      "name": "cube_query_mcp_experienz-tools",
+      "structured": true,
+      "measures": 1,
+      "dims": 0,
+      "filters": 1,
+      "args": "{\"filters\":[{\"member\":\"activity.emission\",\"operator\":\"set\"}],\"measures\":[\"activity.emission\"],\"segments\":[\"activity.ghg\"],\"timeDimensions\":[{\"dateRange\":[\"2023-01-01\",\"2024-12-31\"],\"dimension\":\"activity.date\",\"granularity\":\"year\"}],\"order\":[[\"activity.date\",\"asc\"]]}"
+    },
+    {
+      "traceId": "9ea22a1a",
+      "name": "cube_query_mcp_experienz-tools",
+      "structured": true,
+      "measures": 1,
+      "dims": 1,
+      "filters": 1,
+      "args": "{\"measures\":[\"activity.emission\"],\"dimensions\":[\"activity.ghgScopeId\"],\"filters\":[{\"member\":\"activity.emission\",\"operator\":\"set\"}],\"segments\":[\"activity.ghg\"],\"timeDimensions\":[{\"dimension\":\"activity.date\",\"dateRange\":[\"2024-01-01\",\"2024-12-31\"]}],\"order\":[[\"activity.ghgScopeId\",\"asc\"]]}"
+    },
+    {
+      "traceId": "1ce20141",
+      "name": "cube_query_mcp_experienz-tools",
+      "structured": true,
+      "measures": 1,
+      "dims": 0,
+      "filters": 1,
+      "args": "{\"measures\":[\"activity.emission\"],\"segments\":[\"activity.ghg\"],\"filters\":[{\"member\":\"activity.emission\",\"operator\":\"set\"}],\"timeDimensions\":[{\"dimension\":\"activity.date\",\"dateRange\":[\"2024-01-01\",\"2024-12-31\"]}]}"
+    },
+    {
+      "traceId": "7b1e4395",
+      "name": "cube_query_mcp_experienz-tools",
+      "structured": true,
+      "measures": 1,
+      "dims": 1,
+      "filters": 2,
+      "args": "{\"dimensions\":[\"activity.ghgCategory\"],\"filters\":[{\"member\":\"activity.emission\",\"operator\":\"set\"},{\"member\":\"activity.ghgScopeId\",\"operator\":\"equals\",\"values\":[\"3\"]}],\"measures\":[\"activity.emission\"],\"order\":[[\"activity.emission\",\"desc\"]],\"segments\":[\"activity.scope3\"],\"timeDimensions\":[{\"dateRange\""
+    },
+    {
+      "traceId": "7b1e4395",
+      "name": "cube_query_mcp_experienz-tools",
+      "structured": true,
+      "measures": 1,
+      "dims": 1,
+      "filters": 1,
+      "args": "{\"measures\":[\"activity.emission\"],\"dimensions\":[\"activity.ghgScopeId\"],\"segments\":[\"activity.ghg\"],\"filters\":[{\"member\":\"activity.emission\",\"operator\":\"set\"}],\"timeDimensions\":[{\"dimension\":\"activity.date\",\"dateRange\":[\"2026-01-01\",\"2026-12-31\"]}],\"order\":[[\"activity.emission\",\"desc\"]]}"
+    }
+  ]
+}

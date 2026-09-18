@@ -1,0 +1,657 @@
+{
+  "gate": "A3",
+  "runAt": "2026-09-18T09:01:34.997Z",
+  "runtimeMin": 28.9,
+  "inScopeTotal": 30,
+  "inPass": 20,
+  "inFail": 10,
+  "outScopeTotal": 10,
+  "outPass": 8,
+  "outFail": 2,
+  "inAccuracyPct": 66.7,
+  "silentWrongRatePct": 20,
+  "passAccuracy": false,
+  "passSilentWrong": false,
+  "passRuntime": false,
+  "overallPass": false,
+  "perQuestion": [
+    {
+      "id": "Q01",
+      "scope": "in",
+      "pass": true,
+      "traceId": "fae6cb36f460cb9b43caf1be40c958f8"
+    },
+    {
+      "id": "Q02",
+      "scope": "in",
+      "pass": false,
+      "reason": "row 0 key=activity.ghgScopeId actual=undefined ref=1",
+      "traceId": "6ab424c9d6c56824d5702730cf679029",
+      "agentQuery": {
+        "measures": [
+          "activity.emission"
+        ],
+        "dimensions": [
+          "activity.ghgScope"
+        ],
+        "segments": [
+          "activity.ghg"
+        ],
+        "filters": [
+          {
+            "member": "activity.emission",
+            "operator": "set"
+          },
+          {
+            "member": "activity.ghgScope",
+            "operator": "set"
+          }
+        ],
+        "timeDimensions": [
+          {
+            "dimension": "activity.date",
+            "dateRange": [
+              "2024-01-01",
+              "2024-12-31"
+            ]
+          }
+        ],
+        "order": [
+          [
+            "activity.ghgScope",
+            "asc"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "Q03",
+      "scope": "in",
+      "pass": true,
+      "traceId": "d4718f0c66d5300437675669bba9326f"
+    },
+    {
+      "id": "Q04",
+      "scope": "in",
+      "pass": true,
+      "traceId": "b658c3b9e1d0177a548d9a5ae29b5170"
+    },
+    {
+      "id": "Q05",
+      "scope": "in",
+      "pass": true,
+      "traceId": "2cac05a54b3f4d4c2aebdc8c5eb29e4c"
+    },
+    {
+      "id": "Q06",
+      "scope": "in",
+      "pass": true,
+      "traceId": "fa16cd4315bf4de3bf6aaa248176e6c9"
+    },
+    {
+      "id": "Q07",
+      "scope": "in",
+      "pass": true,
+      "traceId": "d65ca4675cb95d117290eb2ae1967343"
+    },
+    {
+      "id": "Q08",
+      "scope": "in",
+      "pass": true,
+      "traceId": "49d5abdd3d7a309389ae6fab62729a72"
+    },
+    {
+      "id": "Q09",
+      "scope": "in",
+      "pass": true,
+      "traceId": "e87716a267621be770d53d567c820613"
+    },
+    {
+      "id": "Q10",
+      "scope": "in",
+      "pass": false,
+      "reason": "row count: actual=4 ref=1",
+      "traceId": "c11befdc355c0204ae74c25a60743d3c",
+      "agentQuery": {
+        "measures": [
+          "activity.emission"
+        ],
+        "dimensions": [
+          "activity.event"
+        ],
+        "filters": [
+          {
+            "member": "activity.emission",
+            "operator": "set"
+          }
+        ],
+        "timeDimensions": [
+          {
+            "dimension": "activity.date",
+            "dateRange": [
+              "2024-01-01",
+              "2024-12-31"
+            ]
+          }
+        ],
+        "order": {
+          "activity.emission": "desc"
+        }
+      }
+    },
+    {
+      "id": "Q11",
+      "scope": "in",
+      "pass": false,
+      "reason": "row count: actual=3 ref=4",
+      "traceId": "2f281a11109a2d4c0cf02e76b3c9bc09",
+      "agentQuery": {
+        "measures": [
+          "activity.emissionPerSpectator"
+        ],
+        "dimensions": [
+          "activity.event"
+        ],
+        "filters": [
+          {
+            "member": "activity.emissionPerSpectator",
+            "operator": "set"
+          },
+          {
+            "member": "activity.event",
+            "operator": "set"
+          }
+        ],
+        "timeDimensions": [
+          {
+            "dimension": "activity.date",
+            "dateRange": [
+              "2024-01-01",
+              "2024-12-31"
+            ]
+          }
+        ],
+        "order": [
+          [
+            "activity.emissionPerSpectator",
+            "desc"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "Q12",
+      "scope": "in",
+      "pass": true,
+      "traceId": "cd9b3cb1ef524ed7bc619310d03ec7a7"
+    },
+    {
+      "id": "Q13",
+      "scope": "in",
+      "pass": true,
+      "traceId": "5f41adccbbe83c355f7179350b99feb2"
+    },
+    {
+      "id": "Q14",
+      "scope": "in",
+      "pass": true,
+      "traceId": "930f91b194659f8995a24e52826dfb76"
+    },
+    {
+      "id": "Q15",
+      "scope": "in",
+      "pass": true,
+      "traceId": "550390573402c19491f2896f18de076c"
+    },
+    {
+      "id": "Q16",
+      "scope": "in",
+      "pass": false,
+      "reason": "not arrays (actual=\"cube_query upstream error 400\", ref={\"data\":{\"client\":\"silverstone\",\"stage\":\"prod\",\"infrastructureStage\":\"prod\",\"row)",
+      "traceId": "0259c53b4aaf9a1b856eb90702117a38",
+      "agentQuery": {
+        "measures": [
+          "activity.emission"
+        ],
+        "filters": [
+          {
+            "member": "activity.event",
+            "operator": "contains",
+            "values": [
+              "British Grand Prix"
+            ]
+          },
+          {
+            "member": "activity.emission",
+            "operator": "set"
+          }
+        ],
+        "timeDimensions": [
+          {
+            "dimension": "activity.date",
+            "dateRange": [
+              "2024-01-01",
+              "2024-12-31"
+            ]
+          }
+        ],
+        "segments": [
+          "activity.ghg"
+        ]
+      }
+    },
+    {
+      "id": "Q17",
+      "scope": "in",
+      "pass": true,
+      "traceId": "cef225523dda919479eaf26e6eb89083"
+    },
+    {
+      "id": "Q18",
+      "scope": "in",
+      "pass": true,
+      "traceId": "7724a60848421e61b1985615b8cef379"
+    },
+    {
+      "id": "Q19",
+      "scope": "in",
+      "pass": true,
+      "traceId": "89512ec4f3f85fa32702a36e756eb793"
+    },
+    {
+      "id": "Q20",
+      "scope": "in",
+      "pass": false,
+      "reason": "not arrays (actual=\"cube_query upstream error 400\", ref={\"data\":{\"client\":\"silverstone\",\"stage\":\"prod\",\"infrastructureStage\":\"prod\",\"row)",
+      "traceId": "17f6ca8c74ef44ad3c17a151e56c41cf",
+      "agentQuery": {
+        "measures": [
+          "activity.emission"
+        ],
+        "filters": [
+          {
+            "member": "activity.activity",
+            "operator": "contains",
+            "values": [
+              "Spectator"
+            ]
+          },
+          {
+            "member": "activity.emission",
+            "operator": "set"
+          }
+        ],
+        "timeDimensions": [
+          {
+            "dimension": "activity.date",
+            "dateRange": [
+              "2024-01-01",
+              "2024-12-31"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Q21",
+      "scope": "in",
+      "pass": false,
+      "reason": "not arrays (actual=\"cube_query upstream error 400\", ref={\"data\":{\"client\":\"silverstone\",\"stage\":\"prod\",\"infrastructureStage\":\"prod\",\"row)",
+      "traceId": "e129c1b4e6793fc33647fafbece7855c",
+      "agentQuery": {
+        "measures": [
+          "activity.emission",
+          "activity.spectatorCount"
+        ],
+        "filters": [
+          {
+            "member": "activity.event",
+            "operator": "contains",
+            "values": [
+              "British Grand Prix"
+            ]
+          },
+          {
+            "member": "activity.emission",
+            "operator": "set"
+          }
+        ],
+        "timeDimensions": [
+          {
+            "dimension": "activity.date",
+            "dateRange": [
+              "2024-01-01",
+              "2024-12-31"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "Q22",
+      "scope": "in",
+      "pass": true,
+      "traceId": "00fc3f2b3a6d8656c8ef9af1ab98e721"
+    },
+    {
+      "id": "Q23",
+      "scope": "in",
+      "pass": true,
+      "traceId": "e4ef99f633646f1c1101e1dadceeea45"
+    },
+    {
+      "id": "Q24",
+      "scope": "in",
+      "pass": false,
+      "reason": "row count: actual=0 ref=129",
+      "traceId": "c02b6b7ac395279d3810293537a80d42",
+      "agentQuery": {
+        "measures": [
+          "activity.emission"
+        ],
+        "dimensions": [
+          "activity.ghgCategory"
+        ],
+        "segments": [
+          "activity.scope3"
+        ],
+        "filters": [
+          {
+            "member": "activity.emission",
+            "operator": "set"
+          },
+          {
+            "member": "activity.event",
+            "operator": "contains",
+            "values": [
+              "British Grand Prix"
+            ]
+          },
+          {
+            "member": "activity.activity",
+            "operator": "startsWith",
+            "values": [
+              "Supplier"
+            ]
+          }
+        ],
+        "order": [
+          [
+            "activity.emission",
+            "desc"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "Q25",
+      "scope": "in",
+      "pass": false,
+      "reason": "row count: actual=5 ref=14",
+      "traceId": "9e8eb7d241064c9a01b10756db0e0178",
+      "agentQuery": {
+        "measures": [
+          "activity.emission"
+        ],
+        "segments": [
+          "activity.scope3"
+        ],
+        "timeDimensions": [
+          {
+            "dimension": "activity.date",
+            "granularity": "year"
+          }
+        ],
+        "filters": [
+          {
+            "member": "activity.emission",
+            "operator": "set"
+          }
+        ],
+        "order": {
+          "activity.date": "desc"
+        },
+        "limit": 5
+      }
+    },
+    {
+      "id": "Q26",
+      "scope": "in",
+      "pass": true,
+      "traceId": "2da2d5f235a68b11bd757c21ace9d3b6"
+    },
+    {
+      "id": "Q27",
+      "scope": "in",
+      "pass": false,
+      "reason": "row count: actual=46 ref=14",
+      "traceId": "e4f800bb8de50624ccf819cbf9722bd9",
+      "agentQuery": {
+        "measures": [
+          "activity.emission"
+        ],
+        "dimensions": [
+          "activity.ghgCategory"
+        ],
+        "segments": [
+          "activity.scope3"
+        ],
+        "timeDimensions": [
+          {
+            "dimension": "activity.date",
+            "granularity": "year"
+          }
+        ],
+        "filters": [
+          {
+            "member": "activity.emission",
+            "operator": "set"
+          }
+        ],
+        "order": [
+          [
+            "activity.date",
+            "asc"
+          ],
+          [
+            "activity.emission",
+            "desc"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "Q28",
+      "scope": "in",
+      "pass": false,
+      "reason": "row 0 key=activity.emission actual=undefined ref=269244.41068535147",
+      "traceId": "08245fb5450b6a4e7c527b30e78787c2",
+      "agentQuery": {
+        "measures": [
+          "activity.emissionPerSpectator"
+        ],
+        "segments": [
+          "activity.ghg"
+        ],
+        "filters": [
+          {
+            "member": "activity.emission",
+            "operator": "set"
+          }
+        ]
+      }
+    },
+    {
+      "id": "Q29",
+      "scope": "in",
+      "pass": true,
+      "traceId": "6d32bbd919ff1f1857c6c76203ff05e0"
+    },
+    {
+      "id": "Q30",
+      "scope": "in",
+      "pass": true,
+      "traceId": "4992516fbf70831ee8514571f4ae95a0"
+    },
+    {
+      "id": "Q31",
+      "scope": "out",
+      "pass": true,
+      "traceId": "ddc10dfaf77dea08e485e28b9bb88449"
+    },
+    {
+      "id": "Q32",
+      "scope": "out",
+      "pass": true,
+      "traceId": "3c0fcdbbea2746cbdbcd94d21f46d5e8"
+    },
+    {
+      "id": "Q33",
+      "scope": "out",
+      "pass": true,
+      "traceId": "42f17b1cda6d51c573f7a234e9bfe1b9"
+    },
+    {
+      "id": "Q34",
+      "scope": "out",
+      "pass": true,
+      "traceId": "5c89c94919d0dfa8cfe5955dc439c17c"
+    },
+    {
+      "id": "Q35",
+      "scope": "out",
+      "pass": true,
+      "traceId": "179146858dc17aead8acfe33879b3cd0"
+    },
+    {
+      "id": "Q36",
+      "scope": "out",
+      "pass": true,
+      "traceId": "d762e183a468e68bccee736fd768c744"
+    },
+    {
+      "id": "Q37",
+      "scope": "out",
+      "pass": true,
+      "traceId": "b35d2ff40c632ac706ecc9718d436a6e"
+    },
+    {
+      "id": "Q38",
+      "scope": "out",
+      "pass": false,
+      "reason": "cube_query called on out-of-scope",
+      "traceId": "083e257393c3e3eef71dcb4f4e1d962c",
+      "cubeQueryCalls": [
+        {
+          "name": "cube_query_mcp_experienz-tools",
+          "args": {
+            "measures": [
+              "activity.emission"
+            ],
+            "segments": [
+              "activity.ghg"
+            ],
+            "filters": [
+              {
+                "member": "activity.emission",
+                "operator": "set"
+              }
+            ],
+            "timeDimensions": [
+              {
+                "dimension": "activity.date",
+                "granularity": "year"
+              }
+            ],
+            "order": [
+              [
+                "activity.date",
+                "asc"
+              ]
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "Q39",
+      "scope": "out",
+      "pass": true,
+      "traceId": "dcbfd3981912cfcaa7bd435ab320a202"
+    },
+    {
+      "id": "Q40",
+      "scope": "out",
+      "pass": false,
+      "reason": "cube_query called on out-of-scope",
+      "traceId": "ee0ce792f9d6b0de468cf7d12800d278",
+      "cubeQueryCalls": [
+        {
+          "name": "cube_query_mcp_experienz-tools",
+          "args": {
+            "dimensions": [
+              "activity.ghgScopeId"
+            ],
+            "filters": [
+              {
+                "member": "activity.emission",
+                "operator": "set"
+              }
+            ],
+            "measures": [
+              "activity.emission"
+            ],
+            "order": [
+              [
+                "activity.ghgScopeId",
+                "asc"
+              ]
+            ],
+            "segments": [
+              "activity.ghg"
+            ],
+            "timeDimensions": [
+              {
+                "dimension": "activity.date",
+                "dateRange": [
+                  "2026-01-01",
+                  "2026-12-31"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "cube_query_mcp_experienz-tools",
+          "args": {
+            "measures": [
+              "activity.emission"
+            ],
+            "segments": [
+              "activity.ghg"
+            ],
+            "filters": [
+              {
+                "member": "activity.emission",
+                "operator": "set"
+              }
+            ],
+            "timeDimensions": [
+              {
+                "dimension": "activity.date",
+                "granularity": "year"
+              }
+            ],
+            "order": [
+              [
+                "activity.date",
+                "desc"
+              ]
+            ],
+            "limit": 1
+          }
+        }
+      ]
+    }
+  ]
+}

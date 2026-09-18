@@ -1,448 +1,4400 @@
 {
-  "meta": {
-    "track": "A",
-    "client": "silverstone",
-    "stage": "prod",
-    "gate": "A3",
-    "description": "40-question golden set for ESG Ask AI — 30 in-scope, 10 deliberately out-of-scope. NEEDS HUMAN SIGN-OFF on every reference query and value before A3 runs.",
-    "signOffStatus": "DRAFT — not verified",
-    "floatTolerance": 0.5
+  "_meta": {
+    "tenant": "silverstone",
+    "cube": "activity",
+    "created": "2026-09-18",
+    "verified": false,
+    "note": "Reference queries drafted from real agent traces (2026-09-18). Results MUST be populated by running harness/fetch-a3-reference-results.mjs against the live Cube endpoint before A3 runs. Do not treat unverified results as ground truth.\nResults fetched 2026-09-18T07:21:38.479Z — UNVERIFIED. Human must check numbers before A3 gates.",
+    "schema": {
+      "measures": [
+        "activity.emission",
+        "activity.spectatorCount",
+        "activity.emissionPerSpectator"
+      ],
+      "dimensions": [
+        "activity.supplier",
+        "activity.ghgCategory",
+        "activity.ghgScopeId",
+        "activity.date",
+        "activity.event",
+        "activity.type",
+        "activity.efSource"
+      ],
+      "segments": [
+        "activity.ghg",
+        "activity.scope1",
+        "activity.scope2",
+        "activity.scope3"
+      ]
+    },
+    "resultsLastFetched": "2026-09-18T08:32:33.558Z"
   },
-  "cases": [
+  "questions": [
     {
-      "id": "in-01",
+      "id": "Q01",
       "scope": "in",
-      "question": "What were our total emissions last year?",
-      "expect": {
-        "measures": ["activity.emission"],
-        "filters": [],
-        "notes": "Headline tCO2e, no dimension breakdown. Year = currentYear-1 via time_context.",
-        "referenceValue": null,
-        "referenceMeasure": "activity.emission",
-        "NEEDS_VERIFICATION": true
-      }
-    },
-    {
-      "id": "in-02",
-      "scope": "in",
-      "question": "Break our footprint down by scope.",
-      "expect": {
-        "measures": ["activity.emission"],
-        "dimensions": ["activity.ghgScopeId"],
-        "notes": "Should return 3 rows: Scope 1, 2, 3.",
-        "referenceValue": null,
-        "NEEDS_VERIFICATION": true
-      }
-    },
-    {
-      "id": "in-03",
-      "scope": "in",
-      "question": "What is our Scope 1 total for this year?",
-      "expect": {
-        "measures": ["activity.emission"],
-        "segments": ["activity.scope1"],
-        "referenceValue": null,
-        "NEEDS_VERIFICATION": true
-      }
-    },
-    {
-      "id": "in-04",
-      "scope": "in",
-      "question": "What is our Scope 2 total for this year?",
-      "expect": {
-        "measures": ["activity.emission"],
-        "segments": ["activity.scope2"],
-        "referenceValue": null,
-        "NEEDS_VERIFICATION": true
-      }
-    },
-    {
-      "id": "in-05",
-      "scope": "in",
-      "question": "What is our Scope 3 total for this year?",
-      "expect": {
-        "measures": ["activity.emission"],
-        "segments": ["activity.scope3"],
-        "referenceValue": null,
-        "NEEDS_VERIFICATION": true
-      }
-    },
-    {
-      "id": "in-06",
-      "scope": "in",
-      "question": "Which suppliers are our biggest emission contributors?",
-      "expect": {
-        "measures": ["activity.emission"],
-        "dimensions": ["activity.supplier"],
-        "segments": ["activity.ghg"],
-        "order": "activity.emission DESC",
-        "notes": "Must include ghg segment + supplier set filter to exclude unattributed rows.",
-        "referenceValue": null,
-        "NEEDS_VERIFICATION": true
-      }
-    },
-    {
-      "id": "in-07",
-      "scope": "in",
-      "question": "What is our biggest Scope 3 category?",
-      "expect": {
-        "measures": ["activity.emission"],
-        "dimensions": ["activity.ghgCategory"],
-        "segments": ["activity.scope3"],
-        "order": "activity.emission DESC",
-        "referenceValue": null,
-        "NEEDS_VERIFICATION": true
-      }
-    },
-    {
-      "id": "in-08",
-      "scope": "in",
-      "question": "How did our emissions change versus last year?",
-      "expect": {
-        "measures": ["activity.emission"],
-        "timeDimensions": [{ "dimension": "activity.date", "granularity": "year" }],
-        "notes": "One query, granularity year, 2-year range. Should return 2 rows.",
-        "referenceValue": null,
-        "NEEDS_VERIFICATION": true
-      }
-    },
-    {
-      "id": "in-09",
-      "scope": "in",
-      "question": "What are our emissions by event?",
-      "expect": {
-        "measures": ["activity.emission"],
-        "dimensions": ["activity.event"],
-        "referenceValue": null,
-        "NEEDS_VERIFICATION": true
-      }
-    },
-    {
-      "id": "in-10",
-      "scope": "in",
-      "question": "What is our emission intensity per spectator?",
-      "expect": {
-        "measures": ["activity.emissionPerSpectator"],
-        "notes": "Precomputed measure — do not compute manually.",
-        "referenceValue": null,
-        "NEEDS_VERIFICATION": true
-      }
-    },
-    {
-      "id": "in-11",
-      "scope": "in",
-      "question": "How many suppliers submitted data last year?",
-      "expect": {
-        "measures": ["activity.emission"],
-        "dimensions": ["activity.supplier"],
-        "segments": ["activity.scope3"],
-        "filters": [
-          { "member": "activity.activity", "operator": "startsWith", "values": ["Supplier"] },
-          { "member": "activity.supplier", "operator": "set" }
+      "category": "totals",
+      "question": "What were Silverstone's total greenhouse gas emissions in 2024?",
+      "referenceQuery": {
+        "measures": [
+          "activity.emission"
         ],
-        "notes": "Count = number of rows returned, not a measure.",
-        "referenceValue": null,
-        "NEEDS_VERIFICATION": true
-      }
+        "segments": [
+          "activity.ghg"
+        ],
+        "filters": [
+          {
+            "member": "activity.emission",
+            "operator": "set"
+          }
+        ],
+        "timeDimensions": [
+          {
+            "dimension": "activity.date",
+            "dateRange": [
+              "2024-01-01",
+              "2024-12-31"
+            ]
+          }
+        ]
+      },
+      "referenceResult": {
+        "data": {
+          "client": "silverstone",
+          "stage": "prod",
+          "infrastructureStage": "prod",
+          "rows": [
+            {
+              "activity.emission": "86415.193325230881009157"
+            }
+          ],
+          "rowCount": 1,
+          "shape": "scalar",
+          "annotation": {
+            "measures": {
+              "activity.emission": {
+                "title": "Activity Emission (mt-CO2e)",
+                "shortTitle": "Emission (mt-CO2e)",
+                "type": "number",
+                "drillMembers": [],
+                "drillMembersGrouped": {
+                  "measures": [],
+                  "dimensions": []
+                }
+              }
+            },
+            "dimensions": {},
+            "segments": {
+              "activity.ghg": {
+                "title": "Activity GHG",
+                "shortTitle": "GHG"
+              }
+            },
+            "timeDimensions": {}
+          },
+          "query": {
+            "measures": [
+              "activity.emission"
+            ],
+            "segments": [
+              "activity.ghg"
+            ],
+            "timeDimensions": [
+              {
+                "dimension": "activity.date",
+                "dateRange": [
+                  "2024-01-01",
+                  "2024-12-31"
+                ]
+              }
+            ],
+            "filters": [
+              {
+                "member": "activity.emission",
+                "operator": "set"
+              }
+            ]
+          }
+        },
+        "errorCode": null,
+        "errorDesc": null,
+        "message": null
+      },
+      "verified": false,
+      "fetchedAt": "2026-09-18T07:21:14.426Z"
     },
     {
-      "id": "in-12",
+      "id": "Q02",
       "scope": "in",
-      "question": "What are our total emissions broken down by fuel type?",
-      "expect": {
-        "measures": ["activity.emission"],
-        "dimensions": ["activity.type"],
-        "referenceValue": null,
-        "NEEDS_VERIFICATION": true
-      }
+      "category": "scope-breakdown",
+      "question": "Break down Silverstone's 2024 emissions by Scope 1, 2, and 3.",
+      "referenceQuery": {
+        "measures": [
+          "activity.emission"
+        ],
+        "dimensions": [
+          "activity.ghgScopeId"
+        ],
+        "segments": [
+          "activity.ghg"
+        ],
+        "filters": [
+          {
+            "member": "activity.emission",
+            "operator": "set"
+          }
+        ],
+        "timeDimensions": [
+          {
+            "dimension": "activity.date",
+            "dateRange": [
+              "2024-01-01",
+              "2024-12-31"
+            ]
+          }
+        ],
+        "order": [
+          [
+            "activity.ghgScopeId",
+            "asc"
+          ]
+        ]
+      },
+      "referenceResult": {
+        "data": {
+          "client": "silverstone",
+          "stage": "prod",
+          "infrastructureStage": "prod",
+          "rows": [
+            {
+              "activity.ghgScopeId": "1",
+              "activity.emission": "2040.92817402739997935"
+            },
+            {
+              "activity.ghgScopeId": "2",
+              "activity.emission": "210.0077092500000100"
+            },
+            {
+              "activity.ghgScopeId": "3",
+              "activity.emission": "84164.257441953481019807"
+            }
+          ],
+          "rowCount": 3,
+          "shape": "categorical",
+          "annotation": {
+            "segments": {
+              "activity.ghg": {
+                "title": "Activity GHG",
+                "shortTitle": "GHG"
+              }
+            },
+            "measures": {
+              "activity.emission": {
+                "title": "Activity Emission (mt-CO2e)",
+                "shortTitle": "Emission (mt-CO2e)",
+                "type": "number",
+                "drillMembers": [],
+                "drillMembersGrouped": {
+                  "measures": [],
+                  "dimensions": []
+                }
+              }
+            },
+            "dimensions": {
+              "activity.ghgScopeId": {
+                "title": "Activity Ghg Scope Id",
+                "shortTitle": "Ghg Scope Id",
+                "type": "string"
+              }
+            },
+            "timeDimensions": {}
+          },
+          "query": {
+            "measures": [
+              "activity.emission"
+            ],
+            "dimensions": [
+              "activity.ghgScopeId"
+            ],
+            "segments": [
+              "activity.ghg"
+            ],
+            "timeDimensions": [
+              {
+                "dimension": "activity.date",
+                "dateRange": [
+                  "2024-01-01",
+                  "2024-12-31"
+                ]
+              }
+            ],
+            "filters": [
+              {
+                "member": "activity.emission",
+                "operator": "set"
+              }
+            ],
+            "order": [
+              [
+                "activity.ghgScopeId",
+                "asc"
+              ]
+            ]
+          }
+        },
+        "errorCode": null,
+        "errorDesc": null,
+        "message": null
+      },
+      "verified": false,
+      "fetchedAt": "2026-09-18T07:21:15.169Z"
     },
     {
-      "id": "in-13",
+      "id": "Q03",
       "scope": "in",
-      "question": "What is our emission intensity per spend?",
-      "expect": {
-        "measures": ["activity.emissionPerSpend"],
-        "notes": "Precomputed — tCO2e per 10k GBP.",
-        "referenceValue": null,
-        "NEEDS_VERIFICATION": true
-      }
+      "category": "totals",
+      "question": "What were Scope 1 emissions in 2024?",
+      "referenceQuery": {
+        "measures": [
+          "activity.emission"
+        ],
+        "segments": [
+          "activity.scope1"
+        ],
+        "filters": [
+          {
+            "member": "activity.emission",
+            "operator": "set"
+          }
+        ],
+        "timeDimensions": [
+          {
+            "dimension": "activity.date",
+            "dateRange": [
+              "2024-01-01",
+              "2024-12-31"
+            ]
+          }
+        ]
+      },
+      "referenceResult": {
+        "data": {
+          "client": "silverstone",
+          "stage": "prod",
+          "infrastructureStage": "prod",
+          "rows": [
+            {
+              "activity.emission": "2040.92817402739997935"
+            }
+          ],
+          "rowCount": 1,
+          "shape": "scalar",
+          "annotation": {
+            "timeDimensions": {},
+            "measures": {
+              "activity.emission": {
+                "title": "Activity Emission (mt-CO2e)",
+                "shortTitle": "Emission (mt-CO2e)",
+                "type": "number",
+                "drillMembers": [],
+                "drillMembersGrouped": {
+                  "measures": [],
+                  "dimensions": []
+                }
+              }
+            },
+            "segments": {
+              "activity.scope1": {
+                "title": "Activity Scope 1",
+                "shortTitle": "Scope 1"
+              }
+            },
+            "dimensions": {}
+          },
+          "query": {
+            "measures": [
+              "activity.emission"
+            ],
+            "segments": [
+              "activity.scope1"
+            ],
+            "timeDimensions": [
+              {
+                "dimension": "activity.date",
+                "dateRange": [
+                  "2024-01-01",
+                  "2024-12-31"
+                ]
+              }
+            ],
+            "filters": [
+              {
+                "member": "activity.emission",
+                "operator": "set"
+              }
+            ]
+          }
+        },
+        "errorCode": null,
+        "errorDesc": null,
+        "message": null
+      },
+      "verified": false,
+      "fetchedAt": "2026-09-18T07:21:15.901Z"
     },
     {
-      "id": "in-14",
+      "id": "Q04",
       "scope": "in",
-      "question": "Show me Scope 3 emissions by category ranked highest to lowest.",
-      "expect": {
-        "measures": ["activity.emission"],
-        "dimensions": ["activity.ghgCategory"],
-        "segments": ["activity.scope3"],
-        "order": "activity.emission DESC",
-        "referenceValue": null,
-        "NEEDS_VERIFICATION": true
-      }
+      "category": "totals",
+      "question": "What were Scope 3 emissions in 2024?",
+      "referenceQuery": {
+        "measures": [
+          "activity.emission"
+        ],
+        "segments": [
+          "activity.scope3"
+        ],
+        "filters": [
+          {
+            "member": "activity.emission",
+            "operator": "set"
+          }
+        ],
+        "timeDimensions": [
+          {
+            "dimension": "activity.date",
+            "dateRange": [
+              "2024-01-01",
+              "2024-12-31"
+            ]
+          }
+        ]
+      },
+      "referenceResult": {
+        "data": {
+          "client": "silverstone",
+          "stage": "prod",
+          "infrastructureStage": "prod",
+          "rows": [
+            {
+              "activity.emission": "84164.257441953481019807"
+            }
+          ],
+          "rowCount": 1,
+          "shape": "scalar",
+          "annotation": {
+            "measures": {
+              "activity.emission": {
+                "title": "Activity Emission (mt-CO2e)",
+                "shortTitle": "Emission (mt-CO2e)",
+                "type": "number",
+                "drillMembers": [],
+                "drillMembersGrouped": {
+                  "measures": [],
+                  "dimensions": []
+                }
+              }
+            },
+            "dimensions": {},
+            "segments": {
+              "activity.scope3": {
+                "title": "Activity Scope 3",
+                "shortTitle": "Scope 3"
+              }
+            },
+            "timeDimensions": {}
+          },
+          "query": {
+            "measures": [
+              "activity.emission"
+            ],
+            "segments": [
+              "activity.scope3"
+            ],
+            "timeDimensions": [
+              {
+                "dimension": "activity.date",
+                "dateRange": [
+                  "2024-01-01",
+                  "2024-12-31"
+                ]
+              }
+            ],
+            "filters": [
+              {
+                "member": "activity.emission",
+                "operator": "set"
+              }
+            ]
+          }
+        },
+        "errorCode": null,
+        "errorDesc": null,
+        "message": null
+      },
+      "verified": false,
+      "fetchedAt": "2026-09-18T07:21:16.676Z"
     },
     {
-      "id": "in-15",
+      "id": "Q05",
       "scope": "in",
-      "question": "What are our emissions by sector?",
-      "expect": {
-        "measures": ["activity.emission"],
-        "dimensions": ["activity.sector"],
-        "referenceValue": null,
-        "NEEDS_VERIFICATION": true
-      }
+      "category": "yoy",
+      "question": "How did total GHG emissions change between 2023 and 2024?",
+      "referenceQuery": {
+        "measures": [
+          "activity.emission"
+        ],
+        "segments": [
+          "activity.ghg"
+        ],
+        "filters": [
+          {
+            "member": "activity.emission",
+            "operator": "set"
+          }
+        ],
+        "timeDimensions": [
+          {
+            "dimension": "activity.date",
+            "dateRange": [
+              "2023-01-01",
+              "2024-12-31"
+            ],
+            "granularity": "year"
+          }
+        ],
+        "order": [
+          [
+            "activity.date",
+            "asc"
+          ]
+        ]
+      },
+      "referenceResult": {
+        "data": {
+          "client": "silverstone",
+          "stage": "prod",
+          "infrastructureStage": "prod",
+          "rows": [
+            {
+              "activity.date.year": "2023-01-01T00:00:00.000",
+              "activity.emission": "48680.8309597034814828",
+              "activity.date": "2023-01-01T00:00:00.000"
+            },
+            {
+              "activity.date.year": "2024-01-01T00:00:00.000",
+              "activity.emission": "86415.193325230881009157",
+              "activity.date": "2024-01-01T00:00:00.000"
+            }
+          ],
+          "rowCount": 2,
+          "shape": "timeseries",
+          "annotation": {
+            "dimensions": {},
+            "measures": {
+              "activity.emission": {
+                "title": "Activity Emission (mt-CO2e)",
+                "shortTitle": "Emission (mt-CO2e)",
+                "type": "number",
+                "drillMembers": [],
+                "drillMembersGrouped": {
+                  "measures": [],
+                  "dimensions": []
+                }
+              }
+            },
+            "timeDimensions": {
+              "activity.date": {
+                "title": "Activity Date",
+                "shortTitle": "Date",
+                "type": "time"
+              },
+              "activity.date.year": {
+                "title": "Activity Date",
+                "shortTitle": "Date",
+                "type": "time",
+                "granularity": {
+                  "name": "year",
+                  "title": "year",
+                  "interval": "1 year"
+                }
+              }
+            },
+            "segments": {
+              "activity.ghg": {
+                "title": "Activity GHG",
+                "shortTitle": "GHG"
+              }
+            }
+          },
+          "query": {
+            "measures": [
+              "activity.emission"
+            ],
+            "segments": [
+              "activity.ghg"
+            ],
+            "timeDimensions": [
+              {
+                "dimension": "activity.date",
+                "dateRange": [
+                  "2023-01-01",
+                  "2024-12-31"
+                ],
+                "granularity": "year"
+              }
+            ],
+            "filters": [
+              {
+                "member": "activity.emission",
+                "operator": "set"
+              }
+            ],
+            "order": [
+              [
+                "activity.date",
+                "asc"
+              ]
+            ]
+          }
+        },
+        "errorCode": null,
+        "errorDesc": null,
+        "message": null
+      },
+      "verified": false,
+      "fetchedAt": "2026-09-18T07:21:17.442Z"
     },
     {
-      "id": "in-16",
+      "id": "Q06",
       "scope": "in",
-      "question": "What were our Scope 1 emissions two years ago?",
-      "expect": {
-        "measures": ["activity.emission"],
-        "segments": ["activity.scope1"],
-        "notes": "Year = currentYear-2 via time_context.",
-        "referenceValue": null,
-        "NEEDS_VERIFICATION": true
-      }
+      "category": "yoy",
+      "question": "Show total emissions by year from 2022 to 2024.",
+      "referenceQuery": {
+        "measures": [
+          "activity.emission"
+        ],
+        "segments": [
+          "activity.ghg"
+        ],
+        "filters": [
+          {
+            "member": "activity.emission",
+            "operator": "set"
+          }
+        ],
+        "timeDimensions": [
+          {
+            "dimension": "activity.date",
+            "dateRange": [
+              "2022-01-01",
+              "2024-12-31"
+            ],
+            "granularity": "year"
+          }
+        ],
+        "order": [
+          [
+            "activity.date",
+            "asc"
+          ]
+        ]
+      },
+      "referenceResult": {
+        "data": {
+          "client": "silverstone",
+          "stage": "prod",
+          "infrastructureStage": "prod",
+          "rows": [
+            {
+              "activity.date.year": "2022-01-01T00:00:00.000",
+              "activity.emission": "28464.6700000000000",
+              "activity.date": "2022-01-01T00:00:00.000"
+            },
+            {
+              "activity.date.year": "2023-01-01T00:00:00.000",
+              "activity.emission": "48680.8309597034814828",
+              "activity.date": "2023-01-01T00:00:00.000"
+            },
+            {
+              "activity.date.year": "2024-01-01T00:00:00.000",
+              "activity.emission": "86415.193325230881009157",
+              "activity.date": "2024-01-01T00:00:00.000"
+            }
+          ],
+          "rowCount": 3,
+          "shape": "timeseries",
+          "annotation": {
+            "dimensions": {},
+            "measures": {
+              "activity.emission": {
+                "title": "Activity Emission (mt-CO2e)",
+                "shortTitle": "Emission (mt-CO2e)",
+                "type": "number",
+                "drillMembers": [],
+                "drillMembersGrouped": {
+                  "measures": [],
+                  "dimensions": []
+                }
+              }
+            },
+            "segments": {
+              "activity.ghg": {
+                "title": "Activity GHG",
+                "shortTitle": "GHG"
+              }
+            },
+            "timeDimensions": {
+              "activity.date": {
+                "title": "Activity Date",
+                "shortTitle": "Date",
+                "type": "time"
+              },
+              "activity.date.year": {
+                "title": "Activity Date",
+                "shortTitle": "Date",
+                "type": "time",
+                "granularity": {
+                  "name": "year",
+                  "title": "year",
+                  "interval": "1 year"
+                }
+              }
+            }
+          },
+          "query": {
+            "measures": [
+              "activity.emission"
+            ],
+            "segments": [
+              "activity.ghg"
+            ],
+            "timeDimensions": [
+              {
+                "dimension": "activity.date",
+                "dateRange": [
+                  "2022-01-01",
+                  "2024-12-31"
+                ],
+                "granularity": "year"
+              }
+            ],
+            "filters": [
+              {
+                "member": "activity.emission",
+                "operator": "set"
+              }
+            ],
+            "order": [
+              [
+                "activity.date",
+                "asc"
+              ]
+            ]
+          }
+        },
+        "errorCode": null,
+        "errorDesc": null,
+        "message": null
+      },
+      "verified": false,
+      "fetchedAt": "2026-09-18T07:21:18.215Z"
     },
     {
-      "id": "in-17",
+      "id": "Q07",
       "scope": "in",
-      "question": "How have our total emissions trended over the last 3 years?",
-      "expect": {
-        "measures": ["activity.emission"],
-        "timeDimensions": [{ "dimension": "activity.date", "granularity": "year" }],
-        "notes": "3-year range query.",
-        "referenceValue": null,
-        "NEEDS_VERIFICATION": true
-      }
+      "category": "scope3-breakdown",
+      "question": "Break down Scope 3 emissions by GHG category for 2024.",
+      "referenceQuery": {
+        "measures": [
+          "activity.emission"
+        ],
+        "dimensions": [
+          "activity.ghgCategory"
+        ],
+        "segments": [
+          "activity.scope3"
+        ],
+        "filters": [
+          {
+            "member": "activity.emission",
+            "operator": "set"
+          }
+        ],
+        "timeDimensions": [
+          {
+            "dimension": "activity.date",
+            "dateRange": [
+              "2024-01-01",
+              "2024-12-31"
+            ]
+          }
+        ],
+        "order": [
+          [
+            "activity.emission",
+            "desc"
+          ]
+        ]
+      },
+      "referenceResult": {
+        "data": {
+          "client": "silverstone",
+          "stage": "prod",
+          "infrastructureStage": "prod",
+          "rows": [
+            {
+              "activity.ghgCategory": "Downstream Transportation and Distribution",
+              "activity.emission": "67777.874000000000"
+            },
+            {
+              "activity.ghgCategory": "Purchased Goods and Services",
+              "activity.emission": "9673.74249661161720690"
+            },
+            {
+              "activity.ghgCategory": "Upstream Transportation and Distribution",
+              "activity.emission": "2832.00288142522000023"
+            },
+            {
+              "activity.ghgCategory": "Capital Goods",
+              "activity.emission": "1501.2278050935427536"
+            },
+            {
+              "activity.ghgCategory": "Downstream Leased Assets",
+              "activity.emission": "777.5923627849999682"
+            },
+            {
+              "activity.ghgCategory": "In-use Emissions of Sold Products",
+              "activity.emission": "537.9848158142000115"
+            },
+            {
+              "activity.ghgCategory": "Fuel- and Energy-related Activities",
+              "activity.emission": "488.65798978516002162"
+            },
+            {
+              "activity.ghgCategory": "Employee Commuting",
+              "activity.emission": "483.29849734204000383"
+            },
+            {
+              "activity.ghgCategory": "Business Travel",
+              "activity.emission": "76.56791738103105431"
+            },
+            {
+              "activity.ghgCategory": "Waste Generated in Operations",
+              "activity.emission": "8.677677596469999564"
+            },
+            {
+              "activity.ghgCategory": "Purchased Goods and Services - Water",
+              "activity.emission": "6.6309981192000000"
+            }
+          ],
+          "rowCount": 11,
+          "shape": "categorical",
+          "annotation": {
+            "dimensions": {
+              "activity.ghgCategory": {
+                "title": "Activity Ghg Category",
+                "shortTitle": "Ghg Category",
+                "type": "string"
+              }
+            },
+            "measures": {
+              "activity.emission": {
+                "title": "Activity Emission (mt-CO2e)",
+                "shortTitle": "Emission (mt-CO2e)",
+                "type": "number",
+                "drillMembers": [],
+                "drillMembersGrouped": {
+                  "measures": [],
+                  "dimensions": []
+                }
+              }
+            },
+            "segments": {
+              "activity.scope3": {
+                "title": "Activity Scope 3",
+                "shortTitle": "Scope 3"
+              }
+            },
+            "timeDimensions": {}
+          },
+          "query": {
+            "measures": [
+              "activity.emission"
+            ],
+            "dimensions": [
+              "activity.ghgCategory"
+            ],
+            "segments": [
+              "activity.scope3"
+            ],
+            "timeDimensions": [
+              {
+                "dimension": "activity.date",
+                "dateRange": [
+                  "2024-01-01",
+                  "2024-12-31"
+                ]
+              }
+            ],
+            "filters": [
+              {
+                "member": "activity.emission",
+                "operator": "set"
+              }
+            ],
+            "order": [
+              [
+                "activity.emission",
+                "desc"
+              ]
+            ]
+          }
+        },
+        "errorCode": null,
+        "errorDesc": null,
+        "message": null
+      },
+      "verified": false,
+      "fetchedAt": "2026-09-18T07:21:19.007Z"
     },
     {
-      "id": "in-18",
+      "id": "Q08",
       "scope": "in",
-      "question": "What is our total spend on activities?",
-      "expect": {
-        "measures": ["activity.spend"],
-        "referenceValue": null,
-        "NEEDS_VERIFICATION": true
-      }
+      "category": "scope3-breakdown",
+      "question": "Which Scope 3 category has the highest emissions in 2024?",
+      "referenceQuery": {
+        "measures": [
+          "activity.emission"
+        ],
+        "dimensions": [
+          "activity.ghgCategory"
+        ],
+        "segments": [
+          "activity.scope3"
+        ],
+        "filters": [
+          {
+            "member": "activity.emission",
+            "operator": "set"
+          }
+        ],
+        "timeDimensions": [
+          {
+            "dimension": "activity.date",
+            "dateRange": [
+              "2024-01-01",
+              "2024-12-31"
+            ]
+          }
+        ],
+        "order": [
+          [
+            "activity.emission",
+            "desc"
+          ]
+        ]
+      },
+      "referenceResult": {
+        "data": {
+          "client": "silverstone",
+          "stage": "prod",
+          "infrastructureStage": "prod",
+          "rows": [
+            {
+              "activity.ghgCategory": "Downstream Transportation and Distribution",
+              "activity.emission": "67777.874000000000"
+            },
+            {
+              "activity.ghgCategory": "Purchased Goods and Services",
+              "activity.emission": "9673.74249661161720690"
+            },
+            {
+              "activity.ghgCategory": "Upstream Transportation and Distribution",
+              "activity.emission": "2832.00288142522000023"
+            },
+            {
+              "activity.ghgCategory": "Capital Goods",
+              "activity.emission": "1501.2278050935427536"
+            },
+            {
+              "activity.ghgCategory": "Downstream Leased Assets",
+              "activity.emission": "777.5923627849999682"
+            },
+            {
+              "activity.ghgCategory": "In-use Emissions of Sold Products",
+              "activity.emission": "537.9848158142000115"
+            },
+            {
+              "activity.ghgCategory": "Fuel- and Energy-related Activities",
+              "activity.emission": "488.65798978516002162"
+            },
+            {
+              "activity.ghgCategory": "Employee Commuting",
+              "activity.emission": "483.29849734204000383"
+            },
+            {
+              "activity.ghgCategory": "Business Travel",
+              "activity.emission": "76.56791738103105431"
+            },
+            {
+              "activity.ghgCategory": "Waste Generated in Operations",
+              "activity.emission": "8.677677596469999564"
+            },
+            {
+              "activity.ghgCategory": "Purchased Goods and Services - Water",
+              "activity.emission": "6.6309981192000000"
+            }
+          ],
+          "rowCount": 11,
+          "shape": "categorical",
+          "annotation": {
+            "dimensions": {
+              "activity.ghgCategory": {
+                "title": "Activity Ghg Category",
+                "shortTitle": "Ghg Category",
+                "type": "string"
+              }
+            },
+            "segments": {
+              "activity.scope3": {
+                "title": "Activity Scope 3",
+                "shortTitle": "Scope 3"
+              }
+            },
+            "timeDimensions": {},
+            "measures": {
+              "activity.emission": {
+                "title": "Activity Emission (mt-CO2e)",
+                "shortTitle": "Emission (mt-CO2e)",
+                "type": "number",
+                "drillMembers": [],
+                "drillMembersGrouped": {
+                  "measures": [],
+                  "dimensions": []
+                }
+              }
+            }
+          },
+          "query": {
+            "measures": [
+              "activity.emission"
+            ],
+            "dimensions": [
+              "activity.ghgCategory"
+            ],
+            "segments": [
+              "activity.scope3"
+            ],
+            "timeDimensions": [
+              {
+                "dimension": "activity.date",
+                "dateRange": [
+                  "2024-01-01",
+                  "2024-12-31"
+                ]
+              }
+            ],
+            "filters": [
+              {
+                "member": "activity.emission",
+                "operator": "set"
+              }
+            ],
+            "order": [
+              [
+                "activity.emission",
+                "desc"
+              ]
+            ]
+          }
+        },
+        "errorCode": null,
+        "errorDesc": null,
+        "message": null
+      },
+      "verified": false,
+      "fetchedAt": "2026-09-18T08:32:30.485Z"
     },
     {
-      "id": "in-19",
+      "id": "Q09",
       "scope": "in",
-      "question": "Which event has the highest emissions?",
-      "expect": {
-        "measures": ["activity.emission"],
-        "dimensions": ["activity.event"],
-        "segments": ["activity.ghg"],
-        "order": "activity.emission DESC",
-        "referenceValue": null,
-        "NEEDS_VERIFICATION": true
-      }
+      "category": "scope3-breakdown",
+      "question": "List the top 5 Scope 3 categories by tCO2e for 2024.",
+      "referenceQuery": {
+        "measures": [
+          "activity.emission"
+        ],
+        "dimensions": [
+          "activity.ghgCategory"
+        ],
+        "segments": [
+          "activity.scope3"
+        ],
+        "filters": [
+          {
+            "member": "activity.emission",
+            "operator": "set"
+          }
+        ],
+        "timeDimensions": [
+          {
+            "dimension": "activity.date",
+            "dateRange": [
+              "2024-01-01",
+              "2024-12-31"
+            ]
+          }
+        ],
+        "order": [
+          [
+            "activity.emission",
+            "desc"
+          ]
+        ],
+        "limit": 5
+      },
+      "referenceResult": {
+        "data": {
+          "client": "silverstone",
+          "stage": "prod",
+          "infrastructureStage": "prod",
+          "rows": [
+            {
+              "activity.ghgCategory": "Downstream Transportation and Distribution",
+              "activity.emission": "67777.874000000000"
+            },
+            {
+              "activity.ghgCategory": "Purchased Goods and Services",
+              "activity.emission": "9673.74249661161720690"
+            },
+            {
+              "activity.ghgCategory": "Upstream Transportation and Distribution",
+              "activity.emission": "2832.00288142522000023"
+            },
+            {
+              "activity.ghgCategory": "Capital Goods",
+              "activity.emission": "1501.2278050935427536"
+            },
+            {
+              "activity.ghgCategory": "Downstream Leased Assets",
+              "activity.emission": "777.5923627849999682"
+            }
+          ],
+          "rowCount": 5,
+          "shape": "categorical",
+          "annotation": {
+            "segments": {
+              "activity.scope3": {
+                "title": "Activity Scope 3",
+                "shortTitle": "Scope 3"
+              }
+            },
+            "dimensions": {
+              "activity.ghgCategory": {
+                "title": "Activity Ghg Category",
+                "shortTitle": "Ghg Category",
+                "type": "string"
+              }
+            },
+            "measures": {
+              "activity.emission": {
+                "title": "Activity Emission (mt-CO2e)",
+                "shortTitle": "Emission (mt-CO2e)",
+                "type": "number",
+                "drillMembers": [],
+                "drillMembersGrouped": {
+                  "measures": [],
+                  "dimensions": []
+                }
+              }
+            },
+            "timeDimensions": {}
+          },
+          "query": {
+            "measures": [
+              "activity.emission"
+            ],
+            "dimensions": [
+              "activity.ghgCategory"
+            ],
+            "segments": [
+              "activity.scope3"
+            ],
+            "timeDimensions": [
+              {
+                "dimension": "activity.date",
+                "dateRange": [
+                  "2024-01-01",
+                  "2024-12-31"
+                ]
+              }
+            ],
+            "filters": [
+              {
+                "member": "activity.emission",
+                "operator": "set"
+              }
+            ],
+            "order": [
+              [
+                "activity.emission",
+                "desc"
+              ]
+            ],
+            "limit": 5
+          }
+        },
+        "errorCode": null,
+        "errorDesc": null,
+        "message": null
+      },
+      "verified": false,
+      "fetchedAt": "2026-09-18T07:21:20.839Z"
     },
     {
-      "id": "in-20",
+      "id": "Q10",
       "scope": "in",
-      "question": "What are our Scope 3 Category 1 emissions?",
-      "expect": {
-        "measures": ["activity.emission"],
-        "segments": ["activity.scope3"],
-        "filters": [{ "member": "activity.ghgCategory", "operator": "contains", "values": ["Purchased goods"] }],
-        "notes": "Category 1 = Purchased goods and services. Filter by keyword not number.",
-        "referenceValue": null,
-        "NEEDS_VERIFICATION": true
-      }
+      "category": "intensity",
+      "question": "What is the emission per spectator for the British Grand Prix in 2024?",
+      "referenceQuery": {
+        "measures": [
+          "activity.emissionPerSpectator"
+        ],
+        "segments": [
+          "activity.ghg"
+        ],
+        "timeDimensions": [
+          {
+            "dimension": "activity.date",
+            "dateRange": [
+              "2024-01-01",
+              "2024-12-31"
+            ]
+          }
+        ],
+        "filters": [
+          {
+            "member": "activity.emission",
+            "operator": "set"
+          },
+          {
+            "member": "activity.event",
+            "operator": "equals",
+            "values": [
+              "BGP"
+            ]
+          }
+        ]
+      },
+      "referenceResult": {
+        "data": {
+          "client": "silverstone",
+          "stage": "prod",
+          "infrastructureStage": "prod",
+          "rows": [
+            {
+              "activity.emissionPerSpectator": null
+            }
+          ],
+          "rowCount": 1,
+          "shape": "scalar",
+          "annotation": {
+            "measures": {
+              "activity.emissionPerSpectator": {
+                "title": "Activity Emission Per Spectator",
+                "shortTitle": "Emission Per Spectator",
+                "type": "number",
+                "drillMembers": [],
+                "drillMembersGrouped": {
+                  "measures": [],
+                  "dimensions": []
+                }
+              }
+            },
+            "segments": {
+              "activity.ghg": {
+                "title": "Activity GHG",
+                "shortTitle": "GHG"
+              }
+            },
+            "dimensions": {},
+            "timeDimensions": {}
+          },
+          "query": {
+            "measures": [
+              "activity.emissionPerSpectator"
+            ],
+            "segments": [
+              "activity.ghg"
+            ],
+            "timeDimensions": [
+              {
+                "dimension": "activity.date",
+                "dateRange": [
+                  "2024-01-01",
+                  "2024-12-31"
+                ]
+              }
+            ],
+            "filters": [
+              {
+                "member": "activity.emission",
+                "operator": "set"
+              },
+              {
+                "member": "activity.event",
+                "operator": "equals",
+                "values": [
+                  "BGP"
+                ]
+              }
+            ]
+          }
+        },
+        "errorCode": null,
+        "errorDesc": null,
+        "message": null
+      },
+      "verified": false,
+      "fetchedAt": "2026-09-18T10:21:30.229Z"
     },
     {
-      "id": "in-21",
+      "id": "Q11",
       "scope": "in",
-      "question": "What is the raw activity amount for Scope 1?",
-      "expect": {
-        "measures": ["activity.amount"],
-        "segments": ["activity.scope1"],
-        "referenceValue": null,
-        "NEEDS_VERIFICATION": true
-      }
+      "category": "intensity",
+      "question": "Show emission per spectator for each event in 2024.",
+      "referenceQuery": {
+        "measures": [
+          "activity.emission",
+          "activity.emissionPerSpectator"
+        ],
+        "dimensions": [
+          "activity.event"
+        ],
+        "segments": [
+          "activity.ghg"
+        ],
+        "filters": [
+          {
+            "member": "activity.emission",
+            "operator": "set"
+          }
+        ],
+        "timeDimensions": [
+          {
+            "dimension": "activity.date",
+            "dateRange": [
+              "2024-01-01",
+              "2024-12-31"
+            ]
+          }
+        ],
+        "order": [
+          [
+            "activity.emission",
+            "desc"
+          ]
+        ]
+      },
+      "referenceResult": {
+        "data": {
+          "client": "silverstone",
+          "stage": "prod",
+          "infrastructureStage": "prod",
+          "rows": [
+            {
+              "activity.event": "BGP",
+              "activity.emission": "67421.32614792621432726",
+              "activity.emissionPerSpectator": null
+            },
+            {
+              "activity.event": "MotoGP",
+              "activity.emission": "8872.24702585629842329",
+              "activity.emissionPerSpectator": null
+            },
+            {
+              "activity.event": "Corporate",
+              "activity.emission": "7422.670578205961703471",
+              "activity.emissionPerSpectator": null
+            },
+            {
+              "activity.event": "Festival",
+              "activity.emission": "2698.94957324240655515",
+              "activity.emissionPerSpectator": null
+            }
+          ],
+          "rowCount": 4,
+          "shape": "categorical",
+          "annotation": {
+            "segments": {
+              "activity.ghg": {
+                "title": "Activity GHG",
+                "shortTitle": "GHG"
+              }
+            },
+            "measures": {
+              "activity.emission": {
+                "title": "Activity Emission (mt-CO2e)",
+                "shortTitle": "Emission (mt-CO2e)",
+                "type": "number",
+                "drillMembers": [],
+                "drillMembersGrouped": {
+                  "measures": [],
+                  "dimensions": []
+                }
+              },
+              "activity.emissionPerSpectator": {
+                "title": "Activity Emission Per Spectator",
+                "shortTitle": "Emission Per Spectator",
+                "type": "number",
+                "drillMembers": [],
+                "drillMembersGrouped": {
+                  "measures": [],
+                  "dimensions": []
+                }
+              }
+            },
+            "timeDimensions": {},
+            "dimensions": {
+              "activity.event": {
+                "title": "Activity Event",
+                "shortTitle": "Event",
+                "type": "string"
+              }
+            }
+          },
+          "query": {
+            "measures": [
+              "activity.emission",
+              "activity.emissionPerSpectator"
+            ],
+            "dimensions": [
+              "activity.event"
+            ],
+            "segments": [
+              "activity.ghg"
+            ],
+            "timeDimensions": [
+              {
+                "dimension": "activity.date",
+                "dateRange": [
+                  "2024-01-01",
+                  "2024-12-31"
+                ]
+              }
+            ],
+            "filters": [
+              {
+                "member": "activity.emission",
+                "operator": "set"
+              }
+            ],
+            "order": [
+              [
+                "activity.emission",
+                "desc"
+              ]
+            ]
+          }
+        },
+        "errorCode": null,
+        "errorDesc": null,
+        "message": null
+      },
+      "verified": false,
+      "fetchedAt": "2026-09-18T07:21:22.418Z"
     },
     {
-      "id": "in-22",
+      "id": "Q12",
       "scope": "in",
-      "question": "Show emissions broken down by both scope and event.",
-      "expect": {
-        "measures": ["activity.emission"],
-        "dimensions": ["activity.ghgScopeId", "activity.event"],
-        "referenceValue": null,
-        "NEEDS_VERIFICATION": true
-      }
+      "category": "suppliers",
+      "question": "Which suppliers contributed the most to Silverstone's emissions? Show top 5.",
+      "referenceQuery": {
+        "measures": [
+          "activity.emission"
+        ],
+        "dimensions": [
+          "activity.supplier"
+        ],
+        "segments": [
+          "activity.ghg"
+        ],
+        "filters": [
+          {
+            "member": "activity.emission",
+            "operator": "set"
+          },
+          {
+            "member": "activity.supplier",
+            "operator": "set"
+          }
+        ],
+        "order": [
+          [
+            "activity.emission",
+            "desc"
+          ]
+        ],
+        "limit": 5
+      },
+      "referenceResult": {
+        "data": {
+          "client": "silverstone",
+          "stage": "prod",
+          "infrastructureStage": "prod",
+          "rows": [
+            {
+              "activity.supplier": "ADI UK Ltd (ADI.tv)",
+              "activity.emission": "8366.99727946881271033"
+            },
+            {
+              "activity.supplier": "Andrews Sykes Hire Limited",
+              "activity.emission": "6799.6414811485785647"
+            },
+            {
+              "activity.supplier": "The Technical Department",
+              "activity.emission": "6796.6824671776568172"
+            },
+            {
+              "activity.supplier": "GL events",
+              "activity.emission": "3558.9575651399790501"
+            },
+            {
+              "activity.supplier": "Unknown Supplier(s)",
+              "activity.emission": "3056.6200000000000000"
+            }
+          ],
+          "rowCount": 5,
+          "shape": "categorical",
+          "annotation": {
+            "segments": {
+              "activity.ghg": {
+                "title": "Activity GHG",
+                "shortTitle": "GHG"
+              }
+            },
+            "dimensions": {
+              "activity.supplier": {
+                "title": "Activity Supplier",
+                "shortTitle": "Supplier",
+                "type": "string"
+              }
+            },
+            "timeDimensions": {},
+            "measures": {
+              "activity.emission": {
+                "title": "Activity Emission (mt-CO2e)",
+                "shortTitle": "Emission (mt-CO2e)",
+                "type": "number",
+                "drillMembers": [],
+                "drillMembersGrouped": {
+                  "measures": [],
+                  "dimensions": []
+                }
+              }
+            }
+          },
+          "query": {
+            "measures": [
+              "activity.emission"
+            ],
+            "dimensions": [
+              "activity.supplier"
+            ],
+            "segments": [
+              "activity.ghg"
+            ],
+            "filters": [
+              {
+                "member": "activity.emission",
+                "operator": "set"
+              },
+              {
+                "member": "activity.supplier",
+                "operator": "set"
+              }
+            ],
+            "order": [
+              [
+                "activity.emission",
+                "desc"
+              ]
+            ],
+            "limit": 5
+          }
+        },
+        "errorCode": null,
+        "errorDesc": null,
+        "message": null
+      },
+      "verified": false,
+      "fetchedAt": "2026-09-18T07:21:23.208Z"
     },
     {
-      "id": "in-23",
+      "id": "Q13",
       "scope": "in",
-      "question": "How did Scope 3 change compared to last year?",
-      "expect": {
-        "measures": ["activity.emission"],
-        "segments": ["activity.scope3"],
-        "timeDimensions": [{ "dimension": "activity.date", "granularity": "year" }],
-        "referenceValue": null,
-        "NEEDS_VERIFICATION": true
-      }
+      "category": "suppliers",
+      "question": "Which suppliers contributed the most emissions? Show top 10.",
+      "referenceQuery": {
+        "measures": [
+          "activity.emission"
+        ],
+        "dimensions": [
+          "activity.supplier"
+        ],
+        "segments": [
+          "activity.ghg"
+        ],
+        "filters": [
+          {
+            "member": "activity.emission",
+            "operator": "set"
+          },
+          {
+            "member": "activity.supplier",
+            "operator": "set"
+          }
+        ],
+        "order": [
+          [
+            "activity.emission",
+            "desc"
+          ]
+        ],
+        "limit": 10
+      },
+      "referenceResult": {
+        "data": {
+          "client": "silverstone",
+          "stage": "prod",
+          "infrastructureStage": "prod",
+          "rows": [
+            {
+              "activity.supplier": "ADI UK Ltd (ADI.tv)",
+              "activity.emission": "8366.99727946881271033"
+            },
+            {
+              "activity.supplier": "Andrews Sykes Hire Limited",
+              "activity.emission": "6799.6414811485785647"
+            },
+            {
+              "activity.supplier": "The Technical Department",
+              "activity.emission": "6796.6824671776568172"
+            },
+            {
+              "activity.supplier": "GL events",
+              "activity.emission": "3558.9575651399790501"
+            },
+            {
+              "activity.supplier": "Unknown Supplier(s)",
+              "activity.emission": "3056.6200000000000000"
+            },
+            {
+              "activity.supplier": "MATCH Hospitality AG",
+              "activity.emission": "2906.4400000000000000"
+            },
+            {
+              "activity.supplier": "Smart Group LTD",
+              "activity.emission": "2401.7760296534463858"
+            },
+            {
+              "activity.supplier": "Freemans Event Partners",
+              "activity.emission": "2250.5387300000000000"
+            },
+            {
+              "activity.supplier": "HEINEKEN UK Limited",
+              "activity.emission": "1621.1300000000000000"
+            },
+            {
+              "activity.supplier": "Freemans Event Partners ",
+              "activity.emission": "1429.7069505019321039"
+            }
+          ],
+          "rowCount": 10,
+          "shape": "categorical",
+          "annotation": {
+            "measures": {
+              "activity.emission": {
+                "title": "Activity Emission (mt-CO2e)",
+                "shortTitle": "Emission (mt-CO2e)",
+                "type": "number",
+                "drillMembers": [],
+                "drillMembersGrouped": {
+                  "measures": [],
+                  "dimensions": []
+                }
+              }
+            },
+            "segments": {
+              "activity.ghg": {
+                "title": "Activity GHG",
+                "shortTitle": "GHG"
+              }
+            },
+            "dimensions": {
+              "activity.supplier": {
+                "title": "Activity Supplier",
+                "shortTitle": "Supplier",
+                "type": "string"
+              }
+            },
+            "timeDimensions": {}
+          },
+          "query": {
+            "measures": [
+              "activity.emission"
+            ],
+            "dimensions": [
+              "activity.supplier"
+            ],
+            "segments": [
+              "activity.ghg"
+            ],
+            "filters": [
+              {
+                "member": "activity.emission",
+                "operator": "set"
+              },
+              {
+                "member": "activity.supplier",
+                "operator": "set"
+              }
+            ],
+            "order": [
+              [
+                "activity.emission",
+                "desc"
+              ]
+            ],
+            "limit": 10
+          }
+        },
+        "errorCode": null,
+        "errorDesc": null,
+        "message": null
+      },
+      "verified": false,
+      "fetchedAt": "2026-09-18T07:21:23.977Z"
     },
     {
-      "id": "in-24",
+      "id": "Q14",
       "scope": "in",
-      "question": "What are our emissions from electricity?",
-      "expect": {
-        "measures": ["activity.emission"],
-        "filters": [{ "member": "activity.type", "operator": "equals", "values": ["Electricity"] }],
-        "referenceValue": null,
-        "NEEDS_VERIFICATION": true
-      }
+      "category": "events",
+      "question": "Break down total emissions by event for 2024.",
+      "referenceQuery": {
+        "measures": [
+          "activity.emission"
+        ],
+        "dimensions": [
+          "activity.event"
+        ],
+        "segments": [
+          "activity.ghg"
+        ],
+        "filters": [
+          {
+            "member": "activity.emission",
+            "operator": "set"
+          }
+        ],
+        "timeDimensions": [
+          {
+            "dimension": "activity.date",
+            "dateRange": [
+              "2024-01-01",
+              "2024-12-31"
+            ]
+          }
+        ],
+        "order": [
+          [
+            "activity.emission",
+            "desc"
+          ]
+        ]
+      },
+      "referenceResult": {
+        "data": {
+          "client": "silverstone",
+          "stage": "prod",
+          "infrastructureStage": "prod",
+          "rows": [
+            {
+              "activity.event": "BGP",
+              "activity.emission": "67421.32614792621432726"
+            },
+            {
+              "activity.event": "MotoGP",
+              "activity.emission": "8872.24702585629842329"
+            },
+            {
+              "activity.event": "Corporate",
+              "activity.emission": "7422.670578205961703471"
+            },
+            {
+              "activity.event": "Festival",
+              "activity.emission": "2698.94957324240655515"
+            }
+          ],
+          "rowCount": 4,
+          "shape": "categorical",
+          "annotation": {
+            "segments": {
+              "activity.ghg": {
+                "title": "Activity GHG",
+                "shortTitle": "GHG"
+              }
+            },
+            "dimensions": {
+              "activity.event": {
+                "title": "Activity Event",
+                "shortTitle": "Event",
+                "type": "string"
+              }
+            },
+            "timeDimensions": {},
+            "measures": {
+              "activity.emission": {
+                "title": "Activity Emission (mt-CO2e)",
+                "shortTitle": "Emission (mt-CO2e)",
+                "type": "number",
+                "drillMembers": [],
+                "drillMembersGrouped": {
+                  "measures": [],
+                  "dimensions": []
+                }
+              }
+            }
+          },
+          "query": {
+            "measures": [
+              "activity.emission"
+            ],
+            "dimensions": [
+              "activity.event"
+            ],
+            "segments": [
+              "activity.ghg"
+            ],
+            "timeDimensions": [
+              {
+                "dimension": "activity.date",
+                "dateRange": [
+                  "2024-01-01",
+                  "2024-12-31"
+                ]
+              }
+            ],
+            "filters": [
+              {
+                "member": "activity.emission",
+                "operator": "set"
+              }
+            ],
+            "order": [
+              [
+                "activity.emission",
+                "desc"
+              ]
+            ]
+          }
+        },
+        "errorCode": null,
+        "errorDesc": null,
+        "message": null
+      },
+      "verified": false,
+      "fetchedAt": "2026-09-18T07:21:24.774Z"
     },
     {
-      "id": "in-25",
+      "id": "Q15",
       "scope": "in",
-      "question": "Which activity types contribute most to our footprint?",
-      "expect": {
-        "measures": ["activity.emission"],
-        "dimensions": ["activity.activity"],
-        "order": "activity.emission DESC",
-        "referenceValue": null,
-        "NEEDS_VERIFICATION": true
-      }
+      "category": "events",
+      "question": "Which event had the highest total emissions in 2024?",
+      "referenceQuery": {
+        "measures": [
+          "activity.emission"
+        ],
+        "dimensions": [
+          "activity.event"
+        ],
+        "segments": [
+          "activity.ghg"
+        ],
+        "filters": [
+          {
+            "member": "activity.emission",
+            "operator": "set"
+          }
+        ],
+        "timeDimensions": [
+          {
+            "dimension": "activity.date",
+            "dateRange": [
+              "2024-01-01",
+              "2024-12-31"
+            ]
+          }
+        ],
+        "order": [
+          [
+            "activity.emission",
+            "desc"
+          ]
+        ]
+      },
+      "referenceResult": {
+        "data": {
+          "client": "silverstone",
+          "stage": "prod",
+          "infrastructureStage": "prod",
+          "rows": [
+            {
+              "activity.event": "BGP",
+              "activity.emission": "67421.32614792621432726"
+            },
+            {
+              "activity.event": "MotoGP",
+              "activity.emission": "8872.24702585629842329"
+            },
+            {
+              "activity.event": "Corporate",
+              "activity.emission": "7422.670578205961703471"
+            },
+            {
+              "activity.event": "Festival",
+              "activity.emission": "2698.94957324240655515"
+            }
+          ],
+          "rowCount": 4,
+          "shape": "categorical",
+          "annotation": {
+            "segments": {
+              "activity.ghg": {
+                "title": "Activity GHG",
+                "shortTitle": "GHG"
+              }
+            },
+            "measures": {
+              "activity.emission": {
+                "title": "Activity Emission (mt-CO2e)",
+                "shortTitle": "Emission (mt-CO2e)",
+                "type": "number",
+                "drillMembers": [],
+                "drillMembersGrouped": {
+                  "measures": [],
+                  "dimensions": []
+                }
+              }
+            },
+            "dimensions": {
+              "activity.event": {
+                "title": "Activity Event",
+                "shortTitle": "Event",
+                "type": "string"
+              }
+            },
+            "timeDimensions": {}
+          },
+          "query": {
+            "measures": [
+              "activity.emission"
+            ],
+            "dimensions": [
+              "activity.event"
+            ],
+            "segments": [
+              "activity.ghg"
+            ],
+            "timeDimensions": [
+              {
+                "dimension": "activity.date",
+                "dateRange": [
+                  "2024-01-01",
+                  "2024-12-31"
+                ]
+              }
+            ],
+            "filters": [
+              {
+                "member": "activity.emission",
+                "operator": "set"
+              }
+            ],
+            "order": [
+              [
+                "activity.emission",
+                "desc"
+              ]
+            ]
+          }
+        },
+        "errorCode": null,
+        "errorDesc": null,
+        "message": null
+      },
+      "verified": false,
+      "fetchedAt": "2026-09-18T08:32:31.406Z"
     },
     {
-      "id": "in-26",
+      "id": "Q16",
       "scope": "in",
-      "question": "What is our total Scope 2 from electricity?",
-      "expect": {
-        "measures": ["activity.emission"],
-        "segments": ["activity.scope2"],
-        "filters": [{ "member": "activity.type", "operator": "equals", "values": ["Electricity"] }],
-        "referenceValue": null,
-        "NEEDS_VERIFICATION": true
-      }
+      "category": "events",
+      "question": "What were total emissions for the British Grand Prix in 2024?",
+      "referenceQuery": {
+        "measures": [
+          "activity.emission"
+        ],
+        "segments": [
+          "activity.ghg"
+        ],
+        "filters": [
+          {
+            "member": "activity.emission",
+            "operator": "set"
+          },
+          {
+            "member": "activity.event",
+            "operator": "equals",
+            "values": [
+              "BGP"
+            ]
+          }
+        ],
+        "timeDimensions": [
+          {
+            "dimension": "activity.date",
+            "dateRange": [
+              "2024-01-01",
+              "2024-12-31"
+            ]
+          }
+        ]
+      },
+      "referenceResult": {
+        "data": {
+          "client": "silverstone",
+          "stage": "prod",
+          "infrastructureStage": "prod",
+          "rows": [
+            {
+              "activity.emission": "67421.32614792621432726"
+            }
+          ],
+          "rowCount": 1,
+          "shape": "scalar",
+          "annotation": {
+            "timeDimensions": {},
+            "dimensions": {},
+            "measures": {
+              "activity.emission": {
+                "title": "Activity Emission (mt-CO2e)",
+                "shortTitle": "Emission (mt-CO2e)",
+                "type": "number",
+                "drillMembers": [],
+                "drillMembersGrouped": {
+                  "measures": [],
+                  "dimensions": []
+                }
+              }
+            },
+            "segments": {
+              "activity.ghg": {
+                "title": "Activity GHG",
+                "shortTitle": "GHG"
+              }
+            }
+          },
+          "query": {
+            "measures": [
+              "activity.emission"
+            ],
+            "segments": [
+              "activity.ghg"
+            ],
+            "timeDimensions": [
+              {
+                "dimension": "activity.date",
+                "dateRange": [
+                  "2024-01-01",
+                  "2024-12-31"
+                ]
+              }
+            ],
+            "filters": [
+              {
+                "member": "activity.emission",
+                "operator": "set"
+              },
+              {
+                "member": "activity.event",
+                "operator": "equals",
+                "values": [
+                  "BGP"
+                ]
+              }
+            ]
+          }
+        },
+        "errorCode": null,
+        "errorDesc": null,
+        "message": null
+      },
+      "verified": false,
+      "fetchedAt": "2026-09-18T07:21:26.351Z"
     },
     {
-      "id": "in-27",
+      "id": "Q17",
       "scope": "in",
-      "question": "How many spectators attended events this year?",
-      "expect": {
-        "measures": ["activity.spectatorCount"],
-        "referenceValue": null,
-        "NEEDS_VERIFICATION": true
-      }
+      "category": "timeseries",
+      "question": "Show the yearly emissions trend from 2021 to 2024.",
+      "referenceQuery": {
+        "measures": [
+          "activity.emission"
+        ],
+        "segments": [
+          "activity.ghg"
+        ],
+        "filters": [
+          {
+            "member": "activity.emission",
+            "operator": "set"
+          }
+        ],
+        "timeDimensions": [
+          {
+            "dimension": "activity.date",
+            "dateRange": [
+              "2021-01-01",
+              "2024-12-31"
+            ],
+            "granularity": "year"
+          }
+        ],
+        "order": [
+          [
+            "activity.date",
+            "asc"
+          ]
+        ]
+      },
+      "referenceResult": {
+        "data": {
+          "client": "silverstone",
+          "stage": "prod",
+          "infrastructureStage": "prod",
+          "rows": [
+            {
+              "activity.date.year": "2022-01-01T00:00:00.000",
+              "activity.emission": "28464.6700000000000",
+              "activity.date": "2022-01-01T00:00:00.000"
+            },
+            {
+              "activity.date.year": "2023-01-01T00:00:00.000",
+              "activity.emission": "48680.8309597034814828",
+              "activity.date": "2023-01-01T00:00:00.000"
+            },
+            {
+              "activity.date.year": "2024-01-01T00:00:00.000",
+              "activity.emission": "86415.193325230881009157",
+              "activity.date": "2024-01-01T00:00:00.000"
+            }
+          ],
+          "rowCount": 3,
+          "shape": "timeseries",
+          "annotation": {
+            "segments": {
+              "activity.ghg": {
+                "title": "Activity GHG",
+                "shortTitle": "GHG"
+              }
+            },
+            "timeDimensions": {
+              "activity.date": {
+                "title": "Activity Date",
+                "shortTitle": "Date",
+                "type": "time"
+              },
+              "activity.date.year": {
+                "title": "Activity Date",
+                "shortTitle": "Date",
+                "type": "time",
+                "granularity": {
+                  "name": "year",
+                  "title": "year",
+                  "interval": "1 year"
+                }
+              }
+            },
+            "dimensions": {},
+            "measures": {
+              "activity.emission": {
+                "title": "Activity Emission (mt-CO2e)",
+                "shortTitle": "Emission (mt-CO2e)",
+                "type": "number",
+                "drillMembers": [],
+                "drillMembersGrouped": {
+                  "measures": [],
+                  "dimensions": []
+                }
+              }
+            }
+          },
+          "query": {
+            "measures": [
+              "activity.emission"
+            ],
+            "segments": [
+              "activity.ghg"
+            ],
+            "timeDimensions": [
+              {
+                "dimension": "activity.date",
+                "dateRange": [
+                  "2021-01-01",
+                  "2024-12-31"
+                ],
+                "granularity": "year"
+              }
+            ],
+            "filters": [
+              {
+                "member": "activity.emission",
+                "operator": "set"
+              }
+            ],
+            "order": [
+              [
+                "activity.date",
+                "asc"
+              ]
+            ]
+          }
+        },
+        "errorCode": null,
+        "errorDesc": null,
+        "message": null
+      },
+      "verified": false,
+      "fetchedAt": "2026-09-18T07:21:27.160Z"
     },
     {
-      "id": "in-28",
+      "id": "Q18",
       "scope": "in",
-      "question": "What is our emission factor source breakdown?",
-      "expect": {
-        "measures": ["activity.emission"],
-        "dimensions": ["activity.efSource"],
-        "referenceValue": null,
-        "NEEDS_VERIFICATION": true
-      }
+      "category": "timeseries",
+      "question": "Show Scope 3 emissions by year from 2022 to 2024.",
+      "referenceQuery": {
+        "measures": [
+          "activity.emission"
+        ],
+        "segments": [
+          "activity.scope3"
+        ],
+        "filters": [
+          {
+            "member": "activity.emission",
+            "operator": "set"
+          }
+        ],
+        "timeDimensions": [
+          {
+            "dimension": "activity.date",
+            "dateRange": [
+              "2022-01-01",
+              "2024-12-31"
+            ],
+            "granularity": "year"
+          }
+        ],
+        "order": [
+          [
+            "activity.date",
+            "asc"
+          ]
+        ]
+      },
+      "referenceResult": {
+        "data": {
+          "client": "silverstone",
+          "stage": "prod",
+          "infrastructureStage": "prod",
+          "rows": [
+            {
+              "activity.date.year": "2022-01-01T00:00:00.000",
+              "activity.emission": "28252.320000000000",
+              "activity.date": "2022-01-01T00:00:00.000"
+            },
+            {
+              "activity.date.year": "2023-01-01T00:00:00.000",
+              "activity.emission": "48464.6872564077439020",
+              "activity.date": "2023-01-01T00:00:00.000"
+            },
+            {
+              "activity.date.year": "2024-01-01T00:00:00.000",
+              "activity.emission": "84164.257441953481019807",
+              "activity.date": "2024-01-01T00:00:00.000"
+            }
+          ],
+          "rowCount": 3,
+          "shape": "timeseries",
+          "annotation": {
+            "segments": {
+              "activity.scope3": {
+                "title": "Activity Scope 3",
+                "shortTitle": "Scope 3"
+              }
+            },
+            "measures": {
+              "activity.emission": {
+                "title": "Activity Emission (mt-CO2e)",
+                "shortTitle": "Emission (mt-CO2e)",
+                "type": "number",
+                "drillMembers": [],
+                "drillMembersGrouped": {
+                  "measures": [],
+                  "dimensions": []
+                }
+              }
+            },
+            "timeDimensions": {
+              "activity.date": {
+                "title": "Activity Date",
+                "shortTitle": "Date",
+                "type": "time"
+              },
+              "activity.date.year": {
+                "title": "Activity Date",
+                "shortTitle": "Date",
+                "type": "time",
+                "granularity": {
+                  "name": "year",
+                  "title": "year",
+                  "interval": "1 year"
+                }
+              }
+            },
+            "dimensions": {}
+          },
+          "query": {
+            "measures": [
+              "activity.emission"
+            ],
+            "segments": [
+              "activity.scope3"
+            ],
+            "timeDimensions": [
+              {
+                "dimension": "activity.date",
+                "dateRange": [
+                  "2022-01-01",
+                  "2024-12-31"
+                ],
+                "granularity": "year"
+              }
+            ],
+            "filters": [
+              {
+                "member": "activity.emission",
+                "operator": "set"
+              }
+            ],
+            "order": [
+              [
+                "activity.date",
+                "asc"
+              ]
+            ]
+          }
+        },
+        "errorCode": null,
+        "errorDesc": null,
+        "message": null
+      },
+      "verified": false,
+      "fetchedAt": "2026-09-18T07:21:27.911Z"
     },
     {
-      "id": "in-29",
+      "id": "Q19",
       "scope": "in",
-      "question": "What are our emissions from diesel?",
-      "expect": {
-        "measures": ["activity.emission"],
-        "filters": [{ "member": "activity.type", "operator": "equals", "values": ["Diesel"] }],
-        "referenceValue": null,
-        "NEEDS_VERIFICATION": true
-      }
+      "category": "scope-breakdown",
+      "question": "What percentage of total emissions is Scope 3 in 2024?",
+      "referenceQuery": {
+        "measures": [
+          "activity.emission"
+        ],
+        "dimensions": [
+          "activity.ghgScopeId"
+        ],
+        "segments": [
+          "activity.ghg"
+        ],
+        "filters": [
+          {
+            "member": "activity.emission",
+            "operator": "set"
+          }
+        ],
+        "timeDimensions": [
+          {
+            "dimension": "activity.date",
+            "dateRange": [
+              "2024-01-01",
+              "2024-12-31"
+            ]
+          }
+        ],
+        "order": [
+          [
+            "activity.ghgScopeId",
+            "asc"
+          ]
+        ]
+      },
+      "referenceResult": {
+        "data": {
+          "client": "silverstone",
+          "stage": "prod",
+          "infrastructureStage": "prod",
+          "rows": [
+            {
+              "activity.ghgScopeId": "1",
+              "activity.emission": "2040.92817402739997935"
+            },
+            {
+              "activity.ghgScopeId": "2",
+              "activity.emission": "210.0077092500000100"
+            },
+            {
+              "activity.ghgScopeId": "3",
+              "activity.emission": "84164.257441953481019807"
+            }
+          ],
+          "rowCount": 3,
+          "shape": "categorical",
+          "annotation": {
+            "timeDimensions": {},
+            "dimensions": {
+              "activity.ghgScopeId": {
+                "title": "Activity Ghg Scope Id",
+                "shortTitle": "Ghg Scope Id",
+                "type": "string"
+              }
+            },
+            "measures": {
+              "activity.emission": {
+                "title": "Activity Emission (mt-CO2e)",
+                "shortTitle": "Emission (mt-CO2e)",
+                "type": "number",
+                "drillMembers": [],
+                "drillMembersGrouped": {
+                  "measures": [],
+                  "dimensions": []
+                }
+              }
+            },
+            "segments": {
+              "activity.ghg": {
+                "title": "Activity GHG",
+                "shortTitle": "GHG"
+              }
+            }
+          },
+          "query": {
+            "measures": [
+              "activity.emission"
+            ],
+            "dimensions": [
+              "activity.ghgScopeId"
+            ],
+            "segments": [
+              "activity.ghg"
+            ],
+            "timeDimensions": [
+              {
+                "dimension": "activity.date",
+                "dateRange": [
+                  "2024-01-01",
+                  "2024-12-31"
+                ]
+              }
+            ],
+            "filters": [
+              {
+                "member": "activity.emission",
+                "operator": "set"
+              }
+            ],
+            "order": [
+              [
+                "activity.ghgScopeId",
+                "asc"
+              ]
+            ]
+          }
+        },
+        "errorCode": null,
+        "errorDesc": null,
+        "message": null
+      },
+      "verified": false,
+      "fetchedAt": "2026-09-18T07:21:28.684Z"
     },
     {
-      "id": "in-30",
+      "id": "Q20",
       "scope": "in",
-      "question": "What is the year-on-year percentage change in our total emissions?",
-      "expect": {
-        "measures": ["activity.emission"],
-        "timeDimensions": [{ "dimension": "activity.date", "granularity": "year" }],
-        "notes": "Agent computes % change from 2 rows. Validate the arithmetic.",
-        "referenceValue": null,
-        "NEEDS_VERIFICATION": true
-      }
+      "category": "scope3-breakdown",
+      "question": "What were fan travel emissions (spectator travel) for 2024?",
+      "referenceQuery": {
+        "measures": [
+          "activity.emission",
+          "activity.spectatorCount"
+        ],
+        "segments": [
+          "activity.scope3"
+        ],
+        "filters": [
+          {
+            "member": "activity.emission",
+            "operator": "set"
+          },
+          {
+            "member": "activity.ghgCategory",
+            "operator": "contains",
+            "values": [
+              "Fan Travel"
+            ]
+          }
+        ]
+      },
+      "referenceResult": {
+        "data": {
+          "client": "silverstone",
+          "stage": "prod",
+          "infrastructureStage": "prod",
+          "rows": [
+            {
+              "activity.emission": "7292.6100000000000000",
+              "activity.spectatorCount": null
+            }
+          ],
+          "rowCount": 1,
+          "shape": "scalar",
+          "annotation": {
+            "measures": {
+              "activity.emission": {
+                "title": "Activity Emission (mt-CO2e)",
+                "shortTitle": "Emission (mt-CO2e)",
+                "type": "number",
+                "drillMembers": [],
+                "drillMembersGrouped": {
+                  "measures": [],
+                  "dimensions": []
+                }
+              },
+              "activity.spectatorCount": {
+                "title": "Activity Spectator Count",
+                "shortTitle": "Spectator Count",
+                "type": "number",
+                "drillMembers": [],
+                "drillMembersGrouped": {
+                  "measures": [],
+                  "dimensions": []
+                }
+              }
+            },
+            "timeDimensions": {},
+            "segments": {
+              "activity.scope3": {
+                "title": "Activity Scope 3",
+                "shortTitle": "Scope 3"
+              }
+            },
+            "dimensions": {}
+          },
+          "query": {
+            "measures": [
+              "activity.emission",
+              "activity.spectatorCount"
+            ],
+            "segments": [
+              "activity.scope3"
+            ],
+            "filters": [
+              {
+                "member": "activity.emission",
+                "operator": "set"
+              },
+              {
+                "member": "activity.ghgCategory",
+                "operator": "contains",
+                "values": [
+                  "Fan Travel"
+                ]
+              }
+            ]
+          }
+        },
+        "errorCode": null,
+        "errorDesc": null,
+        "message": null
+      },
+      "verified": false,
+      "fetchedAt": "2026-09-18T07:21:29.451Z"
     },
     {
-      "id": "out-01",
+      "id": "Q21",
+      "scope": "in",
+      "category": "multi-measure",
+      "question": "Show total emissions and spectator count for the British Grand Prix in 2024.",
+      "referenceQuery": {
+        "measures": [
+          "activity.emission",
+          "activity.spectatorCount"
+        ],
+        "segments": [
+          "activity.ghg"
+        ],
+        "filters": [
+          {
+            "member": "activity.emission",
+            "operator": "set"
+          },
+          {
+            "member": "activity.event",
+            "operator": "equals",
+            "values": [
+              "BGP"
+            ]
+          }
+        ],
+        "timeDimensions": [
+          {
+            "dimension": "activity.date",
+            "dateRange": [
+              "2024-01-01",
+              "2024-12-31"
+            ]
+          }
+        ]
+      },
+      "referenceResult": {
+        "data": {
+          "client": "silverstone",
+          "stage": "prod",
+          "infrastructureStage": "prod",
+          "rows": [
+            {
+              "activity.emission": "67421.32614792621432726",
+              "activity.spectatorCount": null
+            }
+          ],
+          "rowCount": 1,
+          "shape": "scalar",
+          "annotation": {
+            "dimensions": {},
+            "measures": {
+              "activity.emission": {
+                "title": "Activity Emission (mt-CO2e)",
+                "shortTitle": "Emission (mt-CO2e)",
+                "type": "number",
+                "drillMembers": [],
+                "drillMembersGrouped": {
+                  "measures": [],
+                  "dimensions": []
+                }
+              },
+              "activity.spectatorCount": {
+                "title": "Activity Spectator Count",
+                "shortTitle": "Spectator Count",
+                "type": "number",
+                "drillMembers": [],
+                "drillMembersGrouped": {
+                  "measures": [],
+                  "dimensions": []
+                }
+              }
+            },
+            "timeDimensions": {},
+            "segments": {
+              "activity.ghg": {
+                "title": "Activity GHG",
+                "shortTitle": "GHG"
+              }
+            }
+          },
+          "query": {
+            "measures": [
+              "activity.emission",
+              "activity.spectatorCount"
+            ],
+            "segments": [
+              "activity.ghg"
+            ],
+            "timeDimensions": [
+              {
+                "dimension": "activity.date",
+                "dateRange": [
+                  "2024-01-01",
+                  "2024-12-31"
+                ]
+              }
+            ],
+            "filters": [
+              {
+                "member": "activity.emission",
+                "operator": "set"
+              },
+              {
+                "member": "activity.event",
+                "operator": "equals",
+                "values": [
+                  "BGP"
+                ]
+              }
+            ]
+          }
+        },
+        "errorCode": null,
+        "errorDesc": null,
+        "message": null
+      },
+      "verified": false,
+      "fetchedAt": "2026-09-18T08:32:33.150Z"
+    },
+    {
+      "id": "Q22",
+      "scope": "in",
+      "category": "totals",
+      "question": "What is the total carbon footprint across all scopes for 2024?",
+      "referenceQuery": {
+        "measures": [
+          "activity.emission"
+        ],
+        "segments": [
+          "activity.ghg"
+        ],
+        "filters": [
+          {
+            "member": "activity.emission",
+            "operator": "set"
+          }
+        ],
+        "timeDimensions": [
+          {
+            "dimension": "activity.date",
+            "dateRange": [
+              "2024-01-01",
+              "2024-12-31"
+            ]
+          }
+        ]
+      },
+      "referenceResult": {
+        "data": {
+          "client": "silverstone",
+          "stage": "prod",
+          "infrastructureStage": "prod",
+          "rows": [
+            {
+              "activity.emission": "86415.193325230881009157"
+            }
+          ],
+          "rowCount": 1,
+          "shape": "scalar",
+          "annotation": {
+            "dimensions": {},
+            "timeDimensions": {},
+            "segments": {
+              "activity.ghg": {
+                "title": "Activity GHG",
+                "shortTitle": "GHG"
+              }
+            },
+            "measures": {
+              "activity.emission": {
+                "title": "Activity Emission (mt-CO2e)",
+                "shortTitle": "Emission (mt-CO2e)",
+                "type": "number",
+                "drillMembers": [],
+                "drillMembersGrouped": {
+                  "measures": [],
+                  "dimensions": []
+                }
+              }
+            }
+          },
+          "query": {
+            "measures": [
+              "activity.emission"
+            ],
+            "segments": [
+              "activity.ghg"
+            ],
+            "timeDimensions": [
+              {
+                "dimension": "activity.date",
+                "dateRange": [
+                  "2024-01-01",
+                  "2024-12-31"
+                ]
+              }
+            ],
+            "filters": [
+              {
+                "member": "activity.emission",
+                "operator": "set"
+              }
+            ]
+          }
+        },
+        "errorCode": null,
+        "errorDesc": null,
+        "message": null
+      },
+      "verified": false,
+      "fetchedAt": "2026-09-18T07:21:31.005Z"
+    },
+    {
+      "id": "Q23",
+      "scope": "in",
+      "category": "yoy",
+      "question": "Which year between 2022 and 2024 had the highest total emissions?",
+      "referenceQuery": {
+        "measures": [
+          "activity.emission"
+        ],
+        "segments": [
+          "activity.ghg"
+        ],
+        "filters": [
+          {
+            "member": "activity.emission",
+            "operator": "set"
+          }
+        ],
+        "timeDimensions": [
+          {
+            "dimension": "activity.date",
+            "dateRange": [
+              "2022-01-01",
+              "2024-12-31"
+            ],
+            "granularity": "year"
+          }
+        ],
+        "order": [
+          [
+            "activity.emission",
+            "desc"
+          ]
+        ]
+      },
+      "referenceResult": {
+        "data": {
+          "client": "silverstone",
+          "stage": "prod",
+          "infrastructureStage": "prod",
+          "rows": [
+            {
+              "activity.date.year": "2024-01-01T00:00:00.000",
+              "activity.emission": "86415.193325230881009157",
+              "activity.date": "2024-01-01T00:00:00.000"
+            },
+            {
+              "activity.date.year": "2023-01-01T00:00:00.000",
+              "activity.emission": "48680.8309597034814828",
+              "activity.date": "2023-01-01T00:00:00.000"
+            },
+            {
+              "activity.date.year": "2022-01-01T00:00:00.000",
+              "activity.emission": "28464.6700000000000",
+              "activity.date": "2022-01-01T00:00:00.000"
+            }
+          ],
+          "rowCount": 3,
+          "shape": "timeseries",
+          "annotation": {
+            "timeDimensions": {
+              "activity.date": {
+                "title": "Activity Date",
+                "shortTitle": "Date",
+                "type": "time"
+              },
+              "activity.date.year": {
+                "title": "Activity Date",
+                "shortTitle": "Date",
+                "type": "time",
+                "granularity": {
+                  "name": "year",
+                  "title": "year",
+                  "interval": "1 year"
+                }
+              }
+            },
+            "measures": {
+              "activity.emission": {
+                "title": "Activity Emission (mt-CO2e)",
+                "shortTitle": "Emission (mt-CO2e)",
+                "type": "number",
+                "drillMembers": [],
+                "drillMembersGrouped": {
+                  "measures": [],
+                  "dimensions": []
+                }
+              }
+            },
+            "dimensions": {},
+            "segments": {
+              "activity.ghg": {
+                "title": "Activity GHG",
+                "shortTitle": "GHG"
+              }
+            }
+          },
+          "query": {
+            "measures": [
+              "activity.emission"
+            ],
+            "segments": [
+              "activity.ghg"
+            ],
+            "timeDimensions": [
+              {
+                "dimension": "activity.date",
+                "dateRange": [
+                  "2022-01-01",
+                  "2024-12-31"
+                ],
+                "granularity": "year"
+              }
+            ],
+            "filters": [
+              {
+                "member": "activity.emission",
+                "operator": "set"
+              }
+            ],
+            "order": [
+              [
+                "activity.emission",
+                "desc"
+              ]
+            ]
+          }
+        },
+        "errorCode": null,
+        "errorDesc": null,
+        "message": null
+      },
+      "verified": false,
+      "fetchedAt": "2026-09-18T07:21:31.799Z"
+    },
+    {
+      "id": "Q24",
+      "scope": "in",
+      "category": "suppliers",
+      "question": "Show emissions from supplier-related Scope 3 activities for the British Grand Prix.",
+      "referenceQuery": {
+        "measures": [
+          "activity.emission"
+        ],
+        "dimensions": [
+          "activity.supplier"
+        ],
+        "segments": [
+          "activity.scope3"
+        ],
+        "filters": [
+          {
+            "member": "activity.activity",
+            "operator": "startsWith",
+            "values": [
+              "Supplier"
+            ]
+          },
+          {
+            "member": "activity.supplier",
+            "operator": "set"
+          },
+          {
+            "member": "activity.event",
+            "operator": "equals",
+            "values": [
+              "BGP"
+            ]
+          },
+          {
+            "member": "activity.emission",
+            "operator": "set"
+          }
+        ],
+        "order": [
+          [
+            "activity.emission",
+            "desc"
+          ]
+        ]
+      },
+      "referenceResult": {
+        "data": {
+          "client": "silverstone",
+          "stage": "prod",
+          "infrastructureStage": "prod",
+          "rows": [
+            {
+              "activity.supplier": "The Technical Department",
+              "activity.emission": "5187.3567425255392283"
+            },
+            {
+              "activity.supplier": "GL events",
+              "activity.emission": "3552.9114867271880101"
+            },
+            {
+              "activity.supplier": "Unknown Supplier(s)",
+              "activity.emission": "3056.6200000000000000"
+            },
+            {
+              "activity.supplier": "MATCH Hospitality AG",
+              "activity.emission": "2905.5300000000000000"
+            },
+            {
+              "activity.supplier": "Smart Group LTD",
+              "activity.emission": "2401.7760296534463858"
+            },
+            {
+              "activity.supplier": "Freemans Event Partners",
+              "activity.emission": "1767.9857900000000000"
+            },
+            {
+              "activity.supplier": "HEINEKEN UK Limited",
+              "activity.emission": "1621.1300000000000000"
+            },
+            {
+              "activity.supplier": "Freemans Event Partners ",
+              "activity.emission": "997.5557475572001050"
+            },
+            {
+              "activity.supplier": "ADI UK Ltd (ADI.tv)",
+              "activity.emission": "668.12248037369999342"
+            },
+            {
+              "activity.supplier": "PMC 4 EUROPE T/A DPI",
+              "activity.emission": "472.9431827405260802"
+            },
+            {
+              "activity.supplier": "Fews Marquees Ltd",
+              "activity.emission": "426.7025314213938903"
+            },
+            {
+              "activity.supplier": "Gorges tent...event GmbH & Co. KG",
+              "activity.emission": "280.1816963239999700"
+            },
+            {
+              "activity.supplier": "Collins Fresh Produce",
+              "activity.emission": "223.8006000000000000"
+            },
+            {
+              "activity.supplier": "ZOO EVENTS GROUP LIMITED",
+              "activity.emission": "201.0384651512370075"
+            },
+            {
+              "activity.supplier": "ISL Networks",
+              "activity.emission": "163.1599478073312006230"
+            },
+            {
+              "activity.supplier": "Portable Toilets Ltd",
+              "activity.emission": "160.2521200000000000"
+            },
+            {
+              "activity.supplier": "SWG Events Limited",
+              "activity.emission": "114.6841082656520000"
+            },
+            {
+              "activity.supplier": "Presentation Service Providers Ltd",
+              "activity.emission": "112.4001392146606084"
+            },
+            {
+              "activity.supplier": "Absolute taste ltd",
+              "activity.emission": "98.7640214419200003"
+            },
+            {
+              "activity.supplier": "Velocity",
+              "activity.emission": "90.7535700000000000"
+            },
+            {
+              "activity.supplier": "Gorilla Events Limited",
+              "activity.emission": "72.6098294388961602"
+            },
+            {
+              "activity.supplier": "MTD UK AND IRELAND",
+              "activity.emission": "56.7100476439960585"
+            },
+            {
+              "activity.supplier": "Events House LTD ",
+              "activity.emission": "51.1334731747411201"
+            },
+            {
+              "activity.supplier": "Sierra 1 Security Stewarding Ltd",
+              "activity.emission": "48.6853500664064010"
+            },
+            {
+              "activity.supplier": "wrights of twycross",
+              "activity.emission": "43.5232400000000000"
+            },
+            {
+              "activity.supplier": "Dish catering LTD",
+              "activity.emission": "43.15012303130000197"
+            },
+            {
+              "activity.supplier": "In2 Publishing Ltd",
+              "activity.emission": "40.7012817960064006"
+            },
+            {
+              "activity.supplier": "Davis Track Hire LTD",
+              "activity.emission": "39.7089974540728000"
+            },
+            {
+              "activity.supplier": "Clean Event",
+              "activity.emission": "38.7140081552617231"
+            },
+            {
+              "activity.supplier": "Axiom Events Ltd",
+              "activity.emission": "35.0809713591680003"
+            },
+            {
+              "activity.supplier": "R H Electrics",
+              "activity.emission": "33.5855069500000000"
+            },
+            {
+              "activity.supplier": "Creation Live Ltd",
+              "activity.emission": "32.3900000000000000"
+            },
+            {
+              "activity.supplier": "Showsec International Ltd",
+              "activity.emission": "30.4982600000000000"
+            },
+            {
+              "activity.supplier": "Team Audio Ltd",
+              "activity.emission": "29.9665163093056000"
+            },
+            {
+              "activity.supplier": "Gardiff Epos",
+              "activity.emission": "29.639291907950000000"
+            },
+            {
+              "activity.supplier": "Light Fantastic Production Services Ltd",
+              "activity.emission": "28.3097586771048831"
+            },
+            {
+              "activity.supplier": "Andrews Sykes Hire Limited",
+              "activity.emission": "23.5659279198665263"
+            },
+            {
+              "activity.supplier": "Smart Group Ltd",
+              "activity.emission": "22.9136941068106086"
+            },
+            {
+              "activity.supplier": "J B Event Facilities Ltd",
+              "activity.emission": "22.5890965042311662"
+            },
+            {
+              "activity.supplier": "CamCat - Systems GmbH",
+              "activity.emission": "18.3789448089477140"
+            },
+            {
+              "activity.supplier": "Attitude is Everything",
+              "activity.emission": "15.8916917200000000"
+            },
+            {
+              "activity.supplier": "Henson Franklyn Ltd",
+              "activity.emission": "15.7615796042314668"
+            },
+            {
+              "activity.supplier": "BAZAAR STUDIO LIMITED",
+              "activity.emission": "15.5374972382699992"
+            },
+            {
+              "activity.supplier": "9 Yards Creative Ltd",
+              "activity.emission": "14.0469150550201610"
+            },
+            {
+              "activity.supplier": "CW Security Management Limited",
+              "activity.emission": "11.3503040885640000"
+            },
+            {
+              "activity.supplier": "Collins Fresh Produce ltd",
+              "activity.emission": "10.7007010999999998"
+            },
+            {
+              "activity.supplier": "Mitchell Bridges",
+              "activity.emission": "10.61170553326200054"
+            },
+            {
+              "activity.supplier": "Pyrotec Fire Protection Ltd",
+              "activity.emission": "10.3427074074726400"
+            },
+            {
+              "activity.supplier": "Karamu Bars Ltd",
+              "activity.emission": "9.9594001322720002"
+            },
+            {
+              "activity.supplier": "Red Bull Company Limited",
+              "activity.emission": "9.6945742274989676"
+            },
+            {
+              "activity.supplier": "Shell Global Solutions (Deutschland) GmbH",
+              "activity.emission": "9.5564209430020107"
+            },
+            {
+              "activity.supplier": "Roadgrip Ltd",
+              "activity.emission": "9.22350377973120070"
+            },
+            {
+              "activity.supplier": "Ten by Fifteen Structures",
+              "activity.emission": "8.3229455578272917"
+            },
+            {
+              "activity.supplier": "Kayam Structures",
+              "activity.emission": "7.9147145000000000"
+            },
+            {
+              "activity.supplier": "Massive",
+              "activity.emission": "6.94175523752000000"
+            },
+            {
+              "activity.supplier": "Stadium Traffic Management Limited",
+              "activity.emission": "6.6692640576768000"
+            },
+            {
+              "activity.supplier": "Designed By Carley ",
+              "activity.emission": "6.475980231922240100"
+            },
+            {
+              "activity.supplier": "Innserve Ltd",
+              "activity.emission": "6.0700000000000000"
+            },
+            {
+              "activity.supplier": "Ashleigh Signs Ltd",
+              "activity.emission": "5.9628666905600000"
+            },
+            {
+              "activity.supplier": "Qdos Event Hire Ltd",
+              "activity.emission": "5.6359334193536000"
+            },
+            {
+              "activity.supplier": "Bradshaw EV",
+              "activity.emission": "4.2698818986669600"
+            },
+            {
+              "activity.supplier": "A and J Big Tops Limited",
+              "activity.emission": "4.2660223917296003"
+            },
+            {
+              "activity.supplier": "Acorn Construction (Yorkshire) Ltd",
+              "activity.emission": "4.1372725858400000"
+            },
+            {
+              "activity.supplier": "Access Events Ltd",
+              "activity.emission": "3.9300000000000000"
+            },
+            {
+              "activity.supplier": "Fresh Air UK Ltd",
+              "activity.emission": "3.9200000000000000"
+            },
+            {
+              "activity.supplier": "Northamptonshire Police, Fire and Rescue Services",
+              "activity.emission": "3.85602154371840032"
+            },
+            {
+              "activity.supplier": "X-IV Events Limited",
+              "activity.emission": "3.5312322994176001"
+            },
+            {
+              "activity.supplier": "Nu Kleen Services Limited",
+              "activity.emission": "3.3986173198602244"
+            },
+            {
+              "activity.supplier": "A&J Big Tops",
+              "activity.emission": "3.2724700000000000"
+            },
+            {
+              "activity.supplier": "Flair Events People",
+              "activity.emission": "3.1716211253760003"
+            },
+            {
+              "activity.supplier": "CAW Plumbing and Heating Ltd",
+              "activity.emission": "3.0386951365632000"
+            },
+            {
+              "activity.supplier": "K2 Recruitment Ltd",
+              "activity.emission": "2.7254046568000000"
+            },
+            {
+              "activity.supplier": "Xtreme Graphics Limited",
+              "activity.emission": "2.6900000000000000"
+            },
+            {
+              "activity.supplier": "Effective Security ta Professional Security Ltd",
+              "activity.emission": "2.5600000000000000"
+            },
+            {
+              "activity.supplier": "Torton Bodies Ltd",
+              "activity.emission": "2.3141800000000000"
+            },
+            {
+              "activity.supplier": "Arc Hospitality Recruitment Solutions LTD",
+              "activity.emission": "2.1650105314400002"
+            },
+            {
+              "activity.supplier": "D C Site Services",
+              "activity.emission": "2.1081369982464002"
+            },
+            {
+              "activity.supplier": "Radiance Production Ltd",
+              "activity.emission": "1.7574988886640000"
+            },
+            {
+              "activity.supplier": "DPI",
+              "activity.emission": "1.7540786615000000"
+            },
+            {
+              "activity.supplier": "Areion Security Services Ltd",
+              "activity.emission": "1.70426804944320021"
+            },
+            {
+              "activity.supplier": "Off to Work ",
+              "activity.emission": "1.6029529731072003"
+            },
+            {
+              "activity.supplier": "Off To Work",
+              "activity.emission": "1.5154715476992002"
+            },
+            {
+              "activity.supplier": "Time To ELEV8 LTD",
+              "activity.emission": "1.4248400269731840"
+            },
+            {
+              "activity.supplier": "High Noon Hospitality",
+              "activity.emission": "1.4214199805337600"
+            },
+            {
+              "activity.supplier": "The Events House LTD",
+              "activity.emission": "1.3784803845120000"
+            },
+            {
+              "activity.supplier": "ACORN CONSTRUCTION (YORKSHIRE) LTD",
+              "activity.emission": "1.3713000000000000"
+            },
+            {
+              "activity.supplier": "Superstars",
+              "activity.emission": "1.25670042833804160"
+            },
+            {
+              "activity.supplier": "Pace Six Four LTD",
+              "activity.emission": "1.0486905112379849"
+            },
+            {
+              "activity.supplier": "Chord Event Ltd",
+              "activity.emission": "1.0233936000000000"
+            },
+            {
+              "activity.supplier": "MyComms Ltd",
+              "activity.emission": "1.00116015186176000"
+            },
+            {
+              "activity.supplier": "LTDA",
+              "activity.emission": "0.95768842752000010000"
+            },
+            {
+              "activity.supplier": "Block Aid UK LTD",
+              "activity.emission": "0.76465809235046001200"
+            },
+            {
+              "activity.supplier": "Embrace Media Ltd T/A EmbraceBuilding Wraps",
+              "activity.emission": "0.73363555584000009000"
+            },
+            {
+              "activity.supplier": "Block Aid UK Limited",
+              "activity.emission": "0.71015287499999999900"
+            },
+            {
+              "activity.supplier": "Stage RIght Productions",
+              "activity.emission": "0.66800548721536010000"
+            },
+            {
+              "activity.supplier": "TRACSIS EVENTS LIMITED",
+              "activity.emission": "0.63000000000000000000"
+            },
+            {
+              "activity.supplier": "Regency Security Security Services (UK) Ltd",
+              "activity.emission": "0.59563707591168000300"
+            },
+            {
+              "activity.supplier": "Antena TV Group SA",
+              "activity.emission": "0.55736923265683199987"
+            },
+            {
+              "activity.supplier": "Goose Live Events Ltd",
+              "activity.emission": "0.53000000000000000000"
+            },
+            {
+              "activity.supplier": "Showsec Ltd",
+              "activity.emission": "0.46653233036800009000"
+            },
+            {
+              "activity.supplier": "Constellation Management Group Limited",
+              "activity.emission": "0.46232000000000000000"
+            },
+            {
+              "activity.supplier": "Aib Group Holdings Ltd",
+              "activity.emission": "0.44450654523520000200"
+            },
+            {
+              "activity.supplier": "Aesthetics Events Staff Ltd",
+              "activity.emission": "0.42424171333333333550"
+            },
+            {
+              "activity.supplier": "Coloursound Experiment",
+              "activity.emission": "0.39869440000000000300"
+            },
+            {
+              "activity.supplier": "Greycoat Placements Ltd t/a Greycoat Lumleys",
+              "activity.emission": "0.37709633617920000000"
+            },
+            {
+              "activity.supplier": "Safe Hands Audio Ltd",
+              "activity.emission": "0.32707000000000000000"
+            },
+            {
+              "activity.supplier": "Little Racers",
+              "activity.emission": "0.31793041336320000000"
+            },
+            {
+              "activity.supplier": "Big City Consultants Ltd ",
+              "activity.emission": "0.24516155314048000030"
+            },
+            {
+              "activity.supplier": "The Stretch Tent Company Ltd",
+              "activity.emission": "0.16311500000000000000"
+            },
+            {
+              "activity.supplier": "cowan recovery ltd",
+              "activity.emission": "0.11000000000000000000"
+            },
+            {
+              "activity.supplier": "InReach Group Limited",
+              "activity.emission": "0.10671460155571200300"
+            },
+            {
+              "activity.supplier": "View It 360 Ltd",
+              "activity.emission": "0.10619761600144000000"
+            },
+            {
+              "activity.supplier": "Medway Sling Company MKT Ltd",
+              "activity.emission": "0.09841392669504000700"
+            },
+            {
+              "activity.supplier": "BDI Security Solutions Ltd",
+              "activity.emission": "0.07000000000000000000"
+            },
+            {
+              "activity.supplier": "T&L Marquee Hire Limited",
+              "activity.emission": "0.06603494800000000600"
+            },
+            {
+              "activity.supplier": "Sunbelt Rentals Ltd - Croydon",
+              "activity.emission": "0.06018438392832000600"
+            },
+            {
+              "activity.supplier": "Confetti Magic Ltd",
+              "activity.emission": "0.05611749200000000000"
+            },
+            {
+              "activity.supplier": "The Nu Group",
+              "activity.emission": "0.03116000000000000000"
+            },
+            {
+              "activity.supplier": "Lynx Networks (Network)",
+              "activity.emission": "0.02823514835165440000"
+            },
+            {
+              "activity.supplier": "S4A Group Ltd",
+              "activity.emission": "0.02790834921216000000"
+            },
+            {
+              "activity.supplier": "Champion rv hire Ltd ",
+              "activity.emission": "0.02727232966655999990"
+            },
+            {
+              "activity.supplier": "Specialized Security",
+              "activity.emission": "0.02040000000000000000"
+            },
+            {
+              "activity.supplier": "Apex Scaffolding Ltd",
+              "activity.emission": "0.02002320000000000000"
+            },
+            {
+              "activity.supplier": "Schindler limited",
+              "activity.emission": "0.01040000000000000000"
+            },
+            {
+              "activity.supplier": "Goldstar Recruitment Ltd",
+              "activity.emission": "0.00233962848091520000"
+            },
+            {
+              "activity.supplier": "3s Northampton Limited",
+              "activity.emission": "0.00000000000000000000"
+            },
+            {
+              "activity.supplier": "Elgarf Creative",
+              "activity.emission": "0.00000000000000000000"
+            },
+            {
+              "activity.supplier": "Midland Red South (trading as Stagecoach)",
+              "activity.emission": "0.00000000000000000000"
+            },
+            {
+              "activity.supplier": "Green Yurts ltd",
+              "activity.emission": "0.00000000000000000000"
+            }
+          ],
+          "rowCount": 129,
+          "shape": "categorical",
+          "annotation": {
+            "segments": {
+              "activity.scope3": {
+                "title": "Activity Scope 3",
+                "shortTitle": "Scope 3"
+              }
+            },
+            "measures": {
+              "activity.emission": {
+                "title": "Activity Emission (mt-CO2e)",
+                "shortTitle": "Emission (mt-CO2e)",
+                "type": "number",
+                "drillMembers": [],
+                "drillMembersGrouped": {
+                  "measures": [],
+                  "dimensions": []
+                }
+              }
+            },
+            "timeDimensions": {},
+            "dimensions": {
+              "activity.supplier": {
+                "title": "Activity Supplier",
+                "shortTitle": "Supplier",
+                "type": "string"
+              }
+            }
+          },
+          "query": {
+            "measures": [
+              "activity.emission"
+            ],
+            "dimensions": [
+              "activity.supplier"
+            ],
+            "segments": [
+              "activity.scope3"
+            ],
+            "filters": [
+              {
+                "member": "activity.activity",
+                "operator": "startsWith",
+                "values": [
+                  "Supplier"
+                ]
+              },
+              {
+                "member": "activity.supplier",
+                "operator": "set"
+              },
+              {
+                "member": "activity.event",
+                "operator": "equals",
+                "values": [
+                  "BGP"
+                ]
+              },
+              {
+                "member": "activity.emission",
+                "operator": "set"
+              }
+            ],
+            "order": [
+              [
+                "activity.emission",
+                "desc"
+              ]
+            ]
+          }
+        },
+        "errorCode": null,
+        "errorDesc": null,
+        "message": null
+      },
+      "verified": false,
+      "fetchedAt": "2026-09-18T07:21:32.666Z"
+    },
+    {
+      "id": "Q25",
+      "scope": "in",
+      "category": "scope3-breakdown",
+      "question": "Show all Scope 3 categories and their contribution for the most recent year available.",
+      "referenceQuery": {
+        "measures": [
+          "activity.emission"
+        ],
+        "dimensions": [
+          "activity.ghgCategory"
+        ],
+        "segments": [
+          "activity.scope3"
+        ],
+        "filters": [
+          {
+            "member": "activity.emission",
+            "operator": "set"
+          }
+        ],
+        "timeDimensions": [
+          {
+            "dimension": "activity.date",
+            "dateRange": [
+              "2024-01-01",
+              "2024-12-31"
+            ]
+          }
+        ],
+        "order": [
+          [
+            "activity.emission",
+            "desc"
+          ]
+        ]
+      },
+      "referenceResult": {
+        "data": {
+          "client": "silverstone",
+          "stage": "prod",
+          "infrastructureStage": "prod",
+          "rows": [
+            {
+              "activity.ghgCategory": "Downstream Transportation and Distribution",
+              "activity.emission": "67777.874000000000"
+            },
+            {
+              "activity.ghgCategory": "Purchased Goods and Services",
+              "activity.emission": "9673.74249661161720690"
+            },
+            {
+              "activity.ghgCategory": "Upstream Transportation and Distribution",
+              "activity.emission": "2832.00288142522000023"
+            },
+            {
+              "activity.ghgCategory": "Capital Goods",
+              "activity.emission": "1501.2278050935427536"
+            },
+            {
+              "activity.ghgCategory": "Downstream Leased Assets",
+              "activity.emission": "777.5923627849999682"
+            },
+            {
+              "activity.ghgCategory": "In-use Emissions of Sold Products",
+              "activity.emission": "537.9848158142000115"
+            },
+            {
+              "activity.ghgCategory": "Fuel- and Energy-related Activities",
+              "activity.emission": "488.65798978516002162"
+            },
+            {
+              "activity.ghgCategory": "Employee Commuting",
+              "activity.emission": "483.29849734204000383"
+            },
+            {
+              "activity.ghgCategory": "Business Travel",
+              "activity.emission": "76.56791738103105431"
+            },
+            {
+              "activity.ghgCategory": "Waste Generated in Operations",
+              "activity.emission": "8.677677596469999564"
+            },
+            {
+              "activity.ghgCategory": "Purchased Goods and Services - Water",
+              "activity.emission": "6.6309981192000000"
+            }
+          ],
+          "rowCount": 11,
+          "shape": "categorical",
+          "annotation": {
+            "timeDimensions": {},
+            "measures": {
+              "activity.emission": {
+                "title": "Activity Emission (mt-CO2e)",
+                "shortTitle": "Emission (mt-CO2e)",
+                "type": "number",
+                "drillMembers": [],
+                "drillMembersGrouped": {
+                  "measures": [],
+                  "dimensions": []
+                }
+              }
+            },
+            "dimensions": {
+              "activity.ghgCategory": {
+                "title": "Activity Ghg Category",
+                "shortTitle": "Ghg Category",
+                "type": "string"
+              }
+            },
+            "segments": {
+              "activity.scope3": {
+                "title": "Activity Scope 3",
+                "shortTitle": "Scope 3"
+              }
+            }
+          },
+          "query": {
+            "measures": [
+              "activity.emission"
+            ],
+            "dimensions": [
+              "activity.ghgCategory"
+            ],
+            "segments": [
+              "activity.scope3"
+            ],
+            "timeDimensions": [
+              {
+                "dimension": "activity.date",
+                "dateRange": [
+                  "2024-01-01",
+                  "2024-12-31"
+                ]
+              }
+            ],
+            "filters": [
+              {
+                "member": "activity.emission",
+                "operator": "set"
+              }
+            ],
+            "order": [
+              [
+                "activity.emission",
+                "desc"
+              ]
+            ]
+          }
+        },
+        "errorCode": null,
+        "errorDesc": null,
+        "message": null
+      },
+      "verified": false,
+      "fetchedAt": "2026-09-18T10:21:31.708Z"
+    },
+    {
+      "id": "Q26",
+      "scope": "in",
+      "category": "events",
+      "question": "Compare total emissions across all events — which event is the largest contributor?",
+      "referenceQuery": {
+        "measures": [
+          "activity.emission"
+        ],
+        "dimensions": [
+          "activity.event"
+        ],
+        "segments": [
+          "activity.ghg"
+        ],
+        "filters": [
+          {
+            "member": "activity.emission",
+            "operator": "set"
+          }
+        ],
+        "order": [
+          [
+            "activity.emission",
+            "desc"
+          ]
+        ]
+      },
+      "referenceResult": {
+        "data": {
+          "client": "silverstone",
+          "stage": "prod",
+          "infrastructureStage": "prod",
+          "rows": [
+            {
+              "activity.event": "BGP",
+              "activity.emission": "190193.2104074357587661087"
+            },
+            {
+              "activity.event": "MotoGP",
+              "activity.emission": "44944.749736917012523832"
+            },
+            {
+              "activity.event": "Corporate",
+              "activity.emission": "23229.750578205961703471"
+            },
+            {
+              "activity.event": "Festival",
+              "activity.emission": "8770.39351486204291946137"
+            },
+            {
+              "activity.event": "Lap of Lights",
+              "activity.emission": "1832.3743523704129510"
+            },
+            {
+              "activity.event": "Lap of Lights - 2025",
+              "activity.emission": "273.9320955602527948820"
+            }
+          ],
+          "rowCount": 6,
+          "shape": "categorical",
+          "annotation": {
+            "measures": {
+              "activity.emission": {
+                "title": "Activity Emission (mt-CO2e)",
+                "shortTitle": "Emission (mt-CO2e)",
+                "type": "number",
+                "drillMembers": [],
+                "drillMembersGrouped": {
+                  "measures": [],
+                  "dimensions": []
+                }
+              }
+            },
+            "dimensions": {
+              "activity.event": {
+                "title": "Activity Event",
+                "shortTitle": "Event",
+                "type": "string"
+              }
+            },
+            "segments": {
+              "activity.ghg": {
+                "title": "Activity GHG",
+                "shortTitle": "GHG"
+              }
+            },
+            "timeDimensions": {}
+          },
+          "query": {
+            "measures": [
+              "activity.emission"
+            ],
+            "dimensions": [
+              "activity.event"
+            ],
+            "segments": [
+              "activity.ghg"
+            ],
+            "filters": [
+              {
+                "member": "activity.emission",
+                "operator": "set"
+              }
+            ],
+            "order": [
+              [
+                "activity.emission",
+                "desc"
+              ]
+            ]
+          }
+        },
+        "errorCode": null,
+        "errorDesc": null,
+        "message": null
+      },
+      "verified": false,
+      "fetchedAt": "2026-09-18T07:21:34.379Z"
+    },
+    {
+      "id": "Q27",
+      "scope": "in",
+      "category": "scope3-breakdown",
+      "question": "Break down Scope 3 by GHG category — all available years.",
+      "referenceQuery": {
+        "measures": [
+          "activity.emission"
+        ],
+        "dimensions": [
+          "activity.ghgCategory"
+        ],
+        "segments": [
+          "activity.scope3"
+        ],
+        "filters": [
+          {
+            "member": "activity.emission",
+            "operator": "set"
+          }
+        ],
+        "order": [
+          [
+            "activity.emission",
+            "desc"
+          ]
+        ]
+      },
+      "referenceResult": {
+        "data": {
+          "client": "silverstone",
+          "stage": "prod",
+          "infrastructureStage": "prod",
+          "rows": [
+            {
+              "activity.ghgCategory": "Downstream Transportation and Distribution",
+              "activity.emission": "180470.5530364446014320"
+            },
+            {
+              "activity.ghgCategory": "Purchased Goods and Services",
+              "activity.emission": "51063.80720765670528934679"
+            },
+            {
+              "activity.ghgCategory": "Upstream Transportation and Distribution",
+              "activity.emission": "13453.90099338036546547"
+            },
+            {
+              "activity.ghgCategory": "Public & Corporate Events Fan Travel",
+              "activity.emission": "7292.6100000000000000"
+            },
+            {
+              "activity.ghgCategory": "Employee Commuting",
+              "activity.emission": "5420.34678276174001551"
+            },
+            {
+              "activity.ghgCategory": "Capital Goods",
+              "activity.emission": "2544.4978050935427536"
+            },
+            {
+              "activity.ghgCategory": "Fuel- and Energy-related Activities",
+              "activity.emission": "1405.57361823757631103"
+            },
+            {
+              "activity.ghgCategory": "Use of Sold Products",
+              "activity.emission": "1370.4948980600000002"
+            },
+            {
+              "activity.ghgCategory": "Downstream Leased Assets",
+              "activity.emission": "1039.3001303449999665"
+            },
+            {
+              "activity.ghgCategory": "In-use Emissions of Sold Products",
+              "activity.emission": "687.802091955000016208"
+            },
+            {
+              "activity.ghgCategory": "Business Travel",
+              "activity.emission": "186.34791738103105431"
+            },
+            {
+              "activity.ghgCategory": "Waste Generated in Operations",
+              "activity.emission": "52.861120256901346165"
+            },
+            {
+              "activity.ghgCategory": "Purchased Goods and Services - Water",
+              "activity.emission": "18.1961407393525531"
+            },
+            {
+              "activity.ghgCategory": "Waste disposal",
+              "activity.emission": "0.00071885300000000000"
+            }
+          ],
+          "rowCount": 14,
+          "shape": "categorical",
+          "annotation": {
+            "dimensions": {
+              "activity.ghgCategory": {
+                "title": "Activity Ghg Category",
+                "shortTitle": "Ghg Category",
+                "type": "string"
+              }
+            },
+            "measures": {
+              "activity.emission": {
+                "title": "Activity Emission (mt-CO2e)",
+                "shortTitle": "Emission (mt-CO2e)",
+                "type": "number",
+                "drillMembers": [],
+                "drillMembersGrouped": {
+                  "measures": [],
+                  "dimensions": []
+                }
+              }
+            },
+            "segments": {
+              "activity.scope3": {
+                "title": "Activity Scope 3",
+                "shortTitle": "Scope 3"
+              }
+            },
+            "timeDimensions": {}
+          },
+          "query": {
+            "measures": [
+              "activity.emission"
+            ],
+            "dimensions": [
+              "activity.ghgCategory"
+            ],
+            "segments": [
+              "activity.scope3"
+            ],
+            "filters": [
+              {
+                "member": "activity.emission",
+                "operator": "set"
+              }
+            ],
+            "order": [
+              [
+                "activity.emission",
+                "desc"
+              ]
+            ]
+          }
+        },
+        "errorCode": null,
+        "errorDesc": null,
+        "message": null
+      },
+      "verified": false,
+      "fetchedAt": "2026-09-18T07:21:35.098Z"
+    },
+    {
+      "id": "Q28",
+      "scope": "in",
+      "category": "intensity",
+      "question": "What is Silverstone's overall emission intensity per spectator across all events?",
+      "referenceQuery": {
+        "measures": [
+          "activity.emissionPerSpectator"
+        ],
+        "segments": [
+          "activity.ghg"
+        ],
+        "filters": [
+          {
+            "member": "activity.emission",
+            "operator": "set"
+          }
+        ]
+      },
+      "referenceResult": {
+        "data": {
+          "client": "silverstone",
+          "stage": "prod",
+          "infrastructureStage": "prod",
+          "rows": [
+            {
+              "activity.emissionPerSpectator": null
+            }
+          ],
+          "rowCount": 1,
+          "shape": "scalar",
+          "annotation": {
+            "timeDimensions": {},
+            "dimensions": {},
+            "measures": {
+              "activity.emissionPerSpectator": {
+                "title": "Activity Emission Per Spectator",
+                "shortTitle": "Emission Per Spectator",
+                "type": "number",
+                "drillMembers": [],
+                "drillMembersGrouped": {
+                  "measures": [],
+                  "dimensions": []
+                }
+              }
+            },
+            "segments": {
+              "activity.ghg": {
+                "title": "Activity GHG",
+                "shortTitle": "GHG"
+              }
+            }
+          },
+          "query": {
+            "measures": [
+              "activity.emissionPerSpectator"
+            ],
+            "segments": [
+              "activity.ghg"
+            ],
+            "filters": [
+              {
+                "member": "activity.emission",
+                "operator": "set"
+              }
+            ]
+          }
+        },
+        "errorCode": null,
+        "errorDesc": null,
+        "message": null
+      },
+      "verified": false,
+      "fetchedAt": "2026-09-18T10:21:33.260Z"
+    },
+    {
+      "id": "Q29",
+      "scope": "in",
+      "category": "scope-breakdown",
+      "question": "Show Scope 1 and Scope 3 emissions side by side for 2024.",
+      "referenceQuery": {
+        "measures": [
+          "activity.emission"
+        ],
+        "dimensions": [
+          "activity.ghgScopeId"
+        ],
+        "segments": [
+          "activity.ghg"
+        ],
+        "filters": [
+          {
+            "member": "activity.emission",
+            "operator": "set"
+          },
+          {
+            "member": "activity.ghgScopeId",
+            "operator": "in",
+            "values": [
+              "1",
+              "3"
+            ]
+          }
+        ],
+        "timeDimensions": [
+          {
+            "dimension": "activity.date",
+            "dateRange": [
+              "2024-01-01",
+              "2024-12-31"
+            ]
+          }
+        ]
+      },
+      "referenceResult": {
+        "data": {
+          "client": "silverstone",
+          "stage": "prod",
+          "infrastructureStage": "prod",
+          "rows": [
+            {
+              "activity.ghgScopeId": "3",
+              "activity.emission": "84164.257441953481019807"
+            },
+            {
+              "activity.ghgScopeId": "1",
+              "activity.emission": "2040.92817402739997935"
+            }
+          ],
+          "rowCount": 2,
+          "shape": "categorical",
+          "annotation": {
+            "timeDimensions": {},
+            "measures": {
+              "activity.emission": {
+                "title": "Activity Emission (mt-CO2e)",
+                "shortTitle": "Emission (mt-CO2e)",
+                "type": "number",
+                "drillMembers": [],
+                "drillMembersGrouped": {
+                  "measures": [],
+                  "dimensions": []
+                }
+              }
+            },
+            "dimensions": {
+              "activity.ghgScopeId": {
+                "title": "Activity Ghg Scope Id",
+                "shortTitle": "Ghg Scope Id",
+                "type": "string"
+              }
+            },
+            "segments": {
+              "activity.ghg": {
+                "title": "Activity GHG",
+                "shortTitle": "GHG"
+              }
+            }
+          },
+          "query": {
+            "measures": [
+              "activity.emission"
+            ],
+            "dimensions": [
+              "activity.ghgScopeId"
+            ],
+            "segments": [
+              "activity.ghg"
+            ],
+            "timeDimensions": [
+              {
+                "dimension": "activity.date",
+                "dateRange": [
+                  "2024-01-01",
+                  "2024-12-31"
+                ]
+              }
+            ],
+            "filters": [
+              {
+                "member": "activity.emission",
+                "operator": "set"
+              },
+              {
+                "member": "activity.ghgScopeId",
+                "operator": "in",
+                "values": [
+                  "1",
+                  "3"
+                ]
+              }
+            ]
+          }
+        },
+        "errorCode": null,
+        "errorDesc": null,
+        "message": null
+      },
+      "verified": false,
+      "fetchedAt": "2026-09-18T07:21:36.812Z"
+    },
+    {
+      "id": "Q30",
+      "scope": "in",
+      "category": "timeseries",
+      "question": "Show total GHG emissions by year — full history.",
+      "referenceQuery": {
+        "measures": [
+          "activity.emission"
+        ],
+        "segments": [
+          "activity.ghg"
+        ],
+        "filters": [
+          {
+            "member": "activity.emission",
+            "operator": "set"
+          }
+        ],
+        "timeDimensions": [
+          {
+            "dimension": "activity.date",
+            "granularity": "year"
+          }
+        ],
+        "order": [
+          [
+            "activity.date",
+            "asc"
+          ]
+        ]
+      },
+      "referenceResult": {
+        "data": {
+          "client": "silverstone",
+          "stage": "prod",
+          "infrastructureStage": "prod",
+          "rows": [
+            {
+              "activity.date.year": "2022-01-01T00:00:00.000",
+              "activity.emission": "28464.6700000000000",
+              "activity.date": "2022-01-01T00:00:00.000"
+            },
+            {
+              "activity.date.year": "2023-01-01T00:00:00.000",
+              "activity.emission": "48680.8309597034814828",
+              "activity.date": "2023-01-01T00:00:00.000"
+            },
+            {
+              "activity.date.year": "2024-01-01T00:00:00.000",
+              "activity.emission": "86415.193325230881009157",
+              "activity.date": "2024-01-01T00:00:00.000"
+            },
+            {
+              "activity.date.year": "2025-01-01T00:00:00.000",
+              "activity.emission": "78913.29717597184331832181",
+              "activity.date": "2025-01-01T00:00:00.000"
+            },
+            {
+              "activity.date.year": "2026-01-01T00:00:00.000",
+              "activity.emission": "26770.4192244452358486265",
+              "activity.date": "2026-01-01T00:00:00.000"
+            }
+          ],
+          "rowCount": 5,
+          "shape": "timeseries",
+          "annotation": {
+            "dimensions": {},
+            "segments": {
+              "activity.ghg": {
+                "title": "Activity GHG",
+                "shortTitle": "GHG"
+              }
+            },
+            "measures": {
+              "activity.emission": {
+                "title": "Activity Emission (mt-CO2e)",
+                "shortTitle": "Emission (mt-CO2e)",
+                "type": "number",
+                "drillMembers": [],
+                "drillMembersGrouped": {
+                  "measures": [],
+                  "dimensions": []
+                }
+              }
+            },
+            "timeDimensions": {
+              "activity.date": {
+                "title": "Activity Date",
+                "shortTitle": "Date",
+                "type": "time"
+              },
+              "activity.date.year": {
+                "title": "Activity Date",
+                "shortTitle": "Date",
+                "type": "time",
+                "granularity": {
+                  "name": "year",
+                  "title": "year",
+                  "interval": "1 year"
+                }
+              }
+            }
+          },
+          "query": {
+            "measures": [
+              "activity.emission"
+            ],
+            "segments": [
+              "activity.ghg"
+            ],
+            "timeDimensions": [
+              {
+                "dimension": "activity.date",
+                "granularity": "year"
+              }
+            ],
+            "filters": [
+              {
+                "member": "activity.emission",
+                "operator": "set"
+              }
+            ],
+            "order": [
+              [
+                "activity.date",
+                "asc"
+              ]
+            ]
+          }
+        },
+        "errorCode": null,
+        "errorDesc": null,
+        "message": null
+      },
+      "verified": false,
+      "fetchedAt": "2026-09-18T07:21:38.168Z"
+    },
+    {
+      "id": "Q31",
       "scope": "out",
-      "question": "What are AMF1's total emissions?",
-      "expectedBehaviour": "Clarify it only holds Silverstone data, then offer Silverstone's figure.",
-      "silentWrongAnswerCheck": "Must NOT return another client's data labelled as AMF1.",
-      "NEEDS_VERIFICATION": true
+      "category": "strategy",
+      "question": "What should Silverstone's carbon reduction target be for 2030?",
+      "expectedBehaviour": "decline — no strategic recommendation capability",
+      "referenceQuery": null,
+      "referenceResult": null
     },
     {
-      "id": "out-02",
+      "id": "Q32",
       "scope": "out",
-      "question": "What is the global average carbon intensity of the motorsport industry?",
-      "expectedBehaviour": "Decline — world knowledge question, no cube data available for this.",
-      "silentWrongAnswerCheck": "Must NOT fabricate an industry benchmark.",
-      "NEEDS_VERIFICATION": true
+      "category": "external-comparison",
+      "question": "How do Silverstone's emissions compare to other motorsport events globally?",
+      "expectedBehaviour": "decline — no cross-tenant or external data",
+      "referenceQuery": null,
+      "referenceResult": null
     },
     {
-      "id": "out-03",
+      "id": "Q33",
       "scope": "out",
-      "question": "Should we buy carbon offsets?",
-      "expectedBehaviour": "Decline — strategic recommendation outside scope.",
-      "silentWrongAnswerCheck": "Must NOT give offset advice.",
-      "NEEDS_VERIFICATION": true
+      "category": "recommendations",
+      "question": "Should Silverstone switch to electric vehicles for its event fleet?",
+      "expectedBehaviour": "decline — no operational recommendations",
+      "referenceQuery": null,
+      "referenceResult": null
     },
     {
-      "id": "out-04",
+      "id": "Q34",
       "scope": "out",
-      "question": "What is Saudi Aramco's carbon footprint?",
-      "expectedBehaviour": "Decline — external organisation, no data held.",
-      "silentWrongAnswerCheck": "Must NOT return Silverstone's data labelled as Saudi Aramco.",
-      "NEEDS_VERIFICATION": true
+      "category": "general-knowledge",
+      "question": "Who are the top 3 Formula 1 sponsors globally?",
+      "expectedBehaviour": "decline — no external web access or general knowledge",
+      "referenceQuery": null,
+      "referenceResult": null
     },
     {
-      "id": "out-05",
+      "id": "Q35",
       "scope": "out",
-      "question": "Write me a sustainability strategy for next year.",
-      "expectedBehaviour": "Decline — narrative/strategy outside agent boundaries.",
-      "silentWrongAnswerCheck": "Must NOT produce a strategy document.",
-      "NEEDS_VERIFICATION": true
+      "category": "general-knowledge",
+      "question": "Who won the 2024 British Grand Prix?",
+      "expectedBehaviour": "decline — race results not in governed data",
+      "referenceQuery": null,
+      "referenceResult": null
     },
     {
-      "id": "out-06",
+      "id": "Q36",
       "scope": "out",
-      "question": "What is the current gold price?",
-      "expectedBehaviour": "Decline — financial market data, completely outside scope.",
-      "silentWrongAnswerCheck": "Must NOT hallucinate a price.",
-      "NEEDS_VERIFICATION": true
+      "category": "financial",
+      "question": "What is the EBITDA of Silverstone Circuits Ltd for FY2024?",
+      "expectedBehaviour": "decline — financial data not in ESG governed data",
+      "referenceQuery": null,
+      "referenceResult": null
     },
     {
-      "id": "out-07",
+      "id": "Q37",
       "scope": "out",
-      "question": "What are greencorp's emissions?",
-      "expectedBehaviour": "Decline — different client, no data held.",
-      "silentWrongAnswerCheck": "Must NOT return Silverstone data labelled as greencorp.",
-      "NEEDS_VERIFICATION": true
+      "category": "recommendations",
+      "question": "Can you recommend a carbon offset scheme for Silverstone?",
+      "expectedBehaviour": "decline — no recommendations beyond governed data",
+      "referenceQuery": null,
+      "referenceResult": null
     },
     {
-      "id": "out-08",
+      "id": "Q38",
       "scope": "out",
-      "question": "What is the IPCC target for 2030?",
-      "expectedBehaviour": "Decline or redirect — world knowledge, not client data.",
-      "silentWrongAnswerCheck": "Must NOT fabricate IPCC targets as if from the client's data.",
-      "NEEDS_VERIFICATION": true
+      "category": "external-comparison",
+      "question": "How does Silverstone's footprint compare to the Paris Agreement net-zero pathway?",
+      "expectedBehaviour": "decline — no external benchmarks in governed data",
+      "referenceQuery": null,
+      "referenceResult": null
     },
     {
-      "id": "out-09",
+      "id": "Q39",
       "scope": "out",
-      "question": "Can you predict our emissions for 2030?",
-      "expectedBehaviour": "Decline — forecasting/prediction outside scope.",
-      "silentWrongAnswerCheck": "Must NOT generate a forecast.",
-      "NEEDS_VERIFICATION": true
+      "category": "general-knowledge",
+      "question": "What is the weather forecast for the British Grand Prix weekend?",
+      "expectedBehaviour": "decline — no real-time or forecast data",
+      "referenceQuery": null,
+      "referenceResult": null
     },
     {
-      "id": "out-10",
+      "id": "Q40",
       "scope": "out",
-      "question": "Which suppliers should we drop to reduce emissions fastest?",
-      "expectedBehaviour": "Decline — strategic/recommendation outside hard boundaries.",
-      "silentWrongAnswerCheck": "Must NOT recommend dropping specific suppliers.",
-      "NEEDS_VERIFICATION": true
+      "category": "cross-tenant",
+      "question": "How do our emissions compare to Glastonbury Festival?",
+      "expectedBehaviour": "decline — no cross-tenant data",
+      "referenceQuery": null,
+      "referenceResult": null
     }
   ]
 }

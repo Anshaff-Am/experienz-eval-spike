@@ -59,16 +59,20 @@ console.log(`Traces with trace_user_id: ${traces.length - missingUser}/${traces.
 console.log(`Distinct sessions        : ${sessions.size}`);
 console.log(`Session IDs              : ${[...sessions].join(', ')}`);
 
+// Pass bar: 100% of traces have session_id AND trace_user_id.
+// Session count >= 1 (user controls how many conversations they open — not fixed at 3).
 const pass =
+  traces.length > 0 &&
   missingSession === 0 &&
   missingUser === 0 &&
-  sessions.size === 3;
+  sessions.size >= 1;
 
 console.log(`\nA1 result: ${pass ? 'PASS ✓' : 'FAIL ✗'}`);
 
+if (traces.length === 0) console.log(`  ✗ No traces found`);
 if (missingSession > 0) console.log(`  ✗ ${missingSession} traces missing session_id`);
 if (missingUser > 0) console.log(`  ✗ ${missingUser} traces missing trace_user_id`);
-if (sessions.size !== 3) console.log(`  ✗ Expected 3 sessions, got ${sessions.size}`);
+if (sessions.size < 1) console.log(`  ✗ No distinct sessions found`);
 
 // Write result to /results
 import { writeFileSync } from 'node:fs';

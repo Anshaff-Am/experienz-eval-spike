@@ -1,0 +1,16 @@
+{
+  "gate": "A1",
+  "runAt": "2026-09-18T06:22:16.182Z",
+  "traceCount": 33,
+  "missingSessionId": 0,
+  "missingUserId": 0,
+  "distinctSessions": 5,
+  "sessionIds": [
+    "a9d7ec94-0d18-421f-86d5-d96c4f8ded28",
+    "606c3683-eb7a-4928-83d6-021c50cb56de",
+    "e7261fae-f3ea-4046-80f8-a3afb3084a5b",
+    "dc10fb64-ffac-4b5f-9c33-7e16b8ac4271",
+    "128bae26-2dd4-4819-af42-13a998d513e2"
+  ],
+  "pass": true
+}
